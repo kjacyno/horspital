@@ -1,0 +1,32 @@
+.login-box{
+
+
+
+  & form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    border-radius: 15px;
+    border: 1px solid transparent;
+    box-shadow: 10px 10px 300px 0px rgba(6,110,62,1);
+
+  }
+}
+.login-page{
+  position: relative;
+  top: 5rem;
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+  & button {
+    font-size: 1.4rem;
+    margin: 0.5rem;
+  }
+  input {
+    padding: 0.4rem;
+    font-size: 1.4rem;
+    text-align: center;
+    margin: 0.5rem;
+  }
+}

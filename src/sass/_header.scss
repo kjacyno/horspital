@@ -1,0 +1,17 @@
+
+header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+  .fa-solid.fa-hospital-user {
+    font-size: 3rem;
+    padding: 3rem;
+  }
+  h1{
+    padding: 2rem;
+  }
+  h2 {
+    font-size: 1rem;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  }
+ }
