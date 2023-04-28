@@ -1,17 +1,23 @@
 
 header {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   .fa-solid.fa-hospital-user {
     font-size: 3rem;
     padding: 3rem;
   }
-  h1{
+
+  h1 {
     padding: 2rem;
+    font-family: 'Kanit', sans-serif;
+  font-size: 3.7rem;
   }
+
   h2 {
-    font-size: 1rem;
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  }
- }
+    font-size: 1.4rem;
+    font-family: 'Kanit', sans-serif;  }
+
+
+}
