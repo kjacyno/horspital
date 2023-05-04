@@ -11,6 +11,9 @@
     border-radius: 15px;
     border: 1px solid transparent;
     box-shadow: 10px 10px 300px 0px rgba(6,110,62,1);
+   & input {
+     text-align: left;
+   }
 
   }
 }
@@ -18,7 +21,7 @@
   position: relative;
   top: 5rem;
 display: grid;
-grid-template-columns: repeat(3, 1fr);
+grid-template-columns: repeat(1, 1fr);
   & button {
     font-size: 1.4rem;
     margin: 0.5rem;

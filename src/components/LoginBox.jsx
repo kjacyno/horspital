@@ -28,7 +28,7 @@ function LoginBox({user, setUser}) {
                     const errorMessage = error.message;
                     console.error(errorCode, errorMessage);
                 });
-            setUser({ ...user, displayName: '' });
+            setUser({ ...user, displayName: login});
 
         }
     }
@@ -51,14 +51,14 @@ function LoginBox({user, setUser}) {
                     <input type="email"
                            value={email}
                            id='email'
-                           placeholder='e-mail'
+                           placeholder='E-mail'
                            onChange={(event) => setEmail(event.target.value)}
                     />
                     <label htmlFor="pwd"></label>
                     <input type="password"
                            id='password'
                            value={password}
-                           placeholder='bulletproof password'
+                           placeholder='Password'
                            onChange={(event) => setPassword(event.target.value)}
                     />
                     <button type='submit'>Sign in</button>
