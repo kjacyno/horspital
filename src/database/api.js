@@ -1,8 +1,7 @@
-import {getFirestore, collection, addDoc, query, onSnapshot, orderBy, deleteDoc, doc} from "firebase/firestore";
+import {collection, addDoc, query, onSnapshot, orderBy, deleteDoc, doc} from "firebase/firestore";
 
+import {firestore} from "../firebase/index.js";
 
-
-const firestore = getFirestore();
 const clinicListCollection = collection(firestore, 'clinicList')
 
 export async function addClinic(data, setNewClinic) {

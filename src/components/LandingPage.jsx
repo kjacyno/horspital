@@ -5,25 +5,21 @@ import PropTypes from "prop-types";
 
 function LandingPage({user, setUser}) {
     const [signUp, setSignUp] = useState(false)
-   const handleSignUp = () => {
-       setSignUp(!signUp)
-   }
+    const [login, setLogin] = useState(false)
+
 
     return (
         <section className='landing-box'>
         <h3>Welcome!</h3>
-            {signUp ? (
-                <SignUp
-                    user={user}
-                 setUser={setUser}/>
-            ) : (
-                <>
-                    <button onClick={() => setSignUp(false)}>Login</button>
-                    <button onClick={handleSignUp}>Sign Up</button>
-                </>
-            )}
-             {/*Conditionally render the Login component*/}
-            {!signUp && <Login />}
+
+                    <button onClick={() => setLogin(!login)}>Login</button>
+                    <button onClick={() => setSignUp(!signUp)}>Sign Up</button>
+            {signUp &&
+                    <SignUp
+                        user={user}
+                        setUser={setUser}/>
+            }
+            {login && <Login />}
         </section>
 
     );

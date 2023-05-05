@@ -1,6 +1,5 @@
 import './sass/main.scss'
 import {useEffect, useState} from "react";
-import SignUp from "./components/SignUp.jsx";
 import ClinicView from "./components/ClinicView.jsx";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {Container} from "@mui/material";
