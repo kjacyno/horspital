@@ -1,14 +1,17 @@
 import './sass/main.scss'
 import {useEffect, useState} from "react";
-import LoginBox from "./components/LoginBox.jsx";
+import SignUp from "./components/SignUp.jsx";
 import ClinicView from "./components/ClinicView.jsx";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {Container} from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
+import Header from "./components/Header.jsx";
+import LandingPage from "./components/LandingPage.jsx";
+
 
 function App() {
 
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -24,31 +27,34 @@ function App() {
 
         return unsubscribe;
     }, []);
+
+
+
+
     if (loading) {
         return <div>Loading...</div>;
     }
     return (
         <Container maxWidth="xl">
-                <header>
-
-                    <div><h1 className='logo'>Horspital <i className="fa-solid fa-house-medical"></i></h1></div>
-
-
-                        <div className="user-icon"><i className="fa-solid fa-hospital-user">{user &&
-                            <h2>Hi, {user.displayName}.</h2>}</i></div>
-
-                </header>
-
+             <Header
+             user={user}
+             setUser={setUser}
+             />
             <Grid container spacing={1}>
                 <Grid xs>
                     <div></div>
                 </Grid>
                 <Grid xs={6}>
                     <div>{user ? (<ClinicView/>)
-                        : (<LoginBox
+                        // : (<SignUp
+                        //     user={user}
+                        //     setUser={setUser}
+                        // />
+                        : (<LandingPage
                             user={user}
                             setUser={setUser}
-                        />)
+                            />
+                        )
                     }</div>
                 </Grid>
                 <Grid xs>

@@ -35,8 +35,9 @@
 }
 
 .animated-box {
-  -webkit-animation: slide-out-bck-center 1s ease-in both;
-  animation: slide-out-bck-center 1s ease-in both;
+  -webkit-animation: slide-out-bck-center 500ms ease-in both;
+  animation: slide-out-bck-center 500ms ease-in both;
+
 }
 
 @-webkit-keyframes slide-out-bck-center {

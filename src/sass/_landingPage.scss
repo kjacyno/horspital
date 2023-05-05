@@ -1,0 +1,21 @@
+@import "common";
+
+.landing-box{
+padding: 2rem;
+  margin: auto;
+  align-content: center;
+  @include box-shadow;
+  max-width: 400px;
+  & button {
+    font-size: 1.4rem;
+    margin: 0.5rem;
+    color: $font-color
+  }
+
+ & h3 {
+   font-family: 'Kanit', sans-serif;
+   font-size: 2.5rem;
+   color: $font-color; text-shadow: $primary-color 0.1em 0.1em 0.2em
+ }
+
+}

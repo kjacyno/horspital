@@ -26,35 +26,6 @@ export async function deleteClinic(toDelete){
     }
 
 }
-// export async function queryForClinics(setClinics, setDocsId) {
-//     const clinicsListQuery = query(
-//         collection(firestore, 'clinicList'),
-//         orderBy('createdAt', 'desc')
-//     );
-//     onSnapshot(clinicsListQuery, (querySnapshot) => {
-//         console.log(querySnapshot.docs.map(item => item.id));
-//         setDocsId(querySnapshot.docs.map(item => item.id));
-//         setClinics(querySnapshot.docs.map(item => item.data()));
-//     })
-// }
-
-// export async function queryForClinics(setClinics, setDocsId) {
-//     const clinicListCollection = collection(firestore, 'clinicList')
-//     const snapshot = await getDocs(clinicListCollection);
-//     const clinics = snapshot.docs.map((doc) => {
-//         const data = doc.data();
-//         return {
-//             id: doc.id,
-//             name: data.name,
-//             createdAt: data.createdAt.toDate(),
-//         };
-//     });
-//
-//     setClinics(clinics);
-//     setDocsId(snapshot.docs.map((doc) => doc.id));
-//     return snapshot.docs;
-// }
-
 export async function queryForClinics(setClinics, setDocsId) {
     const clinicsListQuery = query(
         collection(firestore, 'clinicList'),
