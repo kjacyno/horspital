@@ -10,24 +10,28 @@ import Grid from '@mui/material/Unstable_Grid2';
 function App() {
 
     const [user, setUser] = useState('');
-
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const auth = getAuth();
-        onAuthStateChanged(auth, (user) => {
+        const unsubscribe =onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
             } else {
                 setUser(null);
             }
+            setLoading(false);
         });
 
+        return unsubscribe;
     }, []);
-
+    if (loading) {
+        return <div>Loading...</div> ;
+    }
     return (
         <Container maxWidth="lg">
             <header>
-                <div><h1>Horspital <i className="fa-solid fa-house-medical"></i></h1></div>
+                <div><h1 className='logo'>Horspital <i className="fa-solid fa-house-medical"></i></h1></div>
                 <div className="user-icon"><i className="fa-solid fa-hospital-user">{user && <h2>Hi, {user.displayName}.</h2>}</i></div>
             </header>
             <Grid container spacing={3}>

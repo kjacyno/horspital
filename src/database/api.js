@@ -1,4 +1,4 @@
-import {getFirestore, collection, addDoc, query, onSnapshot, orderBy, deleteDoc, doc, getDocs} from "firebase/firestore";
+import {getFirestore, collection, addDoc, query, onSnapshot, orderBy, deleteDoc, doc} from "firebase/firestore";
 
 
 

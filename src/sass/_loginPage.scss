@@ -1,6 +1,6 @@
+@import "common";
+
 .login-box{
-
-
 
   & form {
     display: flex;
@@ -8,11 +8,12 @@
     align-items: center;
     justify-content: center;
     font-size: 3rem;
-    border-radius: 15px;
-    border: 1px solid transparent;
-    box-shadow: 10px 10px 300px 0px rgba(6,110,62,1);
+    padding: 2rem;
+    @include box-shadow;
+
    & input {
      text-align: left;
+     max-width: 80%;
    }
 
   }

@@ -3,4 +3,33 @@
   max-width: 1280px;
   max-height: 100vh;
 }
-$primary-color: #066e3e
+$primary-color: #066e3e;
+
+@mixin flex-center-col{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+@mixin form-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px ;
+}
+@mixin input-style{
+  padding: .6rem .8rem;
+  text-align: justify;
+  font-size: 1.1rem;
+}
+@mixin box-shadow{
+  border-radius: 15px;
+  border: 1px solid transparent;
+  box-shadow: 10px 10px 300px 0px rgba(6,110,62,1);
+}
+@mixin form-btns{
+  position: relative;
+  top: -10px;
+}

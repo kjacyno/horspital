@@ -1,0 +1,45 @@
+@import "common";
+
+.clinics {
+  width: 100%;
+  max-width: 500px;
+  border: 2px solid white;
+  padding: 10px;
+ @include flex-center-col;
+  border-radius: 10px;;
+  @include box-shadow
+}
+.clinic-select, .clinic-form {
+ @include form-container
+}
+select {
+  margin-top: .6rem;
+  width: 60%;
+  @include input-style
+
+}
+label {
+  width: 100%;
+  font-size: 1.5rem;
+}
+input {
+@include input-style;
+  max-width: 100%;
+  height: auto;
+  width: 150%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+.input-add{
+  @include flex-center-col;
+& button{
+  margin-top: 1rem;
+  padding-inline: 3rem;
+}
+}
+.option-btns{
+  @include form-btns
+
+}

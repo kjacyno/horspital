@@ -56,8 +56,8 @@ function ClinicView() {
 
     return (
         <section className="clinics">
-            <div className='clinic-form'>
-                <form className="select-clinic" onSubmit={handleAddClinic}>
+                <form className="clinic-form" onSubmit={handleAddClinic}>
+                    <div className="clinic-select">
                     <label htmlFor='clinic'>Choose clinic</label>
                     <select
                         value={selected}
@@ -71,12 +71,12 @@ function ClinicView() {
                         }}
                         name='clinic'
                         id='clinic'>
-                        <option>select</option>
                         {clinics.length > 0 && clinics.map((clinic, index) => (
                             <option key={clinic.createdAt} value={docsId[index]}>{clinic.name}</option>))}
                     </select>
+                    </div>
                     {selected && (
-                        <div>
+                        <div className='option-btns'>
                             <button onClick={() => setIsEdited(!isEdited)}>
                                 {isEdited ? 'Cancel' : 'Edit'}
                             </button>
@@ -93,7 +93,7 @@ function ClinicView() {
                             <button onClick={handleEditClinic}>Save</button>
                         </>
                     )}
-                    <div>
+                    <div className='input-add'>
                         <input
                             type='text'
                             value={newClinic}
@@ -103,7 +103,6 @@ function ClinicView() {
                         <button onClick={() => handleAddClinic}>Add</button>
                     </div>
                 </form>
-            </div>
         </section>
     );
 }
