@@ -3,14 +3,15 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
+  padding: 1rem;
   .fa-solid.fa-hospital-user {
     font-size: 3rem;
-    padding: 3rem;
+    padding: 1rem;
+
   }
 
   h1 {
-    padding: 2rem;
+    padding: 1rem;
     font-family: 'Kanit', sans-serif;
   font-size: 3.7rem;
   }

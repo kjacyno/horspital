@@ -1,9 +1,8 @@
-
 import './sass/main.scss'
-import  {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import LoginBox from "./components/LoginBox.jsx";
 import ClinicView from "./components/ClinicView.jsx";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {Container} from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -14,7 +13,7 @@ function App() {
 
     useEffect(() => {
         const auth = getAuth();
-        const unsubscribe =onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
             } else {
@@ -26,15 +25,21 @@ function App() {
         return unsubscribe;
     }, []);
     if (loading) {
-        return <div>Loading...</div> ;
+        return <div>Loading...</div>;
     }
     return (
-        <Container maxWidth="lg">
-            <header>
-                <div><h1 className='logo'>Horspital <i className="fa-solid fa-house-medical"></i></h1></div>
-                <div className="user-icon"><i className="fa-solid fa-hospital-user">{user && <h2>Hi, {user.displayName}.</h2>}</i></div>
-            </header>
-            <Grid container spacing={3}>
+        <Container maxWidth="xl">
+                <header>
+
+                    <div><h1 className='logo'>Horspital <i className="fa-solid fa-house-medical"></i></h1></div>
+
+
+                        <div className="user-icon"><i className="fa-solid fa-hospital-user">{user &&
+                            <h2>Hi, {user.displayName}.</h2>}</i></div>
+
+                </header>
+
+            <Grid container spacing={1}>
                 <Grid xs>
                     <div></div>
                 </Grid>

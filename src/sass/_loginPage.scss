@@ -1,6 +1,6 @@
 @import "common";
 
-.login-box{
+.login-box {
 
   & form {
     display: flex;
@@ -11,26 +11,52 @@
     padding: 2rem;
     @include box-shadow;
 
-   & input {
-     text-align: left;
-     max-width: 80%;
-   }
+    & input {
+      text-align: left;
+      max-width: 80%;
+    }
 
   }
 }
-.login-page{
-  position: relative;
-  top: 5rem;
-display: grid;
-grid-template-columns: repeat(1, 1fr);
+
+.login-page {
+
   & button {
     font-size: 1.4rem;
     margin: 0.5rem;
   }
+
   input {
     padding: 0.4rem;
     font-size: 1.4rem;
     text-align: center;
     margin: 0.5rem;
+  }
+}
+
+.animated-box {
+  -webkit-animation: slide-out-bck-center 1s ease-in both;
+  animation: slide-out-bck-center 1s ease-in both;
+}
+
+@-webkit-keyframes slide-out-bck-center {
+  0% {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateZ(-1100px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-out-bck-center {
+  0% {
+    transform: translateZ(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateZ(-1100px);
+    opacity: 0;
   }
 }

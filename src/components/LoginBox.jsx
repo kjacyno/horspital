@@ -7,9 +7,7 @@ function LoginBox({user, setUser}) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('')
     const [login, setLogin] = useState('');
-
-
-
+    const [isActive, setIsActive] = useState(false)
 
     async function handleNewUser(event) {
         event.preventDefault();
@@ -32,12 +30,14 @@ function LoginBox({user, setUser}) {
 
         }
     }
-
+const handleToggle = () => {
+setIsActive(!isActive)
+    }
     return (
         <section className="login-page">
             <div></div>
             <div className="login-box">
-                <form onSubmit={handleNewUser}>
+                <form onSubmit={handleNewUser} className={isActive ? 'animated-box' : 'login-form'}>
                     <label htmlFor="email">Welcome!</label>
                     <input
                         type="text"
@@ -61,7 +61,7 @@ function LoginBox({user, setUser}) {
                            placeholder='Password'
                            onChange={(event) => setPassword(event.target.value)}
                     />
-                    <button type='submit'>Sign in</button>
+                    <button type='submit' onClick={handleToggle}>Sign in</button>
                 </form>
             </div>
             <div></div>
