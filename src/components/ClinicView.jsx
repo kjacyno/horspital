@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
-import {addClinic, deleteClinic, queryForClinics} from "../database/api.js";
-// import {doc} from "firebase/firestore";
+import {addClinic, deleteClinic, queryForClinics, updateClinic} from "../database/firestoreData.js";
 
 function ClinicView() {
     const [clinics, setClinics] = useState([]);
@@ -12,52 +11,46 @@ function ClinicView() {
 
     useEffect(() => {
         queryForClinics(setClinics, setDocsId)
-
     }, [setClinics])
-    console.log(selected)
+
     async function handleAddClinic(event) {
         event.preventDefault();
         if (newClinic.trim() !== '') {
-         await addClinic({
+            const justAdded = await addClinic({
                 name: newClinic,
                 createdAt: new Date(),
             }, setNewClinic);
+            await queryForClinics(setClinics, setDocsId);
+            setSelected(justAdded)
+            setIsEdited(false);
 
-                await queryForClinics(setClinics, setDocsId);
-            }
-          }
-
-
-
-    async function handleDeleteClinic(toDelete) {
-        console.log('Deleting clinic:', toDelete);
-
-        try {
-            await deleteClinic(toDelete);
-            setClinics(clinics.filter((clinic) => clinic.id !== toDelete));
-            setSelected('');
-
-        } catch (error) {
-            console.log('Error deleting clinic:', error);
         }
-        await queryForClinics(setClinics, setDocsId);
 
     }
 
-    const handleEditClinic = (event) => {
-        event.preventDefault();
+    async function handleDeleteClinic(toDelete) {
+        await deleteClinic(toDelete);
+        setClinics(clinics.filter((clinic) => clinic.id !== toDelete));
+        setSelected('');
+        await queryForClinics(setClinics, setDocsId);
+    }
+
+    const handleEditClinic = async (toEdit) => {
+
         if (editClinic.trim() !== '') {
-            const optionsUpdate = clinics.map((option) => option === selected ? editClinic : option);
-            setClinics(optionsUpdate);
-            setSelected(editClinic);
-            setIsEdited(false)
+            await updateClinic(toEdit, editClinic)
+            const clinicUpdate = clinics.map((clinic) => clinic === selected ? editClinic : clinic);
+            setClinics([...clinics, clinicUpdate]);
+            setEditClinic('');
+            setIsEdited(!isEdited)
+            await queryForClinics(setClinics, setDocsId);
         }
     }
 
     return (
         <section className="clinics">
-                <form className="clinic-form" onSubmit={handleAddClinic}>
-                    <div className="clinic-select">
+            <form className="clinic-form" onSubmit={handleAddClinic}>
+                <div className="clinic-select">
                     <label htmlFor='clinic'>Choose clinic</label>
                     <select
                         value={selected}
@@ -70,39 +63,47 @@ function ClinicView() {
                             setIsEdited(false)
                         }}
                         name='clinic'
-                        id='clinic'>
+                        id='clinic'
+                    >
                         {clinics.length > 0 && clinics.map((clinic, index) => (
-                            <option key={clinic.createdAt} value={docsId[index]}>{clinic.name}</option>))}
+                            <option key={clinic.createdAt} value={docsId[index]}>
+                                {clinic.name}
+                            </option>
+                        ))}
                     </select>
+                </div>
+                {selected && (
+                    <div className='option-btns'>
+                        <button onClick={() => setIsEdited(!isEdited)}>
+                            {isEdited ? 'Cancel' : 'Edit'}
+                        </button>
+                        <button onClick={() => handleDeleteClinic(selected)}>
+                            Delete
+                        </button>
                     </div>
-                    {selected && (
-                        <div className='option-btns'>
-                            <button onClick={() => setIsEdited(!isEdited)}>
-                                {isEdited ? 'Cancel' : 'Edit'}
-                            </button>
-                            <button onClick={() => handleDeleteClinic(selected)}>
-                                Delete
-                            </button>
-                        </div>
-                    )}
-                    {isEdited && (<>
-                            <input
-                                type='text'
-                                value={editClinic}
-                                onChange={(event) => setEditClinic(event.target.value)}/>
-                            <button onClick={handleEditClinic}>Save</button>
-                        </>
-                    )}
-                    <div className='input-add'>
+                )}
+                {isEdited && (
+                    <>
                         <input
+                            className='input-edit'
                             type='text'
-                            value={newClinic}
-                            onChange={(event) => setNewClinic(event.target.value)}
+                            value={editClinic}
+                            onChange={(event) => setEditClinic(event.target.value)}
                         />
+                        <button onClick={() => handleEditClinic(selected)}>Save</button>
+                    </>
+                )}
+                <div className='clinic-add'>
+                    <input
+                        className='input-add'
+                        type='text'
+                        value={newClinic}
+                        onChange={(event) => setNewClinic(event.target.value)}
+                    />
 
-                        <button onClick={() => handleAddClinic}>Add</button>
-                    </div>
-                </form>
+                    <button type="submit">Add</button>
+                </div>
+            </form>
         </section>
     );
 }

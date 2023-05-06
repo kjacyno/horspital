@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import '../sass/main.scss'
-import {logOut} from "../database/user.js";
+import {logOut} from "../database/usersData.js";
 
 
 function Header({user, setUser}) {

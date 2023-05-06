@@ -1,4 +1,4 @@
-import {collection, addDoc, query, onSnapshot, orderBy, deleteDoc, doc} from "firebase/firestore";
+import {collection, addDoc, query, onSnapshot, orderBy, deleteDoc, doc, updateDoc} from "firebase/firestore";
 
 import {firestore} from "../firebase/index.js";
 
@@ -14,6 +14,19 @@ export async function addClinic(data, setNewClinic) {
         console.log('Error adding new clinic:', error);
     }
 }
+
+export async function updateClinic(toEdit, editClinic){
+    try {
+        await updateDoc(doc(firestore,'clinicList',toEdit),
+            {
+                name: editClinic
+            })
+} catch (error){
+        console.log('Error editing clinic:', error);
+
+    }
+}
+
 export async function deleteClinic(toDelete){
     try {
         await deleteDoc(doc(firestore,'clinicList', toDelete));
@@ -28,7 +41,7 @@ export async function deleteClinic(toDelete){
 export async function queryForClinics(setClinics, setDocsId) {
     const clinicsListQuery = query(
         collection(firestore, 'clinicList'),
-        orderBy('createdAt', 'desc')
+        orderBy('name', 'asc')
     );
     onSnapshot(clinicsListQuery, (querySnapshot) => {
         console.log(querySnapshot.docs.map(item => item.id));

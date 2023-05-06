@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import {useState} from "react";
-import {createNewUser} from "../database/user.js";
+import {createNewUser} from "../database/usersData.js";
 
 function SignUp({user, setUser}) {
     const [email, setEmail] = useState('');
