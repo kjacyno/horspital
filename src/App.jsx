@@ -28,30 +28,27 @@ function App() {
     }, []);
 
 
-
-
     if (loading) {
         return <div>Loading...</div>;
     }
     return (
         <Container maxWidth="xl">
-             <Header
-             user={user}
-             setUser={setUser}
-             />
+            <Header
+                user={user}
+                setUser={setUser}
+            />
             <Grid container spacing={1}>
                 <Grid xs>
                     <div></div>
                 </Grid>
                 <Grid xs={6}>
-                    <div>{user ? (<ClinicView/>)
-                        // : (<SignUp
-                        //     user={user}
-                        //     setUser={setUser}
-                        // />
-                        : (<LandingPage
-                            user={user}
-                            setUser={setUser}
+                    <div>{user ? (
+                            <ClinicView/>
+                        )
+                        : (
+                            <LandingPage
+                                user={user}
+                                setUser={setUser}
                             />
                         )
                     }</div>

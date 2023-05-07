@@ -1,0 +1,59 @@
+@import "common";
+.legend{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 3rem;
+  & p{
+    margin-inline: .3rem;
+    display: flex;
+    flex-direction: column;
+    }
+}
+.box-chart1, .box-chart2{
+  position: relative;
+  margin-top: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.box-wrapper1{
+ @include box-wrapper
+}
+
+.box-wrapper2{
+  @include box-wrapper;
+  top:5.2rem;
+
+}
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 6rem;
+  height: 6rem;
+  border: 1px solid whitesmoke;
+  border-radius: 6px;
+  margin: 1rem;
+}
+.fa-horse-head {
+  color: rgba(159, 12, 45, 0.94);
+  @include legend-icon
+
+}
+.fa-house-circle-check{
+  color: #157e02;
+  @include legend-icon
+
+}
+.fa-house-circle-exclamation{
+color: #dc5c04;
+@include legend-icon
+}
+.fa-circle-radiation{
+  color: #b2f13c;
+  @include legend-icon
+}
+.fa-plus, .fa-minus{
+  @include legend-icon
+}

@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {addClinic, deleteClinic, queryForClinics, updateClinic} from "../database/firestoreData.js";
+import BoxesChart from "./BoxesChart.jsx";
 
 function ClinicView() {
     const [clinics, setClinics] = useState([]);
@@ -47,7 +48,7 @@ function ClinicView() {
         }
     }
 
-    return (
+    return (<>
         <section className="clinics">
             <form className="clinic-form" onSubmit={handleAddClinic}>
                 <div className="clinic-select">
@@ -105,6 +106,10 @@ function ClinicView() {
                 </div>
             </form>
         </section>
+        <section className='box-container'>
+            <BoxesChart/>
+        </section>
+</>
     );
 }
 
