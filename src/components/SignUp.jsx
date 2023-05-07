@@ -55,7 +55,7 @@ const handleToggle = () => {
                            placeholder='Password'
                            onChange={(event) => setPassword(event.target.value)}
                     />
-                    <button type='submit' onClick={handleToggle}>Sign in</button>
+                    <button type='submit' onClick={handleToggle}>Done</button>
                 </form>
             </div>
             <div></div>

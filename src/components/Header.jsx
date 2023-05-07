@@ -20,10 +20,10 @@ logOut(setUser)
 
     return (
         <header>
-            <div><h1 className='logo'>Horspital <i className="fa-solid fa-house-medical"></i></h1></div>
+            <div className='logo'><h1><i className="fa-solid fa-house-medical"></i>Horspital</h1></div>
             <div className="user-icon">
-                <i className="fa-solid fa-hospital-user">
                     {user && <div>
+                        <i className="fa-solid fa-hospital-user">
                         <Button
                             id="basic-button"
                             aria-controls={open ? 'basic-menu' : undefined}
@@ -46,9 +46,10 @@ logOut(setUser)
                             {/*<MenuItem onClick={handleClose}>My account</MenuItem>*/}
                             <MenuItem id='logout' onClick={handleClose}>Logout</MenuItem>
                         </Menu>
+                        </i>
                     </div>
                     }
-                </i>
+
             </div>
 
         </header>

@@ -14,9 +14,13 @@
     & input {
       text-align: left;
       max-width: 80%;
-
     }
 
+  }
+  & label{
+    font-family: 'Kanit', sans-serif;
+    font-weight: lighter;
+    font-size: 1.4rem;
   }
 }
 
@@ -34,6 +38,7 @@
     margin: 0.5rem;
   }
 }
+
 
 .animated-box {
   -webkit-animation: slide-out-bck-center 500ms ease-in both;
@@ -61,4 +66,18 @@
     transform: translateZ(-1100px);
     opacity: 0;
   }
+}
+@media screen and (max-width: 600px) {
+  .login-box {
+    width: 100%;
+    & input{
+      text-overflow: ellipsis;
+      width: 100%;
+      font-size: 1rem;
+    }
+    & label{
+      font-size: 1.2rem;
+    }
+  }
+
 }

@@ -41,7 +41,7 @@ function Login() {
                            placeholder='Password'
                            onChange={(event) => setPassword(event.target.value)}
                     />
-                    <button type='submit' onClick={handleToggle}>Sign in</button>
+                    <button type='submit' onClick={handleToggle}>OK</button>
                 </form>
             </div>
             <div></div>

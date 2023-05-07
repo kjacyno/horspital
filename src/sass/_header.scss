@@ -4,13 +4,16 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
-  .fa-solid.fa-hospital-user {
+ & .fa-solid.fa-hospital-user {
     font-size: 3rem;
-    padding: 1rem;
+    padding: 1rem 0;
 & #basic-button{
   outline: none;
   padding: 0;
 }
+  }
+  & .fa-house-medical{
+    margin-right: 1rem;
   }
 
   h1 {
@@ -29,4 +32,30 @@ header {
 .user-icon{
   display: flex;
   flex-direction: column;
+}
+@media screen and (max-width: 600px) {
+header {
+  justify-content: center;
+  align-items: baseline;
+  padding: 0;
+  & .logo{
+    align-self: flex-start;
+
+  }
+  & h1{
+    font-size: 2.5rem;
+    margin: .6rem auto;
+    padding: 0.5rem;
+  }
+  & .user-icon{
+    align-self: flex-end;
+
+  }
+& h2{
+  font-size: 1.1rem;
+}
+  & .fa-hospital-user{
+    font-size: 2rem;
+  }
+  }
 }

@@ -2,10 +2,9 @@
 
 .clinics {
   margin: 0 auto;
-  width: 100%;
-  max-width: 500px;
   border: 2px solid white;
   padding: 10px;
+  text-align: center;
  @include flex-center-col;
   border-radius: 10px;;
   @include box-shadow
@@ -57,3 +56,12 @@ input {
   @include input-style;
   width: 80%;
 }
+//@media screen and (max-width: 600) {
+//  .clinics, .legend {
+//    width: 80vw;
+//    margin: 0;
+//  }
+//  select, input, option{
+//    font-size: 1rem;
+//  }
+//}

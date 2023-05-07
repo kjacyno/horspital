@@ -1,4 +1,9 @@
 @import "common";
+#root {
+ box-sizing: border-box;
+  text-align: center;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -60,17 +65,25 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: $primary-color;
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
-}
+//@media (prefers-color-scheme: light) {
+//  :root {
+//    color: #213547;
+//    background-color: #ffffff;
+//  }
+//
+//  a:hover {
+//    color: $primary-color;
+//  }
+//
+//  button {
+//    background-color: #f9f9f9;
+//  }
+//}
+//@media screen and (max-width: 767px) {
+//  #root {
+//    display: flex;
+//    justify-content: center;
+//    align-items: center;
+//  }
+//
+//}

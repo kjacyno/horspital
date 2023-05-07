@@ -32,8 +32,9 @@ function App() {
         return <div>Loading...</div>;
     }
     return (
-        <Container maxWidth="xl">
-            <Header
+        <Container maxWidth="lg">
+
+        <Header
                 user={user}
                 setUser={setUser}
             />
@@ -41,7 +42,7 @@ function App() {
                 <Grid xs>
                     <div></div>
                 </Grid>
-                <Grid xs={6}>
+                <Grid xs={12} sm={6}>
                     <div>{user ? (
                             <ClinicView/>
                         )

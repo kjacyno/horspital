@@ -3,7 +3,7 @@
 .landing-box{
 padding: 2rem;
   margin: auto;
-  align-content: center;
+  text-align: center;
   @include box-shadow;
   max-width: 400px;
   & button {
@@ -17,5 +17,12 @@ padding: 2rem;
    font-size: 2.5rem;
    color: $font-color; text-shadow: $primary-color 0.1em 0.1em 0.2em
  }
-
+}
+@media screen and (max-width: 600px) {
+  .landing-box{
+    text-align: center;
+    & button{
+      font-size: 1.1rem;
+    }
+  }
 }

@@ -31,6 +31,7 @@ const handleBoxDel = (rowNumber) => {
                 <p><i className="fa-solid fa-house-circle-exclamation"></i>Problematic horse/stallion</p>
                 <p><i className="fa-solid fa-circle-radiation"></i>Out of order</p>
             </section>
+
             <section className="box-chart1">
                 <div className="box-wrapper1">
                     <button className="box add-box"
@@ -63,6 +64,8 @@ const handleBoxDel = (rowNumber) => {
                     }
                 </div>
             </section>
+
+
         </>
     );
 }
