@@ -1,20 +1,43 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {getBoxesByClinicId, updateClinicBoxData} from "../database/firestoreData.js";
+import PropTypes from "prop-types";
 
-function BoxesChart() {
+function BoxesChart({clinicId}) {
     const [boxCount, setBoxCount] = useState({1: 0, 2: 0});
 
-    const handleBoxAdd = (rowNumber) => {
+useEffect( () => {getBoxesByClinicId(clinicId).then((result) => {
+        if (result && result.boxData) {
+        const boxData = result.boxData;
+        const newBoxCount = {};
+        for (let[key, value] of Object.entries(boxData)){
+            newBoxCount[key] = value;
+        }
+        setBoxCount(newBoxCount);}
+    })
+        .catch(console.error)}
+,[clinicId]);
+
+    const handleBoxAdd = async (rowNumber) => {
         setBoxCount((prevCount) => ({
             ...prevCount,
             [rowNumber]: prevCount[rowNumber] + 1
         }));
+        const newBoxData = {
+            ...boxCount,
+            [rowNumber]:boxCount[rowNumber] + 1
+        }
+       await updateClinicBoxData(clinicId,newBoxData);
     };
-const handleBoxDel = (rowNumber) => {
+const handleBoxDel = async (rowNumber) => {
     setBoxCount((prevCount) => ({
         ...prevCount,
         [rowNumber]: prevCount[rowNumber] - 1
     }));
-
+    const newBoxData = {
+        ...boxCount,
+        [rowNumber]:boxCount[rowNumber] -1
+    }
+   await updateClinicBoxData(clinicId,newBoxData);
 };
     const generateDivs = (rowNumber) => {
         const divs = [];
@@ -42,7 +65,7 @@ const handleBoxDel = (rowNumber) => {
                             onClick={() => handleBoxDel(1)}
                     ><i className="fa-solid fa-minus"></i>
                     </button>
-                    <div className="box"><i className="fa-solid fa-horse-head"></i></div>
+                    {/*<div className="box"><i className="fa-solid fa-horse-head"></i></div>*/}
                     {generateDivs(1)
 
                     }
@@ -58,7 +81,7 @@ const handleBoxDel = (rowNumber) => {
                             onClick={() => handleBoxDel(2)}
                     ><i className="fa-solid fa-minus"></i>
                     </button>
-                    <div className="box"><i className="fa-solid fa-horse-head"></i></div>
+                    {/*<div className="box"><i className="fa-solid fa-horse-head"></i></div>*/}
                     {generateDivs(2)
 
                     }
@@ -68,6 +91,12 @@ const handleBoxDel = (rowNumber) => {
 
         </>
     );
+}
+BoxesChart.propTypes = {
+    clinicId: PropTypes.any,
+    clinics: PropTypes.array,
+    setClinics: PropTypes.func,
+    setDocsId: PropTypes.func
 }
 
 export default BoxesChart;

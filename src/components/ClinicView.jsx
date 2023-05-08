@@ -11,7 +11,7 @@ function ClinicView() {
     const [editClinic, setEditClinic] = useState('');
 
     useEffect(() => {
-        queryForClinics(setClinics, setDocsId)
+        queryForClinics(setClinics, setDocsId);
     }, [setClinics])
 
     async function handleAddClinic(event) {
@@ -20,9 +20,11 @@ function ClinicView() {
             const justAdded = await addClinic({
                 name: newClinic,
                 createdAt: new Date(),
+                boxData: {1: 0, 2: 0}
             }, setNewClinic);
-            await queryForClinics(setClinics, setDocsId);
             setSelected(justAdded)
+            await queryForClinics(setClinics, setDocsId);
+
             setIsEdited(false);
 
         }
@@ -98,6 +100,7 @@ function ClinicView() {
                     <input
                         className='input-add'
                         type='text'
+                        placeholder='Add your Horspital'
                         value={newClinic}
                         onChange={(event) => setNewClinic(event.target.value)}
                     />
@@ -107,7 +110,9 @@ function ClinicView() {
             </form>
         </section>
         <section className='box-container'>
-            <BoxesChart/>
+            <BoxesChart
+            clinicId={selected}
+            />
         </section>
 </>
     );
