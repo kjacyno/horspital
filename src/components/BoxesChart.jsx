@@ -55,22 +55,24 @@ function BoxesChart({clinicId}) {
     const generateDivs = (rowNumber) => {
         const divs = [];
         for (let i = 0; i < boxCount[rowNumber]; i++) {
-            divs.push(<>
+            divs.push(
                 <div key={i} className="box">
                     <button
                         className="box-info-btn"
-                        onClick={() => {setShowModal(true)}}
+                        onClick={() => {
+                            setShowModal(true)
+                        }}
                     >
                         status
                     </button>
+
+                    <Dialog
+                        title={'Set box status'}
+                        show={showModal}
+                        toggleShow={toggleShowModal}
+                        status={<i className="fa-solid fa-horse-head"></i>}
+                    />
                 </div>
-                <Dialog
-                    title={'Set box status'}
-                show={showModal}
-                toggleShow={toggleShowModal}
-                status={<i className="fa-solid fa-horse-head"></i>}
-                />
-                </>
             );
         }
         return divs;

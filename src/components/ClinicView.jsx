@@ -72,6 +72,7 @@ function ClinicView() {
                             name='clinic'
                             id='clinic'
                         >
+                            <option placeholder=''>Choose Horspital to set it up </option>
                             {clinics.length > 0 && clinics.map((clinic, index) => (
                                 <option key={clinic.createdAt} value={docsId[index]}>
                                     {clinic.name}
