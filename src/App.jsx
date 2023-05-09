@@ -29,7 +29,9 @@ function App() {
 
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="loader">
+            <img src="/src/assets/Horse_Shoe.svg" alt='ride loeader'/>
+        </div>
     }
     return (
         <Container maxWidth="lg">

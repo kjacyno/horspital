@@ -1,21 +1,27 @@
 import {useEffect, useState} from "react";
 import {getBoxesByClinicId, updateClinicBoxData} from "../database/firestoreData.js";
 import PropTypes from "prop-types";
+import Dialog from "./BoxInfoModal.jsx";
 
 function BoxesChart({clinicId}) {
     const [boxCount, setBoxCount] = useState({1: 0, 2: 0});
+    const [showModal, setShowModal] = useState(false)
 
-useEffect( () => {getBoxesByClinicId(clinicId).then((result) => {
-        if (result && result.boxData) {
-        const boxData = result.boxData;
-        const newBoxCount = {};
-        for (let[key, value] of Object.entries(boxData)){
-            newBoxCount[key] = value;
+
+    useEffect(() => {
+            getBoxesByClinicId(clinicId).then((result) => {
+                if (result && result.boxData) {
+                    const boxData = result.boxData;
+                    const newBoxCount = {};
+                    for (let [key, value] of Object.entries(boxData)) {
+                        newBoxCount[key] = value;
+                    }
+                    setBoxCount(newBoxCount);
+                }
+            })
+                .catch(console.error)
         }
-        setBoxCount(newBoxCount);}
-    })
-        .catch(console.error)}
-,[clinicId]);
+        , [clinicId]);
 
     const handleBoxAdd = async (rowNumber) => {
         setBoxCount((prevCount) => ({
@@ -24,28 +30,51 @@ useEffect( () => {getBoxesByClinicId(clinicId).then((result) => {
         }));
         const newBoxData = {
             ...boxCount,
-            [rowNumber]:boxCount[rowNumber] + 1
+            [rowNumber]: boxCount[rowNumber] + 1
         }
-       await updateClinicBoxData(clinicId,newBoxData);
+
+        await updateClinicBoxData(clinicId, newBoxData);
     };
-const handleBoxDel = async (rowNumber) => {
-    setBoxCount((prevCount) => ({
-        ...prevCount,
-        [rowNumber]: prevCount[rowNumber] - 1
-    }));
-    const newBoxData = {
-        ...boxCount,
-        [rowNumber]:boxCount[rowNumber] -1
+    const handleBoxDel = async (rowNumber) => {
+        setBoxCount((prevCount) => ({
+            ...prevCount,
+            [rowNumber]: prevCount[rowNumber] - 1
+        }));
+        const newBoxData = {
+            ...boxCount,
+            [rowNumber]: boxCount[rowNumber] - 1
+        }
+
+        await updateClinicBoxData(clinicId, newBoxData);
+    };
+
+    const toggleShowModal = () => {
+        setShowModal(!showModal)
     }
-   await updateClinicBoxData(clinicId,newBoxData);
-};
+
     const generateDivs = (rowNumber) => {
         const divs = [];
         for (let i = 0; i < boxCount[rowNumber]; i++) {
-            divs.push(<div key={i} className="box"></div>);
+            divs.push(<>
+                <div key={i} className="box">
+                    <button
+                        className="box-info-btn"
+                        onClick={() => {setShowModal(true)}}
+                    >
+                        status
+                    </button>
+                </div>
+                <Dialog
+                    title={'Set box status'}
+                show={showModal}
+                toggleShow={toggleShowModal}
+                status={<i className="fa-solid fa-horse-head"></i>}
+                />
+                </>
+            );
         }
         return divs;
-    }
+    };
 
     return (<>
             <section className="legend">
@@ -92,6 +121,7 @@ const handleBoxDel = async (rowNumber) => {
         </>
     );
 }
+
 BoxesChart.propTypes = {
     clinicId: PropTypes.any,
     clinics: PropTypes.array,

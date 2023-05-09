@@ -68,7 +68,7 @@ export async function queryForClinics(setClinics, setDocsId) {
         collection(firestore, 'clinicList'),
         orderBy('name', 'asc')
     );
-    onSnapshot(clinicsListQuery, (querySnapshot) => {
+    await onSnapshot(clinicsListQuery, (querySnapshot) => {
         setDocsId(querySnapshot.docs.map(item => item.id));
         setClinics(querySnapshot.docs.map(item => {
             const data = item.data();

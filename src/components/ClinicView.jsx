@@ -11,7 +11,11 @@ function ClinicView() {
     const [editClinic, setEditClinic] = useState('');
 
     useEffect(() => {
-        queryForClinics(setClinics, setDocsId);
+        async function fetchData() {
+            await queryForClinics(setClinics, setDocsId);
+        }
+
+        fetchData();
     }, [setClinics])
 
     async function handleAddClinic(event) {
@@ -51,70 +55,70 @@ function ClinicView() {
     }
 
     return (<>
-        <section className="clinics">
-            <form className="clinic-form" onSubmit={handleAddClinic}>
-                <div className="clinic-select">
-                    <label htmlFor='clinic'>Choose clinic</label>
-                    <select
-                        value={selected}
-                        onChange={(event) => {
-                            setSelected(event.target.value);
-                            setIsEdited(false)
-                        }}
-                        onClick={(event) => {
-                            setSelected(event.target.value);
-                            setIsEdited(false)
-                        }}
-                        name='clinic'
-                        id='clinic'
-                    >
-                        {clinics.length > 0 && clinics.map((clinic, index) => (
-                            <option key={clinic.createdAt} value={docsId[index]}>
-                                {clinic.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                {selected && (
-                    <div className='option-btns'>
-                        <button onClick={() => setIsEdited(!isEdited)}>
-                            {isEdited ? 'Cancel' : 'Edit'}
-                        </button>
-                        <button onClick={() => handleDeleteClinic(selected)}>
-                            Delete
-                        </button>
+            <section className="clinics">
+                <form className="clinic-form" onSubmit={handleAddClinic}>
+                    <div className="clinic-select">
+                        <label htmlFor='clinic'>Choose clinic</label>
+                        <select
+                            value={selected}
+                            onChange={(event) => {
+                                setSelected(event.target.value);
+                                setIsEdited(false)
+                            }}
+                            onClick={(event) => {
+                                setSelected(event.target.value);
+                                setIsEdited(false)
+                            }}
+                            name='clinic'
+                            id='clinic'
+                        >
+                            {clinics.length > 0 && clinics.map((clinic, index) => (
+                                <option key={clinic.createdAt} value={docsId[index]}>
+                                    {clinic.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
-                )}
-                {isEdited && (
-                    <>
+                    {selected && (
+                        <div className='option-btns'>
+                            <button onClick={() => setIsEdited(!isEdited)}>
+                                {isEdited ? 'Cancel' : 'Edit'}
+                            </button>
+                            <button onClick={() => handleDeleteClinic(selected)}>
+                                Delete
+                            </button>
+                        </div>
+                    )}
+                    {isEdited && (
+                        <>
+                            <input
+                                className='input-edit'
+                                type='text'
+                                value={editClinic}
+                                onChange={(event) => setEditClinic(event.target.value)}
+                            />
+                            <button onClick={() => handleEditClinic(selected)}>Save</button>
+                        </>
+                    )}
+                    <div className='clinic-add'>
                         <input
-                            className='input-edit'
+                            className='input-add'
                             type='text'
-                            value={editClinic}
-                            onChange={(event) => setEditClinic(event.target.value)}
+                            placeholder='Add your Horspital'
+                            value={newClinic}
+                            onChange={(event) => setNewClinic(event.target.value)}
                         />
-                        <button onClick={() => handleEditClinic(selected)}>Save</button>
-                    </>
-                )}
-                <div className='clinic-add'>
-                    <input
-                        className='input-add'
-                        type='text'
-                        placeholder='Add your Horspital'
-                        value={newClinic}
-                        onChange={(event) => setNewClinic(event.target.value)}
-                    />
 
-                    <button type="submit">Add</button>
-                </div>
-            </form>
-        </section>
-        <section className='box-container'>
-            <BoxesChart
-            clinicId={selected}
-            />
-        </section>
-</>
+                        <button type="submit">Add</button>
+                    </div>
+                </form>
+            </section>
+            <section className='box-container'>
+                <BoxesChart
+                    clinicId={selected}
+                />
+            </section>
+        </>
     );
 }
 
