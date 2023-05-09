@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
 import {getBoxesByClinicId, updateClinicBoxData} from "../database/firestoreData.js";
 import PropTypes from "prop-types";
-import Dialog from "./BoxInfoModal.jsx";
+import BoxDialog from "./BoxDialog.jsx";
 
 function BoxesChart({clinicId}) {
     const [boxCount, setBoxCount] = useState({1: 0, 2: 0});
-    const [showModal, setShowModal] = useState(false)
+    const [showModal, setShowModal] = useState({});
+    const [selectedStatus, setSelectedStatus] = useState({});
 
 
     useEffect(() => {
@@ -28,6 +29,10 @@ function BoxesChart({clinicId}) {
             ...prevCount,
             [rowNumber]: prevCount[rowNumber] + 1
         }));
+        setSelectedStatus((prevStatus) => ({
+            ...prevStatus,
+            [`${rowNumber}-${boxCount[rowNumber]}`]: ""
+        }));
         const newBoxData = {
             ...boxCount,
             [rowNumber]: boxCount[rowNumber] + 1
@@ -35,7 +40,8 @@ function BoxesChart({clinicId}) {
 
         await updateClinicBoxData(clinicId, newBoxData);
     };
-    const handleBoxDel = async (rowNumber) => {
+    const handleBoxDel = async (rowNumber,boxIndex) => {
+
         setBoxCount((prevCount) => ({
             ...prevCount,
             [rowNumber]: prevCount[rowNumber] - 1
@@ -44,34 +50,74 @@ function BoxesChart({clinicId}) {
             ...boxCount,
             [rowNumber]: boxCount[rowNumber] - 1
         }
-
-        await updateClinicBoxData(clinicId, newBoxData);
+        setSelectedStatus((prevStatus) => {
+            const updatedStatus = { ...prevStatus };
+            delete updatedStatus[`${rowNumber}-${boxIndex}`];
+            return updatedStatus;
+        });
+            await updateClinicBoxData(clinicId, newBoxData);
     };
 
-    const toggleShowModal = () => {
-        setShowModal(!showModal)
-    }
+    const toggleShowModal = (rowNumber, boxIndex) => {
+        setShowModal((prev) => ({
+                ...prev,
+                [`${rowNumber}-${boxIndex}`]: !prev[`${rowNumber}-${boxIndex}`]
+            }
+        ));
 
+        console.log(`${rowNumber}-${boxIndex}`)
+
+    };
+
+    const boxStatus = [
+        {name:"occupied", icon: <i key="occupied" className="fa-solid fa-horse-head"></i>},
+        {name:"available",icon: <i key="available" className="fa-solid fa-house-circle-check"></i>},
+        {name:"problematic",icon: <i key="problematic" className="fa-solid fa-house-circle-exclamation"></i>},
+        {name:"outOfOrder", icon: <i key="outOfOrder" className="fa-solid fa-circle-radiation"></i>}
+    ]
+    console.log(selectedStatus)
     const generateDivs = (rowNumber) => {
         const divs = [];
         for (let i = 0; i < boxCount[rowNumber]; i++) {
-            divs.push(
-                <div key={i} className="box">
+
+                 divs.push(
+                <div key={i} className="box" >
+                    {selectedStatus[`${rowNumber}-${i}`] && (
+                        <div className="box-icon">
+                            {selectedStatus[`${rowNumber}-${i}`] === "occupied" ? (
+                                <i className="fa-solid fa-horse-head"></i>
+                            ) : selectedStatus[`${rowNumber}-${i}`] === "available" ? (
+                                <i className="fa-solid fa-house-circle-check"></i>
+                            ) : selectedStatus[`${rowNumber}-${i}`] === "problematic" ? (
+                                <i className="fa-solid fa-house-circle-exclamation"></i>
+                            ) : selectedStatus[`${rowNumber}-${i}`] === "outOfOrder" ? (
+                                <i className="fa-solid fa-circle-radiation"></i>
+                            ) : null}
+                        </div>
+                    )}
                     <button
                         className="box-info-btn"
                         onClick={() => {
-                            setShowModal(true)
+                            toggleShowModal(rowNumber, i);
                         }}
                     >
                         status
                     </button>
 
-                    <Dialog
+                    <BoxDialog
                         title={'Set box status'}
-                        show={showModal}
-                        toggleShow={toggleShowModal}
-                        status={<i className="fa-solid fa-horse-head"></i>}
+                        show={showModal[`${rowNumber}-${i}`]}
+                        toggleShow={() =>
+                            toggleShowModal(rowNumber, i)}
+                        status={boxStatus}
+                        setSelectedStatus={(status) =>
+                            setSelectedStatus((prevStatus) => ({
+                                ...prevStatus,
+                                [`${rowNumber}-${i}`]: status,
+                            }))
+                        }
                     />
+
                 </div>
             );
         }

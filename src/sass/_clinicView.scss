@@ -15,7 +15,8 @@
 select#clinic {
   margin-top: .6rem;
   width: 85%;
-  @include input-style
+  @include input-style;
+
 }
 
 label {
@@ -55,6 +56,12 @@ input {
 .input-edit{
   @include input-style;
   width: 80%;
+}
+select:required:invalid {
+  color: gray;
+}
+option[value=""][disabled] {
+  display: none;
 }
 //@media screen and (max-width: 600) {
 //  .clinics, .legend {
