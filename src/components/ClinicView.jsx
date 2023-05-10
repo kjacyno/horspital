@@ -24,7 +24,7 @@ function ClinicView() {
             const justAdded = await addClinic({
                 name: newClinic,
                 createdAt: new Date(),
-                boxData: {1: 0, 2: 0}
+                boxData: {A: 0, B: 0}
             }, setNewClinic);
             setSelected(justAdded)
             await queryForClinics(setClinics, setDocsId);
@@ -113,6 +113,12 @@ function ClinicView() {
                         <button type="submit">Add</button>
                     </div>
                 </form>
+            </section>
+            <section className="legend">
+                <p><i className="fa-solid fa-horse-head"></i>Box occupied</p>
+                <p><i className="fa-solid fa-house-circle-check"></i>Box available</p>
+                <p><i className="fa-solid fa-house-circle-exclamation"></i>Problematic horse/stallion</p>
+                <p><i className="fa-solid fa-circle-radiation"></i>Out of order</p>
             </section>
             <section className='box-container'>
                 <BoxesChart

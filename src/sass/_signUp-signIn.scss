@@ -15,9 +15,9 @@
       text-align: left;
       max-width: 80%;
     }
-
   }
-  & label{
+
+  & label {
     font-family: 'Kanit', sans-serif;
     font-weight: lighter;
     font-size: 1.4rem;
@@ -43,7 +43,6 @@
 .animated-box {
   -webkit-animation: slide-out-bck-center 500ms ease-in both;
   animation: slide-out-bck-center 500ms ease-in both;
-
 }
 
 @-webkit-keyframes slide-out-bck-center {
@@ -67,17 +66,19 @@
     opacity: 0;
   }
 }
+
 @media screen and (max-width: 600px) {
   .login-box {
     width: 100%;
-    & input{
+
+    & input {
       text-overflow: ellipsis;
       width: 100%;
       font-size: 1rem;
     }
-    & label{
+
+    & label {
       font-size: 1.2rem;
     }
   }
-
 }

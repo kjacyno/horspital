@@ -7,23 +7,35 @@ function LandingPage({user, setUser}) {
     const [signUp, setSignUp] = useState(false)
     const [login, setLogin] = useState(false)
 
-
     return (
         <section className='landing-box'>
-        <h3>Welcome!</h3>
-
-                    <button onClick={() => setLogin(!login)}>Login</button>
-                    <button onClick={() => setSignUp(!signUp)}>Sign Up</button>
-            {signUp &&
+            <h3>Welcome!</h3>
+            {!signUp && (
+                <button onClick={() => setLogin(!login)}>Login</button>
+            )}
+            {!login && (
+                <button onClick={() => setSignUp(!signUp)}>Sign Up</button>
+            )}
+            {signUp && (<>
+                    <button onClick={() => setSignUp(false)}>Back</button>
                     <SignUp
                         user={user}
-                        setUser={setUser}/>
+                        setUser={setUser}
+                    />
+                </>
+            )
             }
-            {login && <Login />}
+            {login && (<>
+                <button onClick={() => setLogin(false)}>Back</button>
+                <Login/>
+            </>)
+            }
         </section>
 
-    );
+    )
+        ;
 }
+
 LandingPage.propTypes = {
     setUser: PropTypes.func,
     user: PropTypes.any

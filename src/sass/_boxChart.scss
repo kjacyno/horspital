@@ -21,14 +21,16 @@
   flex-direction: column;
 }
 
-.box-chart1, .box-chart2 {
+.box-sections {
   margin-top: 3rem;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .box-wrapper1 {
   @include box-wrapper;
-
 }
 
 .box-wrapper2 {
@@ -37,15 +39,36 @@
 
 .box {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
   width: 6rem;
   height: 6rem;
   border: 1px solid whitesmoke;
   border-radius: 6px;
-  margin: 1rem;
+  margin: .6rem;
 }
-.add-box, .del-box{
+
+.box {
+  & .fa-horse-head, .fa-house-circle-check, .fa-house-circle-exclamation, .fa-circle-radiation {
+    padding: 0 0 .5rem 0;
+  }
+}
+
+.box-info-btn {
+  font-size: .7rem;
+  font-style: italic;
+  margin-top: 0;
+  margin-bottom: .2rem;
+  border: transparent;
+  border-radius: 5px;
+
+  & p {
+    margin: 0;
+  }
+}
+
+.add-box, .del-box {
   width: 4rem;
   height: 4rem;
 }
@@ -53,13 +76,11 @@
 .fa-horse-head {
   color: rgba(159, 12, 45, 0.94);
   @include legend-icon
-
 }
 
 .fa-house-circle-check {
   color: #157e02;
   @include legend-icon
-
 }
 
 .fa-house-circle-exclamation {
@@ -77,18 +98,38 @@
 }
 
 @media screen and (max-width: 600px) {
-
   .box-wrapper1 {
     margin: 0;
     padding: 0;
- transform: translateX(-30rem) translateY(380%) rotate(90deg);
+    transform: rotate(90deg);
+    position: absolute;
+    top: 73rem;
+    left: -29rem;
   }
-  .box-wrapper2, {
+  .box-wrapper2 {
     margin: 0;
     padding: 0;
-    transform: translateX(-20.5rem) translateY(244%) rotate(90deg);
+    transform: rotate(90deg);
+    position: absolute;
+    top: 73rem;
+    left: -19rem;
   }
-  .box .fa-horse-head, .fa-plus, .fa-minus{
+  .box {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem;
+  }
+  .box .fa-horse-head,
+  .box .fa-plus,
+  .box .fa-minus,
+  .box .box-info-btn,
+  .box .fa-house-circle-check,
+  .box .fa-house-circle-exclamation,
+  .box .fa-circle-radiation {
     transform: rotate(-90deg);
+    margin-inline: 0.2rem;
+    margin-bottom: 0;
+    width: 90%;
   }
 }

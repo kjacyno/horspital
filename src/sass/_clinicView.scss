@@ -5,13 +5,15 @@
   border: 2px solid white;
   padding: 10px;
   text-align: center;
- @include flex-center-col;
+  @include flex-center-col;
   border-radius: 10px;;
   @include box-shadow
 }
+
 .clinic-select, .clinic-form {
- @include form-container
+  @include form-container
 }
+
 select#clinic {
   margin-top: .6rem;
   width: 85%;
@@ -23,8 +25,9 @@ label {
   width: 100%;
   font-size: 1.5rem;
 }
+
 input {
-@include input-style;
+  @include input-style;
   height: auto;
   width: 80%;
   overflow: hidden;
@@ -32,37 +35,44 @@ input {
   white-space: nowrap;
 
 }
-.input-add{
+
+.input-add {
   @include flex-center-col;
   width: 80%;
 }
-.clinic-add{
+
+.clinic-add {
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  & button{
+
+  & button {
     margin-top: 1rem;
     padding-inline: 3rem;
     width: 50%;
   }
 }
-.option-btns{
-  @include form-btns
 
+.option-btns {
+  @include form-btns
 }
-.input-edit{
+
+.input-edit {
   @include input-style;
   width: 80%;
 }
+
 select:required:invalid {
   color: gray;
 }
+
 option[value=""][disabled] {
   display: none;
 }
+
 //@media screen and (max-width: 600) {
 //  .clinics, .legend {
 //    width: 80vw;

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import BoxDialog from "./BoxDialog.jsx";
 
 function BoxesChart({clinicId}) {
-    const [boxCount, setBoxCount] = useState({1: 0, 2: 0});
+    const [boxCount, setBoxCount] = useState({A: 0, B: 0});
     const [showModal, setShowModal] = useState({});
     const [selectedStatus, setSelectedStatus] = useState({});
 
@@ -18,6 +18,7 @@ function BoxesChart({clinicId}) {
                         newBoxCount[key] = value;
                     }
                     setBoxCount(newBoxCount);
+                    console.log(boxCount)
                 }
             })
                 .catch(console.error)
@@ -37,11 +38,10 @@ function BoxesChart({clinicId}) {
             ...boxCount,
             [rowNumber]: boxCount[rowNumber] + 1
         }
-
         await updateClinicBoxData(clinicId, newBoxData);
     };
-    const handleBoxDel = async (rowNumber,boxIndex) => {
 
+    const handleBoxDel = async (rowNumber, boxIndex) => {
         setBoxCount((prevCount) => ({
             ...prevCount,
             [rowNumber]: prevCount[rowNumber] - 1
@@ -51,11 +51,11 @@ function BoxesChart({clinicId}) {
             [rowNumber]: boxCount[rowNumber] - 1
         }
         setSelectedStatus((prevStatus) => {
-            const updatedStatus = { ...prevStatus };
+            const updatedStatus = {...prevStatus};
             delete updatedStatus[`${rowNumber}-${boxIndex}`];
             return updatedStatus;
         });
-            await updateClinicBoxData(clinicId, newBoxData);
+        await updateClinicBoxData(clinicId, newBoxData);
     };
 
     const toggleShowModal = (rowNumber, boxIndex) => {
@@ -64,24 +64,19 @@ function BoxesChart({clinicId}) {
                 [`${rowNumber}-${boxIndex}`]: !prev[`${rowNumber}-${boxIndex}`]
             }
         ));
-
-        console.log(`${rowNumber}-${boxIndex}`)
-
     };
 
     const boxStatus = [
-        {name:"occupied", icon: <i key="occupied" className="fa-solid fa-horse-head"></i>},
-        {name:"available",icon: <i key="available" className="fa-solid fa-house-circle-check"></i>},
-        {name:"problematic",icon: <i key="problematic" className="fa-solid fa-house-circle-exclamation"></i>},
-        {name:"outOfOrder", icon: <i key="outOfOrder" className="fa-solid fa-circle-radiation"></i>}
+        {name: "occupied", icon: <i key="occupied" className="fa-solid fa-horse-head"></i>},
+        {name: "available", icon: <i key="available" className="fa-solid fa-house-circle-check"></i>},
+        {name: "problematic", icon: <i key="problematic" className="fa-solid fa-house-circle-exclamation"></i>},
+        {name: "outOfOrder", icon: <i key="outOfOrder" className="fa-solid fa-circle-radiation"></i>}
     ]
-    console.log(selectedStatus)
     const generateDivs = (rowNumber) => {
         const divs = [];
         for (let i = 0; i < boxCount[rowNumber]; i++) {
-
-                 divs.push(
-                <div key={i} className="box" >
+            divs.push(
+                <div key={i} className="box">
                     {selectedStatus[`${rowNumber}-${i}`] && (
                         <div className="box-icon">
                             {selectedStatus[`${rowNumber}-${i}`] === "occupied" ? (
@@ -101,9 +96,8 @@ function BoxesChart({clinicId}) {
                             toggleShowModal(rowNumber, i);
                         }}
                     >
-                        status
+                        <p>{rowNumber}&nbsp;-&nbsp;{i}</p>
                     </button>
-
                     <BoxDialog
                         title={'Set box status'}
                         show={showModal[`${rowNumber}-${i}`]}
@@ -117,56 +111,42 @@ function BoxesChart({clinicId}) {
                             }))
                         }
                     />
-
                 </div>
             );
         }
         return divs;
     };
+if (!clinicId) {
+    return <></>
+}
+    return (<div className='box-sections'>
 
-    return (<>
-            <section className="legend">
-                <p><i className="fa-solid fa-horse-head"></i>Box occupied</p>
-                <p><i className="fa-solid fa-house-circle-check"></i>Box available</p>
-                <p><i className="fa-solid fa-house-circle-exclamation"></i>Problematic horse/stallion</p>
-                <p><i className="fa-solid fa-circle-radiation"></i>Out of order</p>
-            </section>
 
-            <section className="box-chart1">
-                <div className="box-wrapper1">
+            <section className="box-wrapper1">
                     <button className="box add-box"
-                            onClick={() => handleBoxAdd(1)}
+                            onClick={() => handleBoxAdd('A')}
                     ><i className="fa-solid fa-plus"></i>
                     </button>
                     <button className="box del-box"
-                            onClick={() => handleBoxDel(1)}
+                            onClick={() => handleBoxDel('A')}
                     ><i className="fa-solid fa-minus"></i>
                     </button>
-                    {/*<div className="box"><i className="fa-solid fa-horse-head"></i></div>*/}
-                    {generateDivs(1)
-
-                    }
-                </div>
+                    {generateDivs('A')}
             </section>
-            <section className="box-chart2">
-                <div className="box-wrapper2">
+            <section className="box-wrapper2">
+
                     <button className="box add-box"
-                            onClick={() => handleBoxAdd(2)}
+                            onClick={() => handleBoxAdd('B')}
                     ><i className="fa-solid fa-plus"></i>
                     </button>
                     <button className="box del-box"
-                            onClick={() => handleBoxDel(2)}
+                            onClick={() => handleBoxDel('B')}
                     ><i className="fa-solid fa-minus"></i>
                     </button>
-                    {/*<div className="box"><i className="fa-solid fa-horse-head"></i></div>*/}
-                    {generateDivs(2)
+                    {generateDivs('B')}
 
-                    }
-                </div>
             </section>
-
-
-        </>
+        </div>
     );
 }
 
