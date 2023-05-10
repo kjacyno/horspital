@@ -21,12 +21,13 @@ function ClinicView() {
     async function handleAddClinic(event) {
         event.preventDefault();
         if (newClinic.trim() !== '') {
-            const justAdded = await addClinic({
+          await addClinic({
                 name: newClinic,
                 createdAt: new Date(),
-                boxData: {A: 0, B: 0}
+                boxData: {A: 0, B: 0},
+                boxStatus:{A: 0},
             }, setNewClinic);
-            setSelected(justAdded)
+            setSelected('')
             await queryForClinics(setClinics, setDocsId);
 
             setIsEdited(false);

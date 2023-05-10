@@ -25,13 +25,15 @@ export async function updateClinic(toEdit, editClinic) {
         console.log('Error editing clinic:', error);
     }
 }
-export async function updateClinicBoxData(clinicId, boxData){
+export async function updateClinicBoxData(clinicId, boxData, selectedStatus){
     try {
         await updateDoc(doc(firestore,'clinicList', clinicId),
             {
-                boxData: boxData
+                boxData: boxData,
+                boxStatus: selectedStatus
             })
         console.log(clinicId)
+        console.log(selectedStatus)
 
     } catch (error){
         console.log('Error adding box info:', error);

@@ -37,7 +37,7 @@ function LandingPage({user, setUser}) {
 }
 
 LandingPage.propTypes = {
-    setUser: PropTypes.func,
+    setUser: PropTypes.any,
     user: PropTypes.any
 }
 export default LandingPage;

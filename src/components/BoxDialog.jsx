@@ -13,7 +13,7 @@ export default function BoxDialog({show, status, toggleShow, title, setSelectedS
     }
 
     return (
-        <Dialog className="dialog" onClose={toggleShow} open={toggleShow}>
+        <Dialog className="dialog" onClose={toggleShow} open >
             <div className="dialog__content">
                 <p className="dialog__title">{title}</p>
 
@@ -32,5 +32,5 @@ BoxDialog.propTypes = {
     status: PropTypes.array,
     toggleShow: PropTypes.func.isRequired,
     title: PropTypes.string,
-    setSelectedStatus: PropTypes.func
+    setSelectedStatus: PropTypes.func,
 };

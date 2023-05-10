@@ -6,6 +6,7 @@ import {Container} from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
 import Header from "./components/Header.jsx";
 import LandingPage from "./components/LandingPage.jsx";
+import horseShoeSVG from './assets/horse-shoe.svg'
 
 
 function App() {
@@ -29,8 +30,8 @@ function App() {
 
 
     if (loading) {
-        return <div className="loader">
-            <img src="/src/assets/Horse_Shoe.svg" alt='ride loeader'/>
+        return <div className="icon-loader">
+            <img src={horseShoeSVG} alt='loeader'/>
         </div>
     }
     return (

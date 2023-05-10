@@ -4,64 +4,77 @@ import PropTypes from "prop-types";
 import BoxDialog from "./BoxDialog.jsx";
 
 function BoxesChart({clinicId}) {
-    const [boxCount, setBoxCount] = useState({A: 0, B: 0});
+    const [boxData, setBoxData] = useState({});
     const [showModal, setShowModal] = useState({});
-    const [selectedStatus, setSelectedStatus] = useState({});
+    const [selectedStatus, setSelectedStatus] = useState({ [clinicId]: {} });
 
 
     useEffect(() => {
-            getBoxesByClinicId(clinicId).then((result) => {
+        const fetchData = async () => {
+            try {
+                const result = await getBoxesByClinicId(clinicId);
                 if (result && result.boxData) {
-                    const boxData = result.boxData;
-                    const newBoxCount = {};
-                    for (let [key, value] of Object.entries(boxData)) {
-                        newBoxCount[key] = value;
-                    }
-                    setBoxCount(newBoxCount);
-                    console.log(boxCount)
+                    setBoxData(result.boxData);
                 }
-            })
-                .catch(console.error)
-        }
-        , [clinicId]);
+                if (result && result.boxStatus) {
+                    setSelectedStatus({ [clinicId]: result.boxStatus });
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-    const handleBoxAdd = async (rowNumber) => {
-        setBoxCount((prevCount) => ({
-            ...prevCount,
-            [rowNumber]: prevCount[rowNumber] + 1
-        }));
+        fetchData();
+    }, [clinicId]);
+
+    useEffect(() => {
+        const fetchStatus = async () => {
+            try {
+                await updateClinicBoxData(clinicId, boxData, selectedStatus[clinicId]);
+            }
+            catch (error){
+                console.log(error)
+            }
+        }
+        fetchStatus();
+    }, [selectedStatus])
+
+    const handleBoxAdd = async (rowSymbol) => {
+        const newBoxData= {
+            ...boxData,
+            [rowSymbol]: (boxData[rowSymbol] || 0 ) + 1
+        };
+        setBoxData(newBoxData)
         setSelectedStatus((prevStatus) => ({
             ...prevStatus,
-            [`${rowNumber}-${boxCount[rowNumber]}`]: ""
+            [clinicId]: {
+                ...prevStatus[clinicId],
+                [`${rowSymbol}-${newBoxData[rowSymbol] - 1}`]: ""
+            }
         }));
-        const newBoxData = {
-            ...boxCount,
-            [rowNumber]: boxCount[rowNumber] + 1
-        }
-        await updateClinicBoxData(clinicId, newBoxData);
+
+        await updateClinicBoxData(clinicId, newBoxData, selectedStatus[clinicId]);
     };
 
-    const handleBoxDel = async (rowNumber, boxIndex) => {
-        setBoxCount((prevCount) => ({
-            ...prevCount,
-            [rowNumber]: prevCount[rowNumber] - 1
-        }));
-        const newBoxData = {
-            ...boxCount,
-            [rowNumber]: boxCount[rowNumber] - 1
-        }
+    const handleBoxDel = async (rowSymbol, boxIndex) => {
+        const newBoxData= {
+            ...boxData,
+            [rowSymbol]: (boxData[rowSymbol] || 0 ) - 1
+        };
+        setBoxData(newBoxData)
+
         setSelectedStatus((prevStatus) => {
             const updatedStatus = {...prevStatus};
-            delete updatedStatus[`${rowNumber}-${boxIndex}`];
+            delete updatedStatus[clinicId][`${rowSymbol}-${boxIndex}`];
             return updatedStatus;
         });
-        await updateClinicBoxData(clinicId, newBoxData);
+        await updateClinicBoxData(clinicId, newBoxData, selectedStatus[clinicId]);
     };
 
-    const toggleShowModal = (rowNumber, boxIndex) => {
+    const toggleShowModal = async (rowSymbol, boxIndex) => {
         setShowModal((prev) => ({
                 ...prev,
-                [`${rowNumber}-${boxIndex}`]: !prev[`${rowNumber}-${boxIndex}`]
+                [`${rowSymbol}-${boxIndex}`]: !prev[`${rowSymbol}-${boxIndex}`]
             }
         ));
     };
@@ -72,20 +85,20 @@ function BoxesChart({clinicId}) {
         {name: "problematic", icon: <i key="problematic" className="fa-solid fa-house-circle-exclamation"></i>},
         {name: "outOfOrder", icon: <i key="outOfOrder" className="fa-solid fa-circle-radiation"></i>}
     ]
-    const generateDivs = (rowNumber) => {
+    const generateDivs = (rowSymbol) => {
         const divs = [];
-        for (let i = 0; i < boxCount[rowNumber]; i++) {
+        for (let i = 0; i < boxData[rowSymbol]; i++) {
             divs.push(
                 <div key={i} className="box">
-                    {selectedStatus[`${rowNumber}-${i}`] && (
+                    {selectedStatus[clinicId]?.[`${rowSymbol}-${i}`] && (
                         <div className="box-icon">
-                            {selectedStatus[`${rowNumber}-${i}`] === "occupied" ? (
+                            {selectedStatus[clinicId][`${rowSymbol}-${i}`] === "occupied" ? (
                                 <i className="fa-solid fa-horse-head"></i>
-                            ) : selectedStatus[`${rowNumber}-${i}`] === "available" ? (
+                            ) : selectedStatus[clinicId][`${rowSymbol}-${i}`] === "available" ? (
                                 <i className="fa-solid fa-house-circle-check"></i>
-                            ) : selectedStatus[`${rowNumber}-${i}`] === "problematic" ? (
+                            ) : selectedStatus[clinicId][`${rowSymbol}-${i}`] === "problematic" ? (
                                 <i className="fa-solid fa-house-circle-exclamation"></i>
-                            ) : selectedStatus[`${rowNumber}-${i}`] === "outOfOrder" ? (
+                            ) : selectedStatus[clinicId][`${rowSymbol}-${i}`] === "outOfOrder" ? (
                                 <i className="fa-solid fa-circle-radiation"></i>
                             ) : null}
                         </div>
@@ -93,23 +106,26 @@ function BoxesChart({clinicId}) {
                     <button
                         className="box-info-btn"
                         onClick={() => {
-                            toggleShowModal(rowNumber, i);
+                            toggleShowModal(rowSymbol, i);
                         }}
                     >
-                        <p>{rowNumber}&nbsp;-&nbsp;{i}</p>
+                        <p>{rowSymbol}&nbsp;-&nbsp;{i}</p>
                     </button>
                     <BoxDialog
                         title={'Set box status'}
-                        show={showModal[`${rowNumber}-${i}`]}
+                        show={showModal[`${rowSymbol}-${i}`]}
                         toggleShow={() =>
-                            toggleShowModal(rowNumber, i)}
+                            toggleShowModal(rowSymbol, i)}
                         status={boxStatus}
                         setSelectedStatus={(status) =>
                             setSelectedStatus((prevStatus) => ({
                                 ...prevStatus,
-                                [`${rowNumber}-${i}`]: status,
-                            }))
+                                [clinicId]:{
+                                    ...prevStatus[clinicId],
+                                [`${rowSymbol}-${i}`]: status,
+                                }}))
                         }
+                        open={open}
                     />
                 </div>
             );
