@@ -49,7 +49,7 @@ function SignUp({user, setUser}) {
                            placeholder='E-mail'
                            onChange={(event) => setEmail(event.target.value)}
                     />
-                    <label htmlFor="pwd"></label>
+                    <label htmlFor="password"></label>
                     <input type="password"
                            id='password'
                            value={password}
