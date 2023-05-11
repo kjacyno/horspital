@@ -15,15 +15,23 @@ function Header({user, setUser}) {
     };
     const handleClose = () => {
         setAnchorEl(null);
-logOut(setUser)
+        logOut(setUser);
+    };
+    const handleCloseNoLogout = () => {
+        setAnchorEl(null);
     };
 
     return (
         <header>
-            <div className='logo'><h1><i className="fa-solid fa-house-medical"></i>Horspital</h1></div>
+            <div className='logo'>
+                <h1>
+                    <i className="fa-solid fa-house-medical"></i>
+                    Horspital
+                </h1>
+            </div>
             <div className="user-icon">
-                    {user && <div>
-                        <i className="fa-solid fa-hospital-user">
+                {user && <div>
+                    <i className="fa-solid fa-hospital-user">
                         <Button
                             id="basic-button"
                             aria-controls={open ? 'basic-menu' : undefined}
@@ -37,21 +45,19 @@ logOut(setUser)
                             id="basic-menu"
                             anchorEl={anchorEl}
                             open={open}
-                            onClose={handleClose}
+                            onClose={handleCloseNoLogout}
                             MenuListProps={{
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            {/*<MenuItem onClick={handleClose}>Profile</MenuItem>*/}
-                            {/*<MenuItem onClick={handleClose}>My account</MenuItem>*/}
-                            <MenuItem id='logout' onClick={handleClose}>Logout</MenuItem>
+                            <MenuItem id='logout' onClick={handleClose}>
+                                Logout
+                            </MenuItem>
                         </Menu>
-                        </i>
-                    </div>
-                    }
-
+                    </i>
+                </div>
+                }
             </div>
-
         </header>
     );
 }

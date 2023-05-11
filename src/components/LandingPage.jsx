@@ -4,8 +4,8 @@ import Login from "./Login.jsx";
 import PropTypes from "prop-types";
 
 function LandingPage({user, setUser}) {
-    const [signUp, setSignUp] = useState(false)
-    const [login, setLogin] = useState(false)
+    const [signUp, setSignUp] = useState(false);
+    const [login, setLogin] = useState(false);
 
     return (
         <section className='landing-box'>
@@ -17,7 +17,9 @@ function LandingPage({user, setUser}) {
                 <button onClick={() => setSignUp(!signUp)}>Sign Up</button>
             )}
             {signUp && (<>
-                    <button onClick={() => setSignUp(false)}>Back</button>
+                    <button onClick={() => setSignUp(false)}>
+                        Back
+                    </button>
                     <SignUp
                         user={user}
                         setUser={setUser}
@@ -26,14 +28,16 @@ function LandingPage({user, setUser}) {
             )
             }
             {login && (<>
-                <button onClick={() => setLogin(false)}>Back</button>
-                <Login/>
+                <button onClick={() => setLogin(false)}>
+                    Back
+                </button>
+                <Login
+                    setUser={setUser}
+                />
             </>)
             }
         </section>
-
     )
-        ;
 }
 
 LandingPage.propTypes = {

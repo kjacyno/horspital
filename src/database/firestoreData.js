@@ -8,8 +8,8 @@ export async function addClinic(data, setNewClinic) {
     try {
         const docRef = await addDoc(clinicListCollection, data
         );
-        console.log("Document written with ID: ", docRef.id)
         setNewClinic('');
+        return docRef;
     } catch (error) {
         console.log('Error adding new clinic:', error);
     }
@@ -25,43 +25,36 @@ export async function updateClinic(toEdit, editClinic) {
         console.log('Error editing clinic:', error);
     }
 }
-export async function updateClinicBoxData(clinicId, boxData, selectedStatus){
+
+export async function updateClinicBoxData(clinicId, boxData, selectedStatus) {
     try {
-        await updateDoc(doc(firestore,'clinicList', clinicId),
+        await updateDoc(doc(firestore, 'clinicList', clinicId),
             {
                 boxData: boxData,
                 boxStatus: selectedStatus
             })
-        console.log(clinicId)
-        console.log(selectedStatus)
-
-    } catch (error){
+    } catch (error) {
         console.log('Error adding box info:', error);
-
     }
 }
+
 export async function deleteClinic(toDelete) {
     try {
         await deleteDoc(doc(firestore, 'clinicList', toDelete));
-        console.log('Document deleted successfully!', toDelete);
     } catch (error) {
         console.log('Error deleting clinic:', error);
-
     }
 }
+
 export async function getBoxesByClinicId(clinicId) {
     try {
         if (!clinicId) {
             return;
         }
-       const docSnap = await getDoc(doc(firestore, 'clinicList', clinicId));
-           const result = docSnap.data();
-            console.log(result)
-            return result;
-
-    }    catch (error) {
+        const docSnap = await getDoc(doc(firestore, 'clinicList', clinicId));
+        return docSnap.data();
+    } catch (error) {
         console.log('Error getting info:', error);
-
     }
 }
 
@@ -70,6 +63,7 @@ export async function queryForClinics(setClinics, setDocsId) {
         collection(firestore, 'clinicList'),
         orderBy('name', 'asc')
     );
+
     await onSnapshot(clinicsListQuery, (querySnapshot) => {
         setDocsId(querySnapshot.docs.map(item => item.id));
         setClinics(querySnapshot.docs.map(item => {

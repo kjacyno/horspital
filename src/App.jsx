@@ -7,6 +7,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Header from "./components/Header.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import horseShoeSVG from './assets/horse-shoe.svg'
+import Footer from "./components/Footer.jsx";
 
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
 
     useEffect(() => {
         const auth = getAuth();
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+
+        onAuthStateChanged(auth, (user) => {
             if (user) {
                 setUser(user);
             } else {
@@ -24,20 +26,17 @@ function App() {
             }
             setLoading(false);
         });
-
-        return unsubscribe;
     }, []);
-
 
     if (loading) {
         return <div className="icon-loader">
             <img src={horseShoeSVG} alt='loeader'/>
         </div>
     }
+
     return (
         <Container maxWidth="lg">
-
-        <Header
+            <Header
                 user={user}
                 setUser={setUser}
             />
@@ -46,23 +45,24 @@ function App() {
                     <div></div>
                 </Grid>
                 <Grid xs={12} sm={6}>
-                    <div>{user ? (
-                            <ClinicView/>
-                        )
-                        : (
-                            <LandingPage
-                                user={user}
-                                setUser={setUser}
-                            />
-                        )
-                    }</div>
+                    <div>
+                        {user ? (
+                                <ClinicView/>
+                            )
+                            : (
+                                <LandingPage
+                                    user={user}
+                                    setUser={setUser}
+                                />
+                            )
+                        }
+                    </div>
                 </Grid>
                 <Grid xs>
                     <div></div>
                 </Grid>
             </Grid>
-
-
+            <Footer/>
         </Container>
     )
 }

@@ -4,9 +4,9 @@ import {createNewUser} from "../database/usersData.js";
 
 function SignUp({user, setUser}) {
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
+    const [password, setPassword] = useState('');
     const [login, setLogin] = useState('');
-    const [isActive, setIsActive] = useState(false)
+    const [isActive, setIsActive] = useState(false);
 
     async function handleNewUser(event) {
         event.preventDefault();
@@ -15,24 +15,25 @@ function SignUp({user, setUser}) {
                 displayName: login
             },
             setUser, user, login, email, password
-        )
+        );
     }
 
-const handleToggle = () => {
-    const hasValidInput = login && email.includes("@") && password;
-    const hasUppercaseLetter = /[A-Z]/.test(password);
-    const hasNumber = /\d/.test(password);
+    const handleToggle = () => {
+        const hasValidInput = login && email.includes("@") && password;
+        const hasUppercaseLetter = /[A-Z]/.test(password);
+        const hasNumber = /\d/.test(password);
 
-    if (hasValidInput && hasUppercaseLetter && hasNumber) {
-        setIsActive(!isActive);
+        if (hasValidInput && hasUppercaseLetter && hasNumber) {
+            setIsActive(!isActive);
         }
     }
     return (
         <section className="login-page">
             <div></div>
             <div className="login-box">
-                <form onSubmit={handleNewUser} className={isActive ? 'animated-box' : 'login-form'}>
-                    <label htmlFor="email">SET UP YOUR ACCOUNT</label>
+                <form onSubmit={handleNewUser}
+                      className={isActive ? 'animated-box' : 'login-form'}>
+                    <label htmlFor="login">SET UP YOUR ACCOUNT</label>
                     <input
                         type="text"
                         value={login}

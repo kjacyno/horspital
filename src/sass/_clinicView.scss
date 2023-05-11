@@ -18,7 +18,6 @@ select#clinic {
   margin-top: .6rem;
   width: 85%;
   @include input-style;
-
 }
 
 label {
@@ -33,7 +32,6 @@ input {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
 }
 
 .input-add {
@@ -72,13 +70,3 @@ select:required:invalid {
 option[value=""][disabled] {
   display: none;
 }
-
-//@media screen and (max-width: 600) {
-//  .clinics, .legend {
-//    width: 80vw;
-//    margin: 0;
-//  }
-//  select, input, option{
-//    font-size: 1rem;
-//  }
-//}

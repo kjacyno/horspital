@@ -5,7 +5,7 @@ export default function BoxDialog({show, status, toggleShow, title, setSelectedS
     const boxStatusBtns = status.map((item, index) => (
         <button onClick={() => {
             toggleShow();
-            setSelectedStatus(item.name)
+            setSelectedStatus(item.name);
         }} className="dialog__cancel" key={index}>{item.icon}</button>
     ));
     if (!show) {
@@ -13,16 +13,16 @@ export default function BoxDialog({show, status, toggleShow, title, setSelectedS
     }
 
     return (
-        <Dialog className="dialog" onClose={toggleShow} open >
+        <Dialog className="dialog" onClose={toggleShow} open>
             <div className="dialog__content">
                 <p className="dialog__title">{title}</p>
-
-            <div className='box-statuses'>{boxStatusBtns}</div>
-            <button onClick={() => {
-                toggleShow();
-                setSelectedStatus({})
-            }}>Clear
-            </button></div>
+                <div className='box-statuses'>{boxStatusBtns}</div>
+                <button onClick={() => {
+                    toggleShow();
+                    setSelectedStatus({})
+                }}>Clear
+                </button>
+            </div>
         </Dialog>
     )
 }

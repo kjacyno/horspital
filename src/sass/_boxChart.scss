@@ -63,6 +63,10 @@
   border: transparent;
   border-radius: 5px;
 
+  &:hover {
+    border-color: $primary-color;
+  }
+
   & p {
     margin: 0;
   }
@@ -98,28 +102,35 @@
 }
 
 @media screen and (max-width: 600px) {
+  .box-sections {
+    margin-top: 5rem;
+  }
+
   .box-wrapper1 {
     margin: 0;
     padding: 0;
     transform: rotate(90deg);
     position: absolute;
-    top: 73rem;
+    top: 77rem;
     left: -29rem;
   }
+
   .box-wrapper2 {
     margin: 0;
     padding: 0;
     transform: rotate(90deg);
     position: absolute;
-    top: 73rem;
+    top: 77rem;
     left: -19rem;
   }
+
   .box {
     flex-direction: row;
     align-items: center;
     justify-content: center;
     padding: 0.6rem;
   }
+
   .box .fa-horse-head,
   .box .fa-plus,
   .box .fa-minus,

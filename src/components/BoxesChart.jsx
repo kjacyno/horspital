@@ -6,8 +6,7 @@ import BoxDialog from "./BoxDialog.jsx";
 function BoxesChart({clinicId}) {
     const [boxData, setBoxData] = useState({});
     const [showModal, setShowModal] = useState({});
-    const [selectedStatus, setSelectedStatus] = useState({ [clinicId]: {} });
-
+    const [selectedStatus, setSelectedStatus] = useState({[clinicId]: {}});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,7 +16,7 @@ function BoxesChart({clinicId}) {
                     setBoxData(result.boxData);
                 }
                 if (result && result.boxStatus) {
-                    setSelectedStatus({ [clinicId]: result.boxStatus });
+                    setSelectedStatus({[clinicId]: result.boxStatus});
                 }
             } catch (error) {
                 console.error(error);
@@ -29,22 +28,23 @@ function BoxesChart({clinicId}) {
 
     useEffect(() => {
         const fetchStatus = async () => {
-            try {
-                await updateClinicBoxData(clinicId, boxData, selectedStatus[clinicId]);
+            if (clinicId) {
+                try {
+                    await updateClinicBoxData(clinicId, boxData, selectedStatus[clinicId]);
+                } catch (error) {
+                    console.log(error)
+                }
             }
-            catch (error){
-                console.log(error)
-            }
-        }
+        };
         fetchStatus();
-    }, [selectedStatus])
+    }, [selectedStatus]);
 
     const handleBoxAdd = async (rowSymbol) => {
-        const newBoxData= {
+        const newBoxData = {
             ...boxData,
-            [rowSymbol]: (boxData[rowSymbol] || 0 ) + 1
+            [rowSymbol]: (boxData[rowSymbol] || 0) + 1
         };
-        setBoxData(newBoxData)
+        setBoxData(newBoxData);
         setSelectedStatus((prevStatus) => ({
             ...prevStatus,
             [clinicId]: {
@@ -57,11 +57,11 @@ function BoxesChart({clinicId}) {
     };
 
     const handleBoxDel = async (rowSymbol, boxIndex) => {
-        const newBoxData= {
+        const newBoxData = {
             ...boxData,
-            [rowSymbol]: (boxData[rowSymbol] || 0 ) - 1
+            [rowSymbol]: (boxData[rowSymbol] || 0) - 1
         };
-        setBoxData(newBoxData)
+        setBoxData(newBoxData);
 
         setSelectedStatus((prevStatus) => {
             const updatedStatus = {...prevStatus};
@@ -84,7 +84,7 @@ function BoxesChart({clinicId}) {
         {name: "available", icon: <i key="available" className="fa-solid fa-house-circle-check"></i>},
         {name: "problematic", icon: <i key="problematic" className="fa-solid fa-house-circle-exclamation"></i>},
         {name: "outOfOrder", icon: <i key="outOfOrder" className="fa-solid fa-circle-radiation"></i>}
-    ]
+    ];
     const generateDivs = (rowSymbol) => {
         const divs = [];
         for (let i = 0; i < boxData[rowSymbol]; i++) {
@@ -120,10 +120,11 @@ function BoxesChart({clinicId}) {
                         setSelectedStatus={(status) =>
                             setSelectedStatus((prevStatus) => ({
                                 ...prevStatus,
-                                [clinicId]:{
+                                [clinicId]: {
                                     ...prevStatus[clinicId],
-                                [`${rowSymbol}-${i}`]: status,
-                                }}))
+                                    [`${rowSymbol}-${i}`]: status,
+                                }
+                            }))
                         }
                         open={open}
                     />
@@ -132,35 +133,36 @@ function BoxesChart({clinicId}) {
         }
         return divs;
     };
-if (!clinicId) {
-    return <></>
-}
-    return (<div className='box-sections'>
-
-
+    if (!clinicId) {
+        return <></>
+    }
+    return (
+        <div className='box-sections'>
             <section className="box-wrapper1">
-                    <button className="box add-box"
-                            onClick={() => handleBoxAdd('A')}
-                    ><i className="fa-solid fa-plus"></i>
-                    </button>
-                    <button className="box del-box"
-                            onClick={() => handleBoxDel('A')}
-                    ><i className="fa-solid fa-minus"></i>
-                    </button>
-                    {generateDivs('A')}
+                <button className="box add-box"
+                        onClick={() => handleBoxAdd('A')}
+                >
+                    <i className="fa-solid fa-plus"></i>
+                </button>
+                <button className="box del-box"
+                        onClick={() => handleBoxDel('A')}
+                >
+                    <i className="fa-solid fa-minus"></i>
+                </button>
+                {generateDivs('A')}
             </section>
             <section className="box-wrapper2">
-
-                    <button className="box add-box"
-                            onClick={() => handleBoxAdd('B')}
-                    ><i className="fa-solid fa-plus"></i>
-                    </button>
-                    <button className="box del-box"
-                            onClick={() => handleBoxDel('B')}
-                    ><i className="fa-solid fa-minus"></i>
-                    </button>
-                    {generateDivs('B')}
-
+                <button className="box add-box"
+                        onClick={() => handleBoxAdd('B')}
+                >
+                    <i className="fa-solid fa-plus"></i>
+                </button>
+                <button className="box del-box"
+                        onClick={() => handleBoxDel('B')}
+                >
+                    <i className="fa-solid fa-minus"></i>
+                </button>
+                {generateDivs('B')}
             </section>
         </div>
     );
@@ -171,6 +173,6 @@ BoxesChart.propTypes = {
     clinics: PropTypes.array,
     setClinics: PropTypes.func,
     setDocsId: PropTypes.func
-}
+};
 
 export default BoxesChart;

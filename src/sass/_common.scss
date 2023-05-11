@@ -1,44 +1,114 @@
-
-$primary-color: rgb(42, 54, 12);
+$primary-color: rgb(85, 85, 96);
 $font-color: rgba(255, 255, 255, 0.87);
+$primary-font: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+$secondary-font: 'Kanit', sans-serif;
 
-@mixin flex-center-col{
+#root {
+  box-sizing: border-box;
+  text-align: center;
+}
+
+:root {
+  font-family: $primary-font;
+  line-height: 1.5;
+  font-weight: 400;
+
+
+  color-scheme: light dark;
+  color: $font-color;
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0 auto;
+  box-sizing: border-box;
+  place-items: center;
+  min-height: 100vh;
+}
+
+a {
+  font-weight: 500;
+  color: $primary-color;
+  text-decoration: inherit;
+}
+
+a:hover, {
+  color: $primary-color;
+}
+
+h1 {
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: .6em .8em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin: .5rem
+}
+
+button:hover {
+  border-color: $primary-color;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@mixin flex-center-col {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-@mixin form-container{
+
+@mixin form-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 20px ;
+  margin-bottom: 20px;
 }
-@mixin input-style{
+
+@mixin input-style {
   padding: .6rem .8rem;
   text-align: justify;
   font-size: 1.1rem;
   border-radius: 8px;
-
 }
-@mixin box-shadow{
+
+@mixin box-shadow {
   border-radius: 15px;
   border: 1px solid transparent;
-  box-shadow: 10px 10px 300px 0px rgba(6,110,62,1);
+  box-shadow: 10px 10px 300px 0 rgba(6, 110, 62, 1);
 }
-@mixin form-btns{
+
+@mixin form-btns {
   position: relative;
   top: -10px;
 }
-@mixin legend-icon{
+
+@mixin legend-icon {
   text-shadow: 1px 1px 2px black;
   font-size: 2rem;
   padding: .5rem;
 }
-@mixin box-wrapper{
-  //border: 1px solid whitesmoke;
+
+@mixin box-wrapper {
   width: 70rem;
   height: auto;
   margin: auto;
@@ -46,5 +116,4 @@ $font-color: rgba(255, 255, 255, 0.87);
   align-items: center;
   justify-content: flex-start;
   transform: translatex(-10%);
-
 }
