@@ -37,4 +37,4 @@ Push your branch to your forked repository.
 Submit a pull request to the original repository.
 
 ## Disclaimer 
-This is till work in progress :)
+This is still work in progress :)
