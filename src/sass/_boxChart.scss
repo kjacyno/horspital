@@ -60,12 +60,7 @@
   font-style: italic;
   margin-top: 0;
   margin-bottom: .2rem;
-  border: transparent;
   border-radius: 5px;
-
-  &:hover {
-    border-color: $primary-color;
-  }
 
   & p {
     margin: 0;
