@@ -38,7 +38,14 @@
     margin: 0.5rem;
   }
 }
-
+.error {
+  border-bottom: 1.5px solid red;
+}
+.error-message{
+  color: red;
+  font-size: .9rem;
+  margin-top: 0;
+}
 
 .animated-box {
   -webkit-animation: slide-out-bck-center 500ms ease-in both;

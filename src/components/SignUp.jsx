@@ -1,62 +1,97 @@
 import PropTypes from 'prop-types'
 import {useState} from "react";
-import {createNewUser} from "../database/usersData.js";
+import {createNewUser} from "../firebase/usersData.js";
+import {useForm} from "react-hook-form";
 
-function SignUp({user, setUser}) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [login, setLogin] = useState('');
+function SignUp({setUser, user}) {
     const [isActive, setIsActive] = useState(false);
 
-    async function handleNewUser(event) {
-        event.preventDefault();
-        await createNewUser(
-            {
-                displayName: login
-            },
-            setUser, user, login, email, password
-        );
-    }
-
-    const handleToggle = () => {
-        const hasValidInput = login && email.includes("@") && password;
-        const hasUppercaseLetter = /[A-Z]/.test(password);
-        const hasNumber = /\d/.test(password);
-
-        if (hasValidInput && hasUppercaseLetter && hasNumber) {
-            setIsActive(!isActive);
+    const {register, handleSubmit, getValues, watch, formState: {errors}} = useForm({
+        defaultValues: {
+            name: '',
+            email: '',
+            login: '',
         }
+    });
+
+    async function handleNewUser() {
+        const email = getValues('email');
+        const password = getValues('password');
+        const login = getValues('login')
+        try {
+            await createNewUser(
+                {
+                    displayName: login
+                },
+                setUser, user, login, email, password
+            );
+            setIsActive(!isActive);
+        } catch (error) {
+            if (error.code === 'auth/email-already-in-use') {
+                alert('This e-mail is already registered')
+            }
+        }
+
     }
+
+
     return (
         <section className="login-page">
             <div></div>
             <div className="login-box">
-                <form onSubmit={handleNewUser}
+                <form onSubmit={handleSubmit(handleNewUser)}
                       className={isActive ? 'animated-box' : 'login-form'}>
                     <label htmlFor="login">SET UP YOUR ACCOUNT</label>
                     <input
                         type="text"
-                        value={login}
+                        {...register('login', {
+                            required: 'Tell us your name/nick',
+                        })}
                         id='login'
                         name='login'
-                        onChange={(event) => setLogin(event.target.value)}
                         placeholder='Your name/nick'
                     />
+                    <p className='error-message'>{errors.login?.message}</p>
                     <label htmlFor="email"></label>
                     <input type="email"
-                           value={email}
-                           id='email'
+                           {...register('email', {
+                               required: 'E-mail is not correct',
+                               pattern: {
+                                   value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                                   message: 'E-mail is not correct'
+                               }
+                           })}
+                           id="email"
                            placeholder='E-mail'
-                           onChange={(event) => setEmail(event.target.value)}
+                           className={errors.email?.message ? 'error' : ''}
                     />
+                    <p className='error-message'>{errors.email?.message}</p>
+
                     <label htmlFor="password"></label>
                     <input type="password"
+                           {...register('password', {
+                               required: 'Set up your password', minLength: {
+                                   value: 6,
+                                   message: 'Min. length = 6 characters'
+                               }
+                           })}
+                           className={errors.password?.message ? 'error' : ''}
                            id='password'
-                           value={password}
                            placeholder='Password'
-                           onChange={(event) => setPassword(event.target.value)}
                     />
-                    <button type='submit' onClick={handleToggle}>Done</button>
+                    <p className='error-message'>{errors.password?.message}</p>
+
+                    <label htmlFor="password"></label>
+                    <input type="password"
+                           {...register('confirm', {
+                               required: 'Confirm password',
+                               validate: (value) => value === watch("password") || "Password have to match"
+                           })}
+                           id='confirm'
+                           placeholder='Confirm password'
+                    />
+                    <p className='error-message'>{errors.confirm?.message}</p>
+                    <button type='submit'>Done</button>
                 </form>
             </div>
             <div></div>

@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import '../sass/main.scss'
-import {logOut} from "../database/usersData.js";
+import {logOut} from "../firebase/usersData.js";
 
 
 function Header({user, setUser}) {
@@ -31,14 +31,14 @@ function Header({user, setUser}) {
             </div>
             <div className="user-icon">
                 {user && <div>
-                    <i className="fa-solid fa-hospital-user">
                         <Button
                             id="basic-button"
                             aria-controls={open ? 'basic-menu' : undefined}
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
                             onClick={handleClick}
-                        >
+                        >                    <i className="fa-solid fa-hospital-user"/>
+
                             <h2>Hi, {user.displayName}.</h2>
                         </Button>
                         <Menu
@@ -54,7 +54,6 @@ function Header({user, setUser}) {
                                 Logout
                             </MenuItem>
                         </Menu>
-                    </i>
                 </div>
                 }
             </div>

@@ -3,7 +3,7 @@ import SignUp from "./SignUp.jsx";
 import Login from "./Login.jsx";
 import PropTypes from "prop-types";
 
-function LandingPage({user, setUser}) {
+function LandingPage({setUser}) {
     const [signUp, setSignUp] = useState(false);
     const [login, setLogin] = useState(false);
 
@@ -21,7 +21,6 @@ function LandingPage({user, setUser}) {
                         Back
                     </button>
                     <SignUp
-                        user={user}
                         setUser={setUser}
                     />
                 </>

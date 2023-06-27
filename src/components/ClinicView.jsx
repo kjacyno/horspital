@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {addClinic, deleteClinic, queryForClinics, updateClinic} from "../database/firestoreData.js";
+import {addClinic, deleteClinic, queryForClinics, updateClinic} from "../firebase/firestoreData.js";
 import BoxesChart from "./BoxesChart.jsx";
 
 function ClinicView() {
@@ -10,13 +10,14 @@ function ClinicView() {
     const [newClinic, setNewClinic] = useState('');
     const [editClinic, setEditClinic] = useState('');
 
+
     useEffect(() => {
         async function fetchData() {
             await queryForClinics(setClinics, setDocsId);
         }
-
         fetchData();
-    }, [setClinics]);
+    }, [clinics]);
+
 
     async function handleAddClinic(event) {
         event.preventDefault();
@@ -25,7 +26,7 @@ function ClinicView() {
                 name: newClinic,
                 createdAt: new Date(),
                 boxData: {A: 0, B: 0},
-                boxStatus: {A: 0},
+                boxStatus: {A: ''},
             }, setNewClinic);
             setSelected('');
 

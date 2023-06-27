@@ -11,7 +11,6 @@ import Footer from "./components/Footer.jsx";
 
 
 function App() {
-
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -47,11 +46,12 @@ function App() {
                 <Grid xs={12} sm={6}>
                     <div>
                         {user ? (
-                                <ClinicView/>
+                                <ClinicView
+                                user={user}
+                                />
                             )
                             : (
                                 <LandingPage
-                                    user={user}
                                     setUser={setUser}
                                 />
                             )

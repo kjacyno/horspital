@@ -1,50 +1,74 @@
-import {signIn} from "../database/usersData.js";
+import {signIn} from "../firebase/usersData.js";
 import {useState} from "react";
+import {useForm} from "react-hook-form";
 import PropTypes from "prop-types";
 
 function Login({setUser}) {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('')
+
     const [isActive, setIsActive] = useState(false)
+    const {register, handleSubmit, getValues, formState: {errors}} = useForm({
+        defaultValues: {
+            email: '',
+            password: '',
+        }
+    });
 
-    async function handleUserLogin(event) {
-        event.preventDefault();
-        await signIn(email, password, setUser)
-    }
-
-    const handleToggle = () => {
-        const hasValidInput = email.includes("@") && password;
-        const hasUppercaseLetter = /[A-Z]/.test(password);
-        const hasNumber = /\d/.test(password);
-
-        if (hasValidInput && hasUppercaseLetter && hasNumber) {
+    async function handleUserLogin() {
+        const email = getValues('email');
+        const password = getValues('password')
+        try{
+            await signIn(email, password, setUser);
             setIsActive(!isActive);
         }
-    };
+        catch (error){
+            if (error.code === 'auth/wrong-password') {
+                alert('Password is incorrect')
+            } else if (error.code === 'auth/too-many-requests') {
+                alert('Too many attempts, try again later')
+            } else if (error.code === 'auth/invalid-email'){
+                alert('The e-mail is not recognized')
+            } else if (error.code === 'auth/user-not-found'){
+                alert('User not found')
+            }
+        }
+    }
 
     return (
         <section className="login-page">
             <div></div>
             <div className="login-box">
                 <form
-                    onSubmit={handleUserLogin}
+                    onSubmit={handleSubmit(handleUserLogin)}
                     className={isActive ? 'animated-box' : 'login-form'}>
                     <label htmlFor="email">LOG IN</label>
                     <input type="email"
-                           value={email}
+                           {...register('email', {
+                               required: 'The e-mail is incorrect',
+                               pattern: {
+                                   value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                                   message: 'The e-mail is incorrect'
+                               }
+                           })}
                            id='email'
                            placeholder='E-mail'
-                           onChange={(event) => setEmail(event.target.value)}
+                           className={errors.email?.message ? 'error' : ''}
                     />
+                    <p className='error-message'>{errors.email?.message}</p>
                     <label htmlFor="pwd"></label>
                     <input type="password"
+                           {...register('password', {
+                               required: 'Enter your password', minLength: {
+                                   value: 6,
+                                   message: 'Min. length = 6 characters'
+                               }
+                           })}
                            id='pwd'
-                           value={password}
                            placeholder='Password'
-                           onChange={(event) => setPassword(event.target.value)}
+                           className={errors.password?.message ? 'error' : ''}
                     />
+                    <p className='error-message'>{errors.password?.message}</p>
                     <button type='submit'
-                            onClick={handleToggle}>
+                            >
                         OK
                     </button>
                 </form>

@@ -6,17 +6,21 @@ header {
   justify-content: space-between;
   padding: 1rem;
 
-  & .fa-solid.fa-hospital-user {
+  .fa-solid.fa-hospital-user {
     font-size: 3rem;
-    padding: 1rem 0;
-
-    & #basic-button {
+    margin-right: 1rem;
+    text-decoration: none;
+    color: $font-color;
+  }
+    #basic-button {
       outline: none;
       padding: 0;
+      &:focus{
+        outline: none;
+      }
     }
-  }
 
-  & .fa-house-medical {
+  .fa-house-medical {
     margin-right: 1rem;
   }
 
@@ -39,8 +43,26 @@ header {
   flex-direction: column;
 }
 
+
+#basic-menu > div.MuiPaper-root.MuiMenu-paper.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper.css-1ka5eyc-MuiPaper-root-MuiMenu-paper-MuiPopover-paper{
+  background-color: transparent;
+
+}
+
 #logout {
+
+  border-radius: 5px;
+  border: 1px solid transparent;
+  padding: .6em .8em;
+  color: $font-color;
+  font-size: 1em;
+  font-weight: 500;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  margin: .5rem;
   font-family: $primary-font;
+
 }
 
 @media screen and (max-width: 600px) {
@@ -68,7 +90,6 @@ header {
     }
 
     & .fa-hospital-user {
-      font-size: 2rem;
-    }
+display: none    }
   }
 }

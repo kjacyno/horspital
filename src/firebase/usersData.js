@@ -1,27 +1,23 @@
-import {
-    createUserWithEmailAndPassword,
-    updateProfile,
-    signOut,
-    signInWithEmailAndPassword
-} from "firebase/auth";
-import {auth} from '../firebase/index.js'
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import {auth} from '/src/firebase/index.js'
 
 export async function createNewUser(data, setUser, user, login, email, password) {
-
-    if (login.trim() && email.trim() && password.trim() !== '') {
-
+    if (login && email && password) {
         await createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                updateProfile(user, data);
                 setUser(user);
+                updateProfile(user, data);
+                console.log(user)
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
                 console.error(errorCode, errorMessage);
+                throw error
             });
         setUser({...user, displayName: login});
+
     }
 }
 
@@ -34,8 +30,8 @@ export async function signIn(email, password, setUser) {
         })
         .catch((error) => {
             const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error(errorCode, errorMessage);
+            console.error(errorCode);
+            throw error
         });
 }
 

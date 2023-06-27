@@ -1,22 +1,24 @@
 import {useEffect, useState} from "react";
-import {getBoxesByClinicId, updateClinicBoxData} from "../database/firestoreData.js";
+import {getBoxesByClinicId, updateClinicBoxData} from "../firebase/firestoreData.js";
 import PropTypes from "prop-types";
 import BoxDialog from "./BoxDialog.jsx";
 
 function BoxesChart({clinicId}) {
-    const [boxData, setBoxData] = useState({});
     const [showModal, setShowModal] = useState({});
-    const [selectedStatus, setSelectedStatus] = useState({[clinicId]: {}});
+    const [boxData, setBoxData] = useState({A: 0, B: 0});
+    const [boxStatus, setBoxStatus] = useState({A: '', B: ''});
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const result = await getBoxesByClinicId(clinicId);
-                if (result && result.boxData) {
-                    setBoxData(result.boxData);
-                }
-                if (result && result.boxStatus) {
-                    setSelectedStatus({[clinicId]: result.boxStatus});
+                if (clinicId) {
+                    const response = await getBoxesByClinicId(clinicId);
+                    console.log(response)
+                    const boxData = response ? response.boxData : { A: 0, B: 0 };
+                    const boxStatus = response ? response.boxStatus: { A: '', B: '' };
+
+                    setBoxData(boxData);
+                    setBoxStatus(boxStatus);
                 }
             } catch (error) {
                 console.error(error);
@@ -30,30 +32,31 @@ function BoxesChart({clinicId}) {
         const fetchStatus = async () => {
             if (clinicId) {
                 try {
-                    await updateClinicBoxData(clinicId, boxData, selectedStatus[clinicId]);
+                    await updateClinicBoxData(clinicId, boxData, boxStatus).then(() => {
+                        console.log('update do box data przeslany', boxStatus)
+                        console.log(boxStatus)
+                    })
                 } catch (error) {
-                    console.log(error)
+                    console.log(error);
                 }
             }
         };
         fetchStatus();
-    }, [selectedStatus]);
+    }, [boxStatus]);
 
     const handleBoxAdd = async (rowSymbol) => {
+        console.log(boxData)
         const newBoxData = {
             ...boxData,
             [rowSymbol]: (boxData[rowSymbol] || 0) + 1
         };
         setBoxData(newBoxData);
-        setSelectedStatus((prevStatus) => ({
+        setBoxStatus((prevStatus) => ({
             ...prevStatus,
-            [clinicId]: {
-                ...prevStatus[clinicId],
                 [`${rowSymbol}-${newBoxData[rowSymbol] - 1}`]: ""
-            }
         }));
 
-        await updateClinicBoxData(clinicId, newBoxData, selectedStatus[clinicId]);
+        await updateClinicBoxData(clinicId, newBoxData, boxStatus);
     };
 
     const handleBoxDel = async (rowSymbol, boxIndex) => {
@@ -63,12 +66,12 @@ function BoxesChart({clinicId}) {
         };
         setBoxData(newBoxData);
 
-        setSelectedStatus((prevStatus) => {
+        setBoxStatus((prevStatus) => {
             const updatedStatus = {...prevStatus};
-            delete updatedStatus[clinicId][`${rowSymbol}-${boxIndex}`];
+            delete updatedStatus[`${rowSymbol}-${boxIndex}`];
             return updatedStatus;
         });
-        await updateClinicBoxData(clinicId, newBoxData, selectedStatus[clinicId]);
+        await updateClinicBoxData(clinicId, newBoxData, boxStatus);
     };
 
     const toggleShowModal = async (rowSymbol, boxIndex) => {
@@ -79,7 +82,7 @@ function BoxesChart({clinicId}) {
         ));
     };
 
-    const boxStatus = [
+    const boxStatusIcon = [
         {name: "occupied", icon: <i key="occupied" className="fa-solid fa-horse-head"></i>},
         {name: "available", icon: <i key="available" className="fa-solid fa-house-circle-check"></i>},
         {name: "problematic", icon: <i key="problematic" className="fa-solid fa-house-circle-exclamation"></i>},
@@ -90,15 +93,15 @@ function BoxesChart({clinicId}) {
         for (let i = 0; i < boxData[rowSymbol]; i++) {
             divs.push(
                 <div key={i} className="box">
-                    {selectedStatus[clinicId]?.[`${rowSymbol}-${i}`] && (
+                    {boxStatus?.[`${rowSymbol}-${i}`] && (
                         <div className="box-icon">
-                            {selectedStatus[clinicId][`${rowSymbol}-${i}`] === "occupied" ? (
+                            {boxStatus[`${rowSymbol}-${i}`] === "occupied" ? (
                                 <i className="fa-solid fa-horse-head"></i>
-                            ) : selectedStatus[clinicId][`${rowSymbol}-${i}`] === "available" ? (
+                            ) : boxStatus[`${rowSymbol}-${i}`] === "available" ? (
                                 <i className="fa-solid fa-house-circle-check"></i>
-                            ) : selectedStatus[clinicId][`${rowSymbol}-${i}`] === "problematic" ? (
+                            ) : boxStatus[`${rowSymbol}-${i}`] === "problematic" ? (
                                 <i className="fa-solid fa-house-circle-exclamation"></i>
-                            ) : selectedStatus[clinicId][`${rowSymbol}-${i}`] === "outOfOrder" ? (
+                            ) : boxStatus[`${rowSymbol}-${i}`] === "outOfOrder" ? (
                                 <i className="fa-solid fa-circle-radiation"></i>
                             ) : null}
                         </div>
@@ -116,14 +119,12 @@ function BoxesChart({clinicId}) {
                         show={showModal[`${rowSymbol}-${i}`]}
                         toggleShow={() =>
                             toggleShowModal(rowSymbol, i)}
-                        status={boxStatus}
+                        status={boxStatusIcon}
                         setSelectedStatus={(status) =>
-                            setSelectedStatus((prevStatus) => ({
+                            setBoxStatus((prevStatus) => ({
                                 ...prevStatus,
-                                [clinicId]: {
-                                    ...prevStatus[clinicId],
                                     [`${rowSymbol}-${i}`]: status,
-                                }
+
                             }))
                         }
                         open={open}
