@@ -1,7 +1,7 @@
-import {signIn} from "../firebase/usersData.js";
+import PropTypes from "prop-types";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
-import PropTypes from "prop-types";
+import {signIn} from "../firebase/usersData.js";
 
 function Login({setUser}) {
 
@@ -16,18 +16,17 @@ function Login({setUser}) {
     async function handleUserLogin() {
         const email = getValues('email');
         const password = getValues('password')
-        try{
+        try {
             await signIn(email, password, setUser);
             setIsActive(!isActive);
-        }
-        catch (error){
+        } catch (error) {
             if (error.code === 'auth/wrong-password') {
                 alert('Password is incorrect')
             } else if (error.code === 'auth/too-many-requests') {
                 alert('Too many attempts, try again later')
-            } else if (error.code === 'auth/invalid-email'){
+            } else if (error.code === 'auth/invalid-email') {
                 alert('The e-mail is not recognized')
-            } else if (error.code === 'auth/user-not-found'){
+            } else if (error.code === 'auth/user-not-found') {
                 alert('User not found')
             }
         }
@@ -68,7 +67,7 @@ function Login({setUser}) {
                     />
                     <p className='error-message'>{errors.password?.message}</p>
                     <button type='submit'
-                            >
+                    >
                         OK
                     </button>
                 </form>

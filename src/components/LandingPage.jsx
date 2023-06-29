@@ -1,7 +1,7 @@
-import {useState} from "react";
-import SignUp from "./SignUp.jsx";
-import Login from "./Login.jsx";
 import PropTypes from "prop-types";
+import {useState} from "react";
+import Login from "./Login.jsx";
+import SignUp from "./SignUp.jsx";
 
 function LandingPage({setUser}) {
     const [signUp, setSignUp] = useState(false);

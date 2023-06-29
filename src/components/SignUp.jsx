@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import {useState} from "react";
-import {createNewUser} from "../firebase/usersData.js";
 import {useForm} from "react-hook-form";
+import {createNewUser} from "../firebase/usersData.js";
 
 function SignUp({setUser, user}) {
     const [isActive, setIsActive] = useState(false);

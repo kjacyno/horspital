@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import '../sass/main.scss'
+import PropTypes from "prop-types";
+import * as React from 'react';
 import {logOut} from "../firebase/usersData.js";
+import '../sass/main.scss'
 
 
 function Header({user, setUser}) {
@@ -31,29 +31,29 @@ function Header({user, setUser}) {
             </div>
             <div className="user-icon">
                 {user && <div>
-                        <Button
-                            id="basic-button"
-                            aria-controls={open ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
-                        >                    <i className="fa-solid fa-hospital-user"/>
+                    <Button
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                    > <i className="fa-solid fa-hospital-user"/>
 
-                            <h2>Hi, {user.displayName}.</h2>
-                        </Button>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleCloseNoLogout}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            <MenuItem id='logout' onClick={handleClose}>
-                                Logout
-                            </MenuItem>
-                        </Menu>
+                        <h2>Hi, {user.displayName}.</h2>
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleCloseNoLogout}
+                        MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                        }}
+                    >
+                        <MenuItem id='logout' onClick={handleClose}>
+                            Logout
+                        </MenuItem>
+                    </Menu>
                 </div>
                 }
             </div>

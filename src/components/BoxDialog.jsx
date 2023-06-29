@@ -1,8 +1,14 @@
 import PropTypes from "prop-types";
 import {Dialog} from "@mui/material";
 
-export default function BoxDialog({show, status, toggleShow, title, setSelectedStatus}) {
-    const boxStatusBtns = status.map((item, index) => (
+export default function BoxDialog({show, toggleShow, setSelectedStatus}) {
+    const status = [
+        {name: "occupied", icon: <i key="occupied" className="fa-solid fa-horse-head"></i>},
+        {name: "available", icon: <i key="available" className="fa-solid fa-house-circle-check"></i>},
+        {name: "problematic", icon: <i key="problematic" className="fa-solid fa-house-circle-exclamation"></i>},
+        {name: "outOfOrder", icon: <i key="outOfOrder" className="fa-solid fa-circle-radiation"></i>}
+    ];
+    const boxStatusIcon = status.map((item, index) => (
         <button onClick={() => {
             toggleShow();
             setSelectedStatus(item.name);
@@ -15,8 +21,8 @@ export default function BoxDialog({show, status, toggleShow, title, setSelectedS
     return (
         <Dialog className="dialog" onClose={toggleShow} open>
             <div className="dialog__content">
-                <p className="dialog__title">{title}</p>
-                <div className='box-statuses'>{boxStatusBtns}</div>
+                <p className="dialog__title">Set box status</p>
+                <div className='box-statuses'>{boxStatusIcon}</div>
                 <button onClick={() => {
                     toggleShow();
                     setSelectedStatus({})

@@ -1,6 +1,6 @@
+import PropTypes from "prop-types";
 import {useEffect, useState} from "react";
 import {getBoxesByClinicId, updateClinicBoxData} from "../firebase/firestoreData.js";
-import PropTypes from "prop-types";
 import BoxDialog from "./BoxDialog.jsx";
 
 function BoxesChart({clinicId}) {
@@ -9,14 +9,14 @@ function BoxesChart({clinicId}) {
     const [boxStatus, setBoxStatus] = useState({A: '', B: ''});
 
     useEffect(() => {
+        const controller = new AbortController();
+        const signal = controller.signal;
         const fetchData = async () => {
             try {
                 if (clinicId) {
-                    const response = await getBoxesByClinicId(clinicId);
-                    console.log(response)
-                    const boxData = response ? response.boxData : { A: 0, B: 0 };
-                    const boxStatus = response ? response.boxStatus: { A: '', B: '' };
-
+                    const response = await getBoxesByClinicId(clinicId, signal);
+                    const boxData = response ? response.boxData : {A: 0, B: 0};
+                    const boxStatus = response ? response.boxStatus : {A: '', B: ''};
                     setBoxData(boxData);
                     setBoxStatus(boxStatus);
                 }
@@ -26,26 +26,30 @@ function BoxesChart({clinicId}) {
         };
 
         fetchData();
+        return () => {
+            controller.abort();
+        };
     }, [clinicId]);
 
     useEffect(() => {
+        const controller = new AbortController();
+        const signal = controller.signal;
         const fetchStatus = async () => {
             if (clinicId) {
                 try {
-                    await updateClinicBoxData(clinicId, boxData, boxStatus).then(() => {
-                        console.log('update do box data przeslany', boxStatus)
-                        console.log(boxStatus)
-                    })
+                    await updateClinicBoxData(clinicId, boxData, boxStatus, signal)
                 } catch (error) {
                     console.log(error);
                 }
             }
         };
         fetchStatus();
+        return () => {
+            controller.abort();
+        };
     }, [boxStatus]);
 
     const handleBoxAdd = async (rowSymbol) => {
-        console.log(boxData)
         const newBoxData = {
             ...boxData,
             [rowSymbol]: (boxData[rowSymbol] || 0) + 1
@@ -53,7 +57,7 @@ function BoxesChart({clinicId}) {
         setBoxData(newBoxData);
         setBoxStatus((prevStatus) => ({
             ...prevStatus,
-                [`${rowSymbol}-${newBoxData[rowSymbol] - 1}`]: ""
+            [`${rowSymbol}-${newBoxData[rowSymbol] - 1}`]: ""
         }));
 
         await updateClinicBoxData(clinicId, newBoxData, boxStatus);
@@ -82,12 +86,6 @@ function BoxesChart({clinicId}) {
         ));
     };
 
-    const boxStatusIcon = [
-        {name: "occupied", icon: <i key="occupied" className="fa-solid fa-horse-head"></i>},
-        {name: "available", icon: <i key="available" className="fa-solid fa-house-circle-check"></i>},
-        {name: "problematic", icon: <i key="problematic" className="fa-solid fa-house-circle-exclamation"></i>},
-        {name: "outOfOrder", icon: <i key="outOfOrder" className="fa-solid fa-circle-radiation"></i>}
-    ];
     const generateDivs = (rowSymbol) => {
         const divs = [];
         for (let i = 0; i < boxData[rowSymbol]; i++) {
@@ -96,7 +94,10 @@ function BoxesChart({clinicId}) {
                     {boxStatus?.[`${rowSymbol}-${i}`] && (
                         <div className="box-icon">
                             {boxStatus[`${rowSymbol}-${i}`] === "occupied" ? (
-                                <i className="fa-solid fa-horse-head"></i>
+                                <i className="fa-solid fa-horse-head"
+                                   onClick={() => {
+                                    toggleShowModal(rowSymbol, i);
+                                }}></i>
                             ) : boxStatus[`${rowSymbol}-${i}`] === "available" ? (
                                 <i className="fa-solid fa-house-circle-check"></i>
                             ) : boxStatus[`${rowSymbol}-${i}`] === "problematic" ? (
@@ -115,16 +116,13 @@ function BoxesChart({clinicId}) {
                         <p>{rowSymbol}&nbsp;-&nbsp;{i}</p>
                     </button>
                     <BoxDialog
-                        title={'Set box status'}
                         show={showModal[`${rowSymbol}-${i}`]}
                         toggleShow={() =>
                             toggleShowModal(rowSymbol, i)}
-                        status={boxStatusIcon}
                         setSelectedStatus={(status) =>
                             setBoxStatus((prevStatus) => ({
                                 ...prevStatus,
-                                    [`${rowSymbol}-${i}`]: status,
-
+                                [`${rowSymbol}-${i}`]: status,
                             }))
                         }
                         open={open}

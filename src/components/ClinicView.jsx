@@ -12,11 +12,17 @@ function ClinicView() {
 
 
     useEffect(() => {
+        const controller = new AbortController();
+        const signal = controller.signal;
         async function fetchData() {
-            await queryForClinics(setClinics, setDocsId);
+            await queryForClinics(setClinics, setDocsId, signal);
         }
-        fetchData();
-    }, [clinics]);
+
+         fetchData();
+        return () => {
+            controller.abort();
+        };
+    }, []);
 
 
     async function handleAddClinic(event) {
@@ -29,7 +35,6 @@ function ClinicView() {
                 boxStatus: {A: ''},
             }, setNewClinic);
             setSelected('');
-
             await queryForClinics(setClinics, setDocsId);
             setIsEdited(false);
         }
@@ -37,10 +42,8 @@ function ClinicView() {
 
     async function handleDeleteClinic(toDelete) {
         await deleteClinic(toDelete);
-
         setClinics(clinics.filter((clinic) => clinic.id !== toDelete));
         setSelected('');
-
         await queryForClinics(setClinics, setDocsId);
     }
 
@@ -48,11 +51,9 @@ function ClinicView() {
         if (editClinic.trim() !== '') {
             await updateClinic(toEdit, editClinic);
             const clinicUpdate = clinics.map((clinic) => clinic === selected ? editClinic : clinic);
-
             setClinics([...clinics, clinicUpdate]);
             setEditClinic('');
             setIsEdited(!isEdited);
-
             await queryForClinics(setClinics, setDocsId);
         }
     }
