@@ -31,6 +31,7 @@
 
 .box-wrapper1 {
   @include box-wrapper;
+  margin-bottom: 2rem;
 }
 
 .box-wrapper2 {
@@ -54,7 +55,9 @@
     padding: 0 0 .5rem 0;
   }
 }
-
+.box-icon-modal{
+  cursor: pointer;
+}
 .box-info-btn {
   font-size: .7rem;
   font-style: italic;
@@ -107,7 +110,7 @@
     padding: 0;
     transform: rotate(90deg);
     position: absolute;
-    top: 70rem;
+    top: 72rem;
     left: -29rem;
   }
 
@@ -116,7 +119,7 @@
     padding: 0;
     transform: rotate(90deg);
     position: absolute;
-    top: 70rem;
+    top: 72rem;
     left: -19rem;
   }
 

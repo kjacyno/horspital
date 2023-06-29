@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import {Dialog} from "@mui/material";
 
 export default function BoxDialog({show, toggleShow, setSelectedStatus}) {
+
     const status = [
         {name: "occupied", icon: <i key="occupied" className="fa-solid fa-horse-head"></i>},
         {name: "available", icon: <i key="available" className="fa-solid fa-house-circle-check"></i>},
@@ -19,7 +20,7 @@ export default function BoxDialog({show, toggleShow, setSelectedStatus}) {
     }
 
     return (
-        <Dialog className="dialog" onClose={toggleShow} open>
+        <Dialog className="dialog" onClose={toggleShow} open={open} >
             <div className="dialog__content">
                 <p className="dialog__title">Set box status</p>
                 <div className='box-statuses'>{boxStatusIcon}</div>
