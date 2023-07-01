@@ -2,12 +2,11 @@
 
 .clinics {
   margin: 0 auto;
-  border: 2px solid white;
   padding: 10px;
   text-align: center;
+  background-color: transparent;
   @include flex-center-col;
-  border-radius: 10px;;
-  @include box-shadow
+  //@include box-shadow
 }
 
 .clinic-select, .clinic-form {
@@ -69,4 +68,14 @@ select:required:invalid {
 
 option[value=""][disabled] {
   display: none;
+}
+@media screen and (max-width: 600px) {
+.clinics{
+width: 100%;
+  border-radius: 0;
+}
+  .MuiContainer-root{
+    padding: 0;
+    margin: 0 auto;
+  }
 }

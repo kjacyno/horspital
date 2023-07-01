@@ -13,6 +13,8 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.12.2",
+    "@mui/x-date-pickers": "^6.9.1",
+    "dayjs": "^1.11.8",
     "firebase": "^9.20.0",
     "jsx-to-string": "^1.4.0",
     "prop-types": "^15.8.1",

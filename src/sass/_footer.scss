@@ -4,18 +4,19 @@ footer {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 1rem 0;
+  padding: 1rem 6rem;
   font-family: $primary-font;
   margin-top: 10rem;
 
   & p {
     font-family: $primary-font;
     margin: 0;
-    color: $primary-color;
+    color: $font-color;
   }
 
   & a[href] {
     font-family: $secondary-font;
+    color: $font-color;
     text-shadow: 0 0 15px rgb(85, 85, 96);
     transition: text-shadow 300ms, color 300ms;
   }

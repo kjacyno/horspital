@@ -1,20 +1,20 @@
 @import "common";
 
 .box-details {
-  width: 26vw;
-  height: auto;
+  width: auto;
   background-color: $font-color;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 
-  p{
+  p {
     margin: 0;
     align-self: center;
     font-size: 1.2rem;
   }
-  form{
+
+  form {
     margin-top: 1rem;
     width: 100%;
     display: flex;
@@ -22,30 +22,123 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    input, select{
-      width: 10rem;
+
+    #name, .sBtn-text {
+      cursor: pointer;
+      border-radius: 5px;
+      width: 43%;
       font-size: 1rem;
       position: absolute;
       left: 35%;
-      padding: .2rem;
-    }
-    label{
-      font-size: 1.1rem;
       padding: .4rem;
+      background-color: transparent;
+      border: 1px solid $primary-color;
+      color: $primary-color;
+    }
+.date-picker {
+  border-radius: 5px;
+  position: absolute;
+  left: 35%;
+  width: 60%;
+  input{
+    padding: 0.4rem;
+
+  }
+}
+    label {
+      font-size: 1.1rem;
+      padding: .6rem .4rem;
       display: flex;
       align-items: center;
       justify-content: flex-start;
     }
-    textarea{
-      width: 90%;
-      margin-left: 1rem;
+
+    textarea {
+      width: 100%;
       font-size: 1rem;
       position: relative;
       border-radius: 5px;
+      background-color: transparent;
+      border: 1px solid $primary-color;
+      color: $primary-color;
+      margin-top: 1rem;
+
     }
   }
-  button{
+
+  .submit-btn {
     align-self: center;
+  }
+
+  .select-menu {
+
+    .select-btn {
+      display: flex;
+      align-items: center;
+      font-size: 1.1rem;
+      width: 70%;
+
+      .sBtn-text {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid $primary-color;
+        text-align: center;
+        border-radius: 5px;
+
+        .fa-angle-down {
+          margin: 0;
+          margin-left: .2rem;
+          width: 20%;
+          height: auto;
+          transition: .3s;
+        }
+      }
+    }
+
+    .options {
+      position: absolute;
+      right: 12.5%;
+      top: 53%;
+      padding: 0 ;
+      background-color: $font-color;
+      z-index: 2;
+      width: 5rem;
+      margin: 0;
+      border: 1px solid $primary-color;
+      display: none;
+      border-radius: 5%;
+
+
+      .option {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        text-align: center;
+        width: 100%;
+        &:hover {
+          background-color: rgba(6, 110, 62, .2);
+        }
+        span {
+          padding: .2rem;
+          border-radius: 5%;
+
+
+
+        }
+      }
+    }
+  }
+  .select-menu.active {
+    .options {
+      display: block;
+    }
+    .fa-angle-down {
+      transform: rotate(180deg);
+      transition: .3s;
+    }
   }
 }
 
@@ -57,42 +150,58 @@
 }
 
 .btn-close {
-  padding: 0.5rem 0.7rem;
   background: #023b21;
   border-radius: 50%;
-  margin: 0;
+  margin-inline: 0;
 }
 
 @media screen and (max-width: 600px) {
-  .box-details  {
-   width: 15rem;
+  .dialog .box-dialog{
+    width: 100vw;
+    border-radius: 0;
+
+  }
+  .box-details {
+    width: auto;
     padding: .5rem;
-    p{
+
+    p {
       margin-top: .5rem;
     }
-    form{
-      width: 90%;
-      label{
+
+    form {
+      width: 100%;
+
+      label {
         font-size: 1rem;
         padding: .3rem;
         justify-content: flex-start;
+        margin-bottom: .5rem;
+
       }
-      input,select{
-        padding: .2rem;
-        font-size: .8rem;
-width: 50%;
-        left: 50%;
+.date-picker{
+  width: 50%;
+}
+      .date-picker-box{
+        width: 100%;
+      }
+      #name, .sBtn-text {
+        cursor: pointer;
+        border-radius: 5px;
+        width: 46%;
       }
 
     }
-    #notes{
+
+    #notes {
       width: 100%;
       font-size: .8rem;
-      margin-left: 1rem;
-
+      background-color: transparent;
+      border: 1px solid black;
+      color: black;
     }
   }
-  .flex{
+  .flex {
     width: 100%;
   }
 

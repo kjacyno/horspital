@@ -1,6 +1,23 @@
 import {Dialog} from "@mui/material";
+import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {DatePicker} from '@mui/x-date-pickers/DatePicker';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {useState} from "react";
+import 'dayjs/locale/de';
+
 
 export default function BoxDetailsDialog({show, title, toggleShow, boxStatus}) {
+    const [isOpen, setIsOpen] = useState(false)
+    const [selectedOption, setSelectedOption] = useState('')
+
+    const handleSelected = () => {
+
+    }
+    const handleOptionClick = (option) => {
+        handleSelected(option);
+        setSelectedOption(option);
+        setIsOpen(false);
+    }
 
     if (!show) {
         return <></>;
@@ -8,7 +25,17 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus}) {
 
     return (
 
-        <Dialog className="dialog" onClose={toggleShow} open={open}>
+        <Dialog className="dialog" onClose={toggleShow} open  sx={{
+                '& .MuiDialog-container': {
+                   width: '100vw',
+                    borderRadius: '0'
+                },
+            '& .MuiDialog-paper':{
+            width: '100%',
+            margin: '0',
+                borderRadius: '0'
+
+            }}}>
             <div className='box-details'>
 
                 <div className="flex">
@@ -19,23 +46,64 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus}) {
                 </div>
                 <p>Additional info for box {title}</p>
                 {boxStatus === 'occupied' ? (
-                    <form action="">
-                    <label>Date<input id='date' type="date"/></label>
-                    <label>Horse<input id='name' type="text" placeholder='name'/></label>
-                    <label>sex<select id="sex">
-                        <option value="mare">mare</option>
-                        <option value="stallion">stallion</option>
-                        <option value="gelding">gelding</option>
-                    </select>
-                    </label>
-                    <label><textarea rows='5' id='notes' placeholder='notes'/> </label>
-                </form> ) : (
+                        <form action="">
+                            <label>Check-in:
+
+                                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                                    <div className='date-picker'>
+                                    <DatePicker className='date-picker-box' sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            width: '100%',
+                                            border: '.5px solid black',
+                                        },
+                                        '@media screen and (max-width: 600px)': {
+                                            width: '70%',
+
+                                        },
+                                        '& .MuiTextField-root': {
+                                            width: '100%'
+                                        },
+                                        '& .MuiOutlinedInput-input':{
+                                            width: '95%',
+                                            border: 'none'
+                                        },
+                                        }}/>
+                                    </div>
+                                </LocalizationProvider>
+
+                            </label>
+                            <label>Horse:<input id='name' type="text" placeholder='name'/></label>
+                            <label>
+                                <div className={`select-menu ${isOpen ? 'active' : ''}`}>
+                                    <div className='select-btn' onClick={() => {
+                                        setIsOpen(!isOpen)
+                                    }}><p>Sex:</p>
+                                        {selectedOption ?
+                                            <span className='sBtn-text'>{selectedOption}
+                                                <i className="fa-solid fa-angle-down"></i></span>
+                                            : <span className='sBtn-text'>...
+                                <i className="fa-solid fa-angle-down"></i></span>
+                                        }</div>
+                                    <ul className="options">
+                                        <li className="option" onClick={() => {
+                                            handleOptionClick('mare')
+                                        }}><span className='option-text'>mare</span></li>
+                                        <li className="option" onClick={() => {
+                                            handleOptionClick('gelding')
+                                        }}><span className='option-text'>gelding</span></li>
+                                        <li className="option" onClick={() => {
+                                            handleOptionClick('stallion')
+                                        }}><span className='option-text'>stallion</span></li>
+                                    </ul>
+                                </div>
+                            </label>
+                            <textarea rows='5' id='notes' placeholder='notes'/>
+                        </form>) :
                     <form>
-                    <label><textarea rows='5' id='notes' placeholder='notes'/> </label>
+                       <textarea rows='5' id='notes' placeholder='notes'/>
                     </form>
-                )
                 }
-                <button type='submit'>Save</button>
+                <button type='submit' className='submit-btn'>Save</button>
             </div>
         </Dialog>
 

@@ -34,7 +34,15 @@ function App() {
     }
 
     return (
-        <Container maxWidth="lg">
+        <Container maxWidth='l' sx={{
+            '& .MuiContainer-root': {
+                backgroundColor: 'transparent'
+            },
+            '@media screen and (max-width: 600px)': {
+                padding: '2rem 0',
+                margin: '0 auto'
+            },
+        }}>
             <Header
                 user={user}
                 setUser={setUser}

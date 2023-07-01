@@ -4,7 +4,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1rem 5rem;
 
   .fa-solid.fa-hospital-user {
     font-size: 3rem;
@@ -67,10 +67,9 @@ header {
 
 @media screen and (max-width: 600px) {
   header {
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: baseline;
     padding: 0;
-
     & .logo {
       align-self: flex-start;
     }
