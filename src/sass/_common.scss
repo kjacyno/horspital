@@ -7,7 +7,10 @@ $secondary-font: 'Kanit', sans-serif;
 #root {
   box-sizing: border-box;
   text-align: center;
+  background: linear-gradient(180deg, rgba(5, 86, 49, 1) 4%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 60%, rgba(5, 86, 49, 1) 100%);
+
 }
+
 
 :root {
   font-family: $primary-font;
@@ -21,14 +24,20 @@ $secondary-font: 'Kanit', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  background: rgba(97,97,97,1);
-  background: -moz-linear-gradient(top, rgba(97,97,97,1) 0%, rgba(26,18,26,0.77) 13%, rgba(23,15,23,0.94) 36%, rgba(34,107,73,0.82) 100%);
-  background: -webkit-linear-gradient(top, rgba(97,97,97,1) 0%, rgba(26,18,26,0.77) 13%, rgba(23,15,23,0.94) 36%, rgba(34,107,73,0.82) 100%);
-  background: -o-linear-gradient(top, rgba(97,97,97,1) 0%, rgba(26,18,26,0.77) 13%, rgba(23,15,23,0.94) 36%, rgba(34,107,73,0.82) 100%);
-  background: -ms-linear-gradient(top, rgba(97,97,97,1) 0%, rgba(26,18,26,0.77) 13%, rgba(23,15,23,0.94) 36%, rgba(34,107,73,0.82) 100%);
-  background: linear-gradient(to bottom, rgba(97,97,97,1) 0%, rgba(26,18,26,0.77) 13%, rgba(23,15,23,0.94) 36%, rgba(34,107,73,0.82) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#616161', endColorstr='#226b49', GradientType=0 );
+  //background: linear-gradient(180deg, rgba(0, 0, 0, 1) 60%, rgba(5, 86, 49, 1) 100%);
+  //background: linear-gradient(180deg, rgba(5, 86, 49, 1) 4%, rgba(0, 0, 0, 1) 20%, rgba(0, 0, 0, 1) 60%, rgba(5, 86, 49, 1) 100%);
+  background-color: black;
+
+
 }
+@media screen and (max-width: 600px){
+  #root, body  {
+background-color: black;
+    background: linear-gradient(180deg, rgba(5, 86, 49, 1) 20%, rgba(0, 0, 0, 1) 40%);
+    background-repeat: no-repeat;
+
+
+  }}
 
 body {
   margin: 0 auto;

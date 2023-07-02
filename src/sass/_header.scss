@@ -15,8 +15,17 @@ header {
     #basic-button {
       outline: none;
       padding: 0;
+      box-shadow: none;
+      padding-inline: 1rem;
+
       &:focus{
         outline: none;
+      }
+      &:hover{
+       -webkit-box-shadow: 2px 2px 25px 0px rgba(6,110,62,1);
+        -moz-box-shadow: 2px 2px 25px 0px rgba(6,110,62,1);
+        box-shadow: 1px 1px 5px 0px rgba(6,110,62,1);
+        background-color: black;
       }
     }
 
