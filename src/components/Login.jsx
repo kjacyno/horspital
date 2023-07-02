@@ -66,7 +66,7 @@ function Login({setUser}) {
                            className={errors.password?.message ? 'error' : ''}
                     />
                     <p className='error-message'>{errors.password?.message}</p>
-                    <button type='submit'
+                    <button className='btn' type='submit'
                     >
                         OK
                     </button>

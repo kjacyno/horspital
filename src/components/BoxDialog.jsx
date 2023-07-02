@@ -34,7 +34,7 @@ export default function BoxDialog({show, toggleShow, setSelectedStatus}) {
             <div className="dialog__content">
                 <p className="dialog__title">Set box status</p>
                 <div className='box-statuses'>{boxStatusIcon}</div>
-                <button onClick={() => {
+                <button className='btn' onClick={() => {
                     toggleShow();
                     setSelectedStatus({})
                 }}>Clear

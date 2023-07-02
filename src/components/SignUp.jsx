@@ -91,7 +91,7 @@ function SignUp({setUser, user}) {
                            placeholder='Confirm password'
                     />
                     <p className='error-message'>{errors.confirm?.message}</p>
-                    <button type='submit'>Done</button>
+                    <button className='btn' type='submit'>Done</button>
                 </form>
             </div>
             <div></div>

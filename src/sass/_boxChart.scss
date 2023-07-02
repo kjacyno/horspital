@@ -46,8 +46,9 @@
   width: 6rem;
   height: 6rem;
   border: 1px solid whitesmoke;
-  border-radius: 6px;
+  border-radius: 4px;
   margin: .6rem;
+  padding: .8rem .4rem 0 .4rem;
 }
 
 .box {
@@ -118,7 +119,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 72rem;
-    left: -29rem;
+    left: -27.5rem;
   }
 
   .box-wrapper2 {
@@ -127,7 +128,7 @@
     transform: rotate(90deg);
     position: absolute;
     top: 72rem;
-    left: -19rem;
+    left: -17.5rem;
   }
 
   .box {

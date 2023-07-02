@@ -39,7 +39,7 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus}) {
             <div className='box-details'>
 
                 <div className="flex">
-                    <button className="btn-close" onClick={() => {
+                    <button className="btn btn-close" onClick={() => {
                         toggleShow()
                     }}>⨉
                     </button>
@@ -54,18 +54,24 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus}) {
                                     <DatePicker className='date-picker-box' sx={{
                                         '& .MuiOutlinedInput-root': {
                                             width: '100%',
-                                            border: '.5px solid black',
                                         },
                                         '@media screen and (max-width: 600px)': {
                                             width: '70%',
-
                                         },
                                         '& .MuiTextField-root': {
-                                            width: '100%'
+                                            maxWidth: '100%'
                                         },
                                         '& .MuiOutlinedInput-input':{
                                             width: '95%',
                                             border: 'none'
+                                        },
+                                        '& .MuiIconButton-root':{
+                                            '&:focus': {
+                                                outline: 'none',
+                                            },
+                                            '&:focus-visible': {
+                                                outline: 'none',
+                                            },
                                         },
                                         }}/>
                                     </div>
@@ -103,7 +109,7 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus}) {
                        <textarea rows='5' id='notes' placeholder='notes'/>
                     </form>
                 }
-                <button type='submit' className='submit-btn'>Save</button>
+                <button type='submit' className='btn submit-btn'>Save</button>
             </div>
         </Dialog>
 

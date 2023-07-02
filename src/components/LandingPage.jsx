@@ -17,7 +17,7 @@ function LandingPage({setUser}) {
                 <button onClick={() => setSignUp(!signUp)}>Sign Up</button>
             )}
             {signUp && (<>
-                    <button onClick={() => setSignUp(false)}>
+                    <button className='btn' onClick={() => setSignUp(false)}>
                         Back
                     </button>
                     <SignUp
@@ -27,7 +27,7 @@ function LandingPage({setUser}) {
             )
             }
             {login && (<>
-                <button onClick={() => setLogin(false)}>
+                <button className='btn' onClick={() => setLogin(false)}>
                     Back
                 </button>
                 <Login

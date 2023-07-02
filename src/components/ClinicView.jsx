@@ -87,13 +87,13 @@ function ClinicView() {
                     </div>
                     {selected && (
                         <div className='option-btns'>
-                            <button onClick={() => {
+                            <button className='btn' onClick={() => {
                                 setIsEdited(!isEdited);
                                 setEditClinic(clinics.find((clinic) => clinic.id === selected).name);
                             }}>
                                 {isEdited ? 'Cancel' : 'Edit'}
                             </button>
-                            <button onClick={() => handleDeleteClinic(selected)}>
+                            <button className='btn' onClick={() => handleDeleteClinic(selected)}>
                                 Delete
                             </button>
                         </div>
@@ -106,7 +106,7 @@ function ClinicView() {
                                 value={editClinic}
                                 onChange={(event) => setEditClinic(event.target.value)}
                             />
-                            <button onClick={() => handleEditClinic(selected)}>
+                            <button className='btn' onClick={() => handleEditClinic(selected)}>
                                 Save
                             </button>
                         </>
@@ -119,7 +119,7 @@ function ClinicView() {
                             value={newClinic}
                             onChange={(event) => setNewClinic(event.target.value)}
                         />
-                        <button type="submit">
+                        <button className='btn' type="submit">
                             Add
                         </button>
                     </div>

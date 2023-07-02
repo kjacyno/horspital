@@ -49,6 +49,18 @@ function Header({user, setUser}) {
                         MenuListProps={{
                             'aria-labelledby': 'basic-button',
                         }}
+                        sx={{
+                            '& .MuiMenuItem-root':{
+                                backgroundColor: 'transparent',
+                                webkitBoxShadow: '1px 1px 5px 0px rgba(6,110,62,1)',
+                                mozBoxShadow: '1px 1px 5px 0px rgba(6,110,62,1)',
+                                boxShadow: '1px 1px 5px 0px rgba(6,110,62,1)'
+                            },
+                            '& .MuiPopover-paper':{
+                                backgroundColor: 'transparent'
+
+                            }
+                        }}
                     >
                         <MenuItem id='logout' onClick={handleClose}>
                             Logout

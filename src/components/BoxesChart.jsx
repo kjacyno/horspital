@@ -118,7 +118,7 @@ function BoxesChart({clinicId}) {
                         </div>
                     )}
                     <button
-                        className="box-info-btn"
+                        className="btn box-info-btn"
                         onClick={() => {
                             toggleShowModal(rowSymbol, i);
                         }}
@@ -155,12 +155,12 @@ function BoxesChart({clinicId}) {
     return (
         <div className='box-sections'>
             <section className="box-wrapper1">
-                <button className="box add-box"
+                <button className="btn box add-box"
                         onClick={() => handleBoxAdd('A')}
                 >
                     <i className="fa-solid fa-plus"></i>
                 </button>
-                <button className="box del-box"
+                <button className="btn box del-box"
                         onClick={() => handleBoxDel('A')}
                 >
                     <i className="fa-solid fa-minus"></i>
@@ -168,12 +168,12 @@ function BoxesChart({clinicId}) {
                 {generateDivs('A')}
             </section>
             <section className="box-wrapper2">
-                <button className="box add-box"
+                <button className="btn box add-box"
                         onClick={() => handleBoxAdd('B')}
                 >
                     <i className="fa-solid fa-plus"></i>
                 </button>
-                <button className="box del-box"
+                <button className="btn box del-box"
                         onClick={() => handleBoxDel('B')}
                 >
                     <i className="fa-solid fa-minus"></i>
