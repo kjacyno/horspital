@@ -2,21 +2,24 @@
 
 .clinics {
   margin: 0 auto;
-  padding: 10px;
+  padding: 2rem 0;
   text-align: center;
   background-color: transparent;
   @include flex-center-col;
 }
 
-.clinic-select, .clinic-form {
+ .clinic-form {
   @include form-container
 }
-
+.clinic-select{
+  width: 100%;
+  margin-bottom: 20px;
+}
 select#clinic {
   margin-top: .6rem;
-  width: 85%;
-  padding: .8rem;
+  width: 100%;
   @include input-style;
+
 }
 
 label {
@@ -24,19 +27,7 @@ label {
   font-size: 1.5rem;
 }
 
-input {
-  @include input-style;
-  height: auto;
-  width: 80%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 
-.input-add {
-  @include flex-center-col;
-  width: 80%;
-}
 
 .clinic-add {
   width: 100%;
@@ -50,17 +41,29 @@ input {
   & button {
     margin-top: 1rem;
     padding-inline: 3rem;
-    width: 50%;
+    width: 25%;
   }
+   .input-add{
+    height: auto;
+     box-sizing: border-box;
+
+     @include input-style;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
 }
 
 .option-btns {
-  @include form-btns
+  @include form-btns;
+  padding: .6rem;
+  margin-top: 1rem;
 }
 
 .input-edit {
-  @include input-style;
-  width: 80%;
+  width: 100%;
 }
 
 select:required:invalid {
@@ -70,6 +73,10 @@ select:required:invalid {
 option[value=""][disabled] {
   display: none;
 }
+
+.box-container{
+  height: auto;
+}
 @media screen and (max-width: 600px) {
 .clinics{
 width: 100%;
@@ -78,5 +85,14 @@ width: 100%;
   .MuiContainer-root{
     padding: 0;
     margin: 0 auto;
+  }
+  .clinic-form {
+  width: 100%;
+    #clinic, .input-add{
+      width: 90%;
+    }
+  }
+  .clinic-add button{
+    width: 35%;
   }
 }

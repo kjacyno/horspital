@@ -1,13 +1,13 @@
-import './sass/main.scss'
-import {useEffect, useState} from "react";
-import ClinicView from "./components/ClinicView.jsx";
-import {getAuth, onAuthStateChanged} from "firebase/auth";
 import {Container} from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
+import {getAuth, onAuthStateChanged} from "firebase/auth";
+import {useEffect, useState} from "react";
+import horseShoeSVG from './assets/horse-shoe.svg'
+import ClinicView from "./components/ClinicView.jsx";
+import Footer from "./components/Footer.jsx";
 import Header from "./components/Header.jsx";
 import LandingPage from "./components/LandingPage.jsx";
-import horseShoeSVG from './assets/horse-shoe.svg'
-import Footer from "./components/Footer.jsx";
+import './sass/main.scss'
 
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
     }
 
     return (
-        <Container maxWidth='l' sx={{
+        <Container maxWidth='xl' sx={{
             '& .MuiContainer-root': {
                 backgroundColor: 'transparent'
             },
@@ -47,15 +47,15 @@ function App() {
                 user={user}
                 setUser={setUser}
             />
-            <Grid container spacing={1}>
+            <Grid container spacing={0}>
                 <Grid xs>
                     <div></div>
                 </Grid>
-                <Grid xs={12} sm={6}>
+                <Grid xs={12} >
                     <div>
                         {user ? (
                                 <ClinicView
-                                user={user}
+                                    user={user}
                                 />
                             )
                             : (

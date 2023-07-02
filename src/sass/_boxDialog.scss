@@ -8,7 +8,22 @@
   color: whitesmoke;
   background-color: #1a1a1a;
 }
+.dialog__cancel{
+  background-color: transparent;
+  border: transparent;
 
+}
+.box-statuses{
+  button{
+    transition: .2s;
+    padding: 1rem;
+    &:hover{
+      webkit-box-shadow: 1px 1px 5px 0px rgba(6,110,62,1);
+      -moz-box-shadow: 1px 1px 5px 0px rgba(6,110,62,1);
+      box-shadow: 1px 1px 5px 0px rgba(6,110,62,1);
+      background-color: transparent;
+    }}
+}
 .dialog .MuiDialog-paper {
   background-color: transparent;
   @include box-shadow;

@@ -11,10 +11,10 @@ function LandingPage({setUser}) {
         <section className='landing-box'>
             <h3>Welcome!</h3>
             {!signUp && (
-                <button onClick={() => setLogin(!login)}>Login</button>
+                <button className='btn' onClick={() => setLogin(!login)}>Login</button>
             )}
             {!login && (
-                <button onClick={() => setSignUp(!signUp)}>Sign Up</button>
+                <button className='btn' onClick={() => setSignUp(!signUp)}>Sign Up</button>
             )}
             {signUp && (<>
                     <button className='btn' onClick={() => setSignUp(false)}>
