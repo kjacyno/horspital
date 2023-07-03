@@ -99,17 +99,18 @@ function ClinicView() {
                         </div>
                     )}
                     {isEdited && (
-                        <>
+                        <div className='clinic-edit'>
                             <input
                                 className='input-edit'
                                 type='text'
                                 value={editClinic}
                                 onChange={(event) => setEditClinic(event.target.value)}
                             />
+                            <p>Click button below to save your changes!</p>
                             <button className='btn' onClick={() => handleEditClinic(selected)}>
                                 Save
                             </button>
-                        </>
+                        </div>
                     )}
                     <div className='clinic-add'>
                         <input

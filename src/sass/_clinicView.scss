@@ -61,9 +61,23 @@ label {
   padding: .6rem;
   margin-top: 1rem;
 }
-
-.input-edit {
+.clinic-edit{
   width: 100%;
+  @include flex-center-col;
+.input-edit {
+  @include input-style;
+  width: 100%;
+  box-sizing: border-box;
+}
+  p{
+    font-size: .8rem;
+    margin-bottom: 0;
+    padding: 0;
+    color: $primary-green-color;
+  }
+  button{
+    margin: .5rem 1rem 1rem;
+  }
 }
 
 select:required:invalid {

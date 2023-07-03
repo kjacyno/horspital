@@ -1,5 +1,5 @@
 $primary-color: rgb(85, 85, 96);
-$primary-green-color: rgba(6, 110, 62, 0.56);
+$primary-green-color: rgb(2, 148, 85);
 $font-color: rgb(255, 255, 255);
 $primary-font: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 $secondary-font: 'Kanit', sans-serif;
@@ -99,7 +99,7 @@ button:focus-visible {
 @mixin input-style {
   padding:  .8rem;
   font-size: 1.2rem;
-  text-align: left;
+  text-align: center;
 }
 
 @mixin box-shadow {
