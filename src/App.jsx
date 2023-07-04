@@ -1,18 +1,13 @@
 import {Container} from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
 import {getAuth, onAuthStateChanged} from "firebase/auth";
-import {useEffect, useState} from "react";
-import horseShoeSVG from './assets/horse-shoe.svg'
-import ClinicView from "./components/ClinicView.jsx";
-import Footer from "./components/Footer.jsx";
+import {lazy, Suspense, useEffect, useState} from "react";
+import horseShoeSVG from './assets/horse-shoe.svg';
 import Header from "./components/Header.jsx";
-import LandingPage from "./components/LandingPage.jsx";
-import './sass/main.scss'
-
+import './sass/main.scss';
 
 function App() {
     const [user, setUser] = useState({});
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const auth = getAuth();
@@ -23,54 +18,61 @@ function App() {
             } else {
                 setUser(null);
             }
-            setLoading(false);
         });
     }, []);
 
-    if (loading) {
-        return <div className="icon-loader">
-            <img src={horseShoeSVG} alt='loeader'/>
-        </div>
-    }
+    const Footer = lazy(() => import("./components/Footer.jsx"));
+    const ClinicView = lazy(() => import("./components/ClinicView.jsx"));
+    const LandingPage = lazy(() => import("./components/LandingPage.jsx"))
 
     return (
         <Container maxWidth='xl' sx={{
             '& .MuiContainer-root': {
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
+                height: '100%',
             },
             '@media screen and (max-width: 600px)': {
                 padding: '2rem 0',
                 margin: '0 auto'
             },
         }}>
-            <Header
-                user={user}
-                setUser={setUser}
-            />
-            <Grid container spacing={0}>
-                <Grid xs>
-                    <div></div>
+            <Suspense fallback={<div className="icon-loader">
+                <img src={horseShoeSVG} alt='loader'/>
+            </div>}>
+                <Header
+                    user={user}
+                    setUser={setUser}
+                />
+
+                <Grid container spacing={0}>
+                    <Grid xs>
+                        <div></div>
+                    </Grid>
+                    <Grid xs={12} sx={{
+                        height: '100vh',
+                    }}>
+                        <div>
+                            {user ? (
+                                    <ClinicView
+                                        user={user}
+                                    />
+                                )
+                                : (
+                                    <LandingPage
+                                        setUser={setUser}
+                                    />
+                                )
+                            }
+                        </div>
+                    </Grid>
+                    <Grid xs>
+
+                    </Grid>
+
                 </Grid>
-                <Grid xs={12} >
-                    <div>
-                        {user ? (
-                                <ClinicView
-                                    user={user}
-                                />
-                            )
-                            : (
-                                <LandingPage
-                                    setUser={setUser}
-                                />
-                            )
-                        }
-                    </div>
-                </Grid>
-                <Grid xs>
-                    <div></div>
-                </Grid>
-            </Grid>
-            <Footer/>
+                <Footer/>
+
+            </Suspense>
         </Container>
     )
 }
