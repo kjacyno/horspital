@@ -1,6 +1,9 @@
-import {useEffect, useState} from "react";
+import {lazy, Suspense, useEffect, useState} from "react";
 import {addClinic, deleteClinic, queryForClinics, updateClinic} from "../firebase/firestoreData.js";
-import BoxesChart from "./BoxesChart.jsx";
+// import BoxesChart from "./BoxesChart.jsx";
+import horseShoeSVG from '/src/assets/horse-shoe.svg'
+
+const BoxesChart = lazy(() => import("./BoxesChart.jsx"))
 
 function ClinicView() {
     const [clinics, setClinics] = useState([]);
@@ -16,6 +19,7 @@ function ClinicView() {
         const signal = controller.signal;
         async function fetchData() {
             await queryForClinics(setClinics, setDocsId, signal);
+
         }
 
          fetchData();
@@ -23,7 +27,6 @@ function ClinicView() {
             controller.abort();
         };
     }, []);
-
 
     async function handleAddClinic(event) {
         event.preventDefault();
@@ -133,9 +136,12 @@ function ClinicView() {
                 <p><i className="fa-solid fa-circle-radiation"></i>Out of order</p>
             </section>
             <section className='box-container'>
+                <Suspense fallback={<div className="icon-loader">
+                    <img src={horseShoeSVG} alt='loader'/>
+                </div>}>
                 <BoxesChart
                     clinicId={selected}
-                />
+                /></Suspense>
             </section>
         </>
     );

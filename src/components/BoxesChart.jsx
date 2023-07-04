@@ -1,9 +1,13 @@
 import PropTypes from "prop-types";
-import {useEffect, useState} from "react";
+import {lazy, Suspense, useEffect, useState} from "react";
 import {getBoxesByClinicId, updateClinicBoxData} from "../firebase/firestoreData.js";
-import BoxDetailsDialog from "./BoxDetailsDialog.jsx";
-import BoxDialog from "./BoxDialog.jsx";
+// import BoxDetailsDialog from "./BoxDetailsDialog.jsx";
+// import BoxDialog from "./BoxDialog.jsx";
+import horseShoeSVG from '/src/assets/horse-shoe.svg'
 
+
+const BoxDetailsDialog = lazy(() => import("./BoxDetailsDialog.jsx"));
+const BoxDialog = lazy(() => import("./BoxDialog.jsx"))
 function BoxesChart({clinicId}) {
     const [showModal, setShowModal] = useState({});
     const [boxData, setBoxData] = useState({A: 0, B: 0});
@@ -125,6 +129,9 @@ function BoxesChart({clinicId}) {
                     >
                         <p>{rowSymbol}&nbsp;-&nbsp;{i}</p>
                     </button>
+                    <Suspense fallback={<div className="icon-loader">
+                        <img src={horseShoeSVG} alt='loader'/>
+                    </div>}>
                     <BoxDialog
                         show={showModal[`${rowSymbol}-${i}`]}
                         toggleShow={() =>
@@ -143,7 +150,7 @@ function BoxesChart({clinicId}) {
                         title={`${rowSymbol}-${i}`}
                         toggleShow={() =>
                             toggleBoxDetails(rowSymbol, i)}
-                    />
+                    /></Suspense>
                 </div>
             );
         }

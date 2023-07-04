@@ -6,7 +6,6 @@ footer {
   justify-content: flex-end;
   padding: 1rem;
   font-family: $primary-font;
-  margin-top: 8rem;
 
   & p {
     font-family: $primary-font;
@@ -36,4 +35,10 @@ footer {
   footer {
     display: none;
   }
+}
+@media screen and (max-height: 600px){
+  footer{
+  margin-top: 5rem;
+  }
+
 }
