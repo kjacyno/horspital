@@ -25,17 +25,18 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus}) {
 
     return (
 
-        <Dialog className="dialog" onClose={toggleShow} open  sx={{
-                '& .MuiDialog-container': {
-                   width: '100vw',
-                    borderRadius: '0'
-                },
-            '& .MuiDialog-paper':{
-            width: '100%',
-            margin: '0',
+        <Dialog className="dialog" onClose={toggleShow} open sx={{
+            '& .MuiDialog-container': {
+                width: '100vw',
+                borderRadius: '0'
+            },
+            '& .MuiDialog-paper': {
+                width: '100%',
+                margin: '0',
                 borderRadius: '0'
 
-            }}}>
+            }
+        }}>
             <div className='box-details'>
 
                 <div className="flex">
@@ -51,28 +52,29 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus}) {
 
                                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                                     <div className='date-picker'>
-                                    <DatePicker className='date-picker-box' sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                            width: '100%',
-                                        },
-                                        '@media screen and (max-width: 600px)': {
-                                            width: '70%',
-                                        },
-                                        '& .MuiTextField-root': {
-                                            maxWidth: '100%'
-                                        },
-                                        '& .MuiOutlinedInput-input':{
-                                            width: '95%',
-                                            border: 'none'
-                                        },
-                                        '& .MuiIconButton-root':{
-                                            '&:focus': {
-                                                outline: 'none',
+                                        <DatePicker className='date-picker-box' sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                width: '100%',
+                                                borderRadius: '2px'
                                             },
-                                            '&:focus-visible': {
-                                                outline: 'none',
+                                            '@media screen and (max-width: 600px)': {
+                                                width: '70%',
                                             },
-                                        },
+                                            '& .MuiTextField-root': {
+                                                maxWidth: '100%'
+                                            },
+                                            '& .MuiOutlinedInput-input': {
+                                                width: '95%',
+                                                border: 'none'
+                                            },
+                                            '& .MuiIconButton-root': {
+                                                '&:focus': {
+                                                    outline: 'none',
+                                                },
+                                                '&:focus-visible': {
+                                                    outline: 'none',
+                                                },
+                                            },
                                         }}/>
                                     </div>
                                 </LocalizationProvider>
@@ -106,7 +108,7 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus}) {
                             <textarea rows='5' id='notes' placeholder='notes'/>
                         </form>) :
                     <form>
-                       <textarea rows='5' id='notes' placeholder='notes'/>
+                        <textarea rows='5' id='notes' placeholder='notes'/>
                     </form>
                 }
                 <button type='submit' className='btn submit-btn'>Save</button>

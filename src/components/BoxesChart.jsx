@@ -1,13 +1,11 @@
 import PropTypes from "prop-types";
 import {lazy, Suspense, useEffect, useState} from "react";
 import {getBoxesByClinicId, updateClinicBoxData} from "../firebase/firestoreData.js";
-// import BoxDetailsDialog from "./BoxDetailsDialog.jsx";
-// import BoxDialog from "./BoxDialog.jsx";
 import horseShoeSVG from '/src/assets/horse-shoe.svg'
-
 
 const BoxDetailsDialog = lazy(() => import("./BoxDetailsDialog.jsx"));
 const BoxDialog = lazy(() => import("./BoxDialog.jsx"))
+
 function BoxesChart({clinicId}) {
     const [showModal, setShowModal] = useState({});
     const [boxData, setBoxData] = useState({A: 0, B: 0});
@@ -108,16 +106,24 @@ function BoxesChart({clinicId}) {
                         <div className="box-icon">
                             {boxStatus[`${rowSymbol}-${i}`] === "occupied" ? (
                                 <i className="fa-solid fa-horse-head box-icon-modal"
-                                   onClick={() => {toggleBoxDetails(rowSymbol, i)}}></i>
+                                   onClick={() => {
+                                       toggleBoxDetails(rowSymbol, i)
+                                   }}></i>
                             ) : boxStatus[`${rowSymbol}-${i}`] === "available" ? (
                                 <i className="fa-solid fa-house-circle-check box-icon-modal"
-                                   onClick={() => {toggleBoxDetails(rowSymbol, i)}}></i>
+                                   onClick={() => {
+                                       toggleBoxDetails(rowSymbol, i)
+                                   }}></i>
                             ) : boxStatus[`${rowSymbol}-${i}`] === "problematic" ? (
                                 <i className="fa-solid fa-house-circle-exclamation box-icon-modal"
-                                   onClick={() => {toggleBoxDetails(rowSymbol, i)}}></i>
+                                   onClick={() => {
+                                       toggleBoxDetails(rowSymbol, i)
+                                   }}></i>
                             ) : boxStatus[`${rowSymbol}-${i}`] === "outOfOrder" ? (
                                 <i className="fa-solid fa-circle-radiation box-icon-modal"
-                                   onClick={() => {toggleBoxDetails(rowSymbol, i)}}></i>
+                                   onClick={() => {
+                                       toggleBoxDetails(rowSymbol, i)
+                                   }}></i>
                             ) : null}
                         </div>
                     )}
@@ -132,25 +138,25 @@ function BoxesChart({clinicId}) {
                     <Suspense fallback={<div className="icon-loader">
                         <img src={horseShoeSVG} alt='loader'/>
                     </div>}>
-                    <BoxDialog
-                        show={showModal[`${rowSymbol}-${i}`]}
-                        toggleShow={() =>
-                            toggleShowModal(rowSymbol, i)}
-                        setSelectedStatus={(status) =>
-                            setBoxStatus((prevStatus) => ({
-                                ...prevStatus,
-                                [`${rowSymbol}-${i}`]: status,
-                            }))
-                        }
-                        open={open}
-                    />
-                    <BoxDetailsDialog
-                        boxStatus={boxStatus[`${rowSymbol}-${i}`]}
-                        show={openBoxDetails[`${rowSymbol}-${i}`]}
-                        title={`${rowSymbol}-${i}`}
-                        toggleShow={() =>
-                            toggleBoxDetails(rowSymbol, i)}
-                    /></Suspense>
+                        <BoxDialog
+                            show={showModal[`${rowSymbol}-${i}`]}
+                            toggleShow={() =>
+                                toggleShowModal(rowSymbol, i)}
+                            setSelectedStatus={(status) =>
+                                setBoxStatus((prevStatus) => ({
+                                    ...prevStatus,
+                                    [`${rowSymbol}-${i}`]: status,
+                                }))
+                            }
+                            open={open}
+                        />
+                        <BoxDetailsDialog
+                            boxStatus={boxStatus[`${rowSymbol}-${i}`]}
+                            show={openBoxDetails[`${rowSymbol}-${i}`]}
+                            title={`${rowSymbol}-${i}`}
+                            toggleShow={() =>
+                                toggleBoxDetails(rowSymbol, i)}
+                        /></Suspense>
                 </div>
             );
         }

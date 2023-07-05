@@ -1,6 +1,5 @@
 import {lazy, Suspense, useEffect, useState} from "react";
 import {addClinic, deleteClinic, queryForClinics, updateClinic} from "../firebase/firestoreData.js";
-// import BoxesChart from "./BoxesChart.jsx";
 import horseShoeSVG from '/src/assets/horse-shoe.svg'
 
 const BoxesChart = lazy(() => import("./BoxesChart.jsx"))
@@ -17,12 +16,13 @@ function ClinicView() {
     useEffect(() => {
         const controller = new AbortController();
         const signal = controller.signal;
+
         async function fetchData() {
             await queryForClinics(setClinics, setDocsId, signal);
 
         }
 
-         fetchData();
+        fetchData();
         return () => {
             controller.abort();
         };
@@ -139,9 +139,9 @@ function ClinicView() {
                 <Suspense fallback={<div className="icon-loader">
                     <img src={horseShoeSVG} alt='loader'/>
                 </div>}>
-                <BoxesChart
-                    clinicId={selected}
-                /></Suspense>
+                    <BoxesChart
+                        clinicId={selected}
+                    /></Suspense>
             </section>
         </>
     );

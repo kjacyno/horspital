@@ -12,6 +12,10 @@
   position: absolute;
   width: 10rem;
   height: 10rem;
-  filter: drop-shadow(0px -25px 60px rgb(13, 231, 133));
-  -webkit-filter: drop-shadow(0px -25px 60px rgba(13, 231, 133, 1));
+  padding: 1rem 1rem 2rem 1rem;
+filter: drop-shadow(1px -4px 14px rgb(13, 231, 133)) brightness(120%);
+  -webkit-filter: drop-shadow(1px -4px 14px rgb(13, 231, 133)) brightness(120%);
 }
+
+
+

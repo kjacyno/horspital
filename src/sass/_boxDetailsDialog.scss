@@ -7,6 +7,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  border-radius: 2px;
+
 
   p {
     margin: 0;
@@ -25,7 +27,7 @@
 
     #name, .sBtn-text {
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 2px;
       width: 43%;
       font-size: 1rem;
       position: absolute;
@@ -36,7 +38,7 @@
       color: $primary-color;
     }
 .date-picker {
-  border-radius: 5px;
+  border-radius: 2px;
   position: absolute;
   left: 35%;
   width: 60%;
@@ -57,7 +59,7 @@
       width: 100%;
       font-size: 1rem;
       position: relative;
-      border-radius: 5px;
+      border-radius: 2px;
       background-color: transparent;
       border: 1px solid $primary-color;
       color: $primary-color;
@@ -84,7 +86,7 @@
         justify-content: space-between;
         border: 1px solid $primary-color;
         text-align: center;
-        border-radius: 5px;
+        border-radius: 2px;
 
         .fa-angle-down {
           margin: 0;
@@ -98,8 +100,8 @@
 
     .options {
       position: absolute;
-      right: 12.5%;
-      top: 53%;
+      right: 19.5%;
+      top: 56%;
       padding: 0 ;
       background-color: $font-color;
       z-index: 2;
@@ -107,7 +109,7 @@
       margin: 0;
       border: 1px solid $primary-color;
       display: none;
-      border-radius: 5%;
+      border-radius: 2px;
 
 
       .option {
@@ -123,10 +125,7 @@
         }
         span {
           padding: .2rem;
-          border-radius: 5%;
-
-
-
+          border-radius: 2px;
         }
       }
     }

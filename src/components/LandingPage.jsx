@@ -1,7 +1,5 @@
 import PropTypes from "prop-types";
 import {lazy, Suspense, useState} from "react";
-// import Login from "./Login.jsx";
-// import SignUp from "./SignUp.jsx";
 import horseShoeSVG from '/src/assets/horse-shoe.svg'
 
 const SignUp = lazy(() => import('./SignUp.jsx'));
@@ -27,9 +25,9 @@ function LandingPage({setUser}) {
                     <Suspense fallback={<div className="icon-loader">
                         <img src={horseShoeSVG} alt='loader'/>
                     </div>}>
-                    <SignUp
-                        setUser={setUser}
-                    /></Suspense>
+                        <SignUp
+                            setUser={setUser}
+                        /></Suspense>
                 </>
             )
             }

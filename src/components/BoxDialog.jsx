@@ -25,12 +25,13 @@ export default function BoxDialog({show, toggleShow, setSelectedStatus}) {
                 width: '100vw',
                 borderRadius: '0'
             },
-            '& .MuiDialog-paper':{
+            '& .MuiDialog-paper': {
                 width: '100%',
                 margin: '0',
                 borderRadius: '0'
 
-            }}}>
+            }
+        }}>
             <div className="dialog__content">
                 <p className="dialog__title">Set box status</p>
                 <div className='box-statuses'>{boxStatusIcon}</div>

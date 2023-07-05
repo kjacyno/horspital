@@ -1,11 +1,12 @@
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import PropTypes from "prop-types";
 import * as React from 'react';
+import {lazy} from 'react';
 import {logOut} from "../firebase/usersData.js";
 import '../sass/main.scss'
 
+const Button = lazy(() => import('@mui/material/Button'));
+const Menu = lazy(() => import('@mui/material/Menu'));
+const MenuItem = lazy(() => {'@mui/material/MenuItem'});
 
 function Header({user, setUser}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -50,13 +51,13 @@ function Header({user, setUser}) {
                             'aria-labelledby': 'basic-button',
                         }}
                         sx={{
-                            '& .MuiMenuItem-root':{
+                            '& .MuiMenuItem-root': {
                                 backgroundColor: 'transparent',
                                 webkitBoxShadow: '1px 1px 5px 0px rgba(6,110,62,1)',
                                 mozBoxShadow: '1px 1px 5px 0px rgba(6,110,62,1)',
                                 boxShadow: '1px 1px 5px 0px rgba(6,110,62,1)'
                             },
-                            '& .MuiPopover-paper':{
+                            '& .MuiPopover-paper': {
                                 backgroundColor: 'transparent'
 
                             }
