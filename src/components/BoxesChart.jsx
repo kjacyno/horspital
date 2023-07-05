@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import {lazy, Suspense, useEffect, useState} from "react";
-import {getBoxesByClinicId, updateClinicBoxData} from "../firebase/firestoreData.js";
+import {getBoxesByClinicId, updateBoxDetails, updateClinicBoxData} from "../firebase/firestoreData.js";
 import horseShoeSVG from '/src/assets/horse-shoe.svg'
 
 const BoxDetailsDialog = lazy(() => import("./BoxDetailsDialog.jsx"));
@@ -10,6 +10,7 @@ function BoxesChart({clinicId}) {
     const [showModal, setShowModal] = useState({});
     const [boxData, setBoxData] = useState({A: 0, B: 0});
     const [boxStatus, setBoxStatus] = useState({A: '', B: ''});
+    const [boxDetails, setBoxDetails] = useState({A: {}, B: {}})
     const [openBoxDetails, setOpenBoxDetails] = useState({})
 
     useEffect(() => {
@@ -21,8 +22,10 @@ function BoxesChart({clinicId}) {
                     const response = await getBoxesByClinicId(clinicId, signal);
                     const boxData = response ? response.boxData : {A: 0, B: 0};
                     const boxStatus = response ? response.boxStatus : {A: '', B: ''};
+                    const boxDetails = response ? response.boxDetails : {A: {}, B: {}}
                     setBoxData(boxData);
                     setBoxStatus(boxStatus);
+                    setBoxDetails(boxDetails)
                 }
             } catch (error) {
                 console.error(error);
@@ -42,6 +45,7 @@ function BoxesChart({clinicId}) {
             if (clinicId) {
                 try {
                     await updateClinicBoxData(clinicId, boxData, boxStatus, signal)
+                    await updateBoxDetails(clinicId, boxDetails, signal)
                 } catch (error) {
                     console.log(error);
                 }
@@ -51,7 +55,7 @@ function BoxesChart({clinicId}) {
         return () => {
             controller.abort();
         };
-    }, [boxStatus]);
+    }, [boxStatus, boxDetails]);
 
     const handleBoxAdd = async (rowSymbol) => {
         const newBoxData = {
@@ -64,22 +68,37 @@ function BoxesChart({clinicId}) {
             [`${rowSymbol}-${newBoxData[rowSymbol] - 1}`]: ""
         }));
 
+        const newBoxDetails = {
+            ...boxDetails,
+            [`${rowSymbol}-${newBoxData[rowSymbol] - 1}`]: {}
+        };
+        setBoxDetails(newBoxDetails);
+
         await updateClinicBoxData(clinicId, newBoxData, boxStatus);
+        await updateBoxDetails(clinicId, newBoxDetails)
     };
 
-    const handleBoxDel = async (rowSymbol, boxIndex) => {
+    const handleBoxDel = async (rowSymbol) => {
         const newBoxData = {
             ...boxData,
             [rowSymbol]: (boxData[rowSymbol] || 0) - 1
         };
         setBoxData(newBoxData);
 
-        setBoxStatus((prevStatus) => {
-            const updatedStatus = {...prevStatus};
-            delete updatedStatus[`${rowSymbol}-${boxIndex}`];
+        const deletedField = `${rowSymbol}-${newBoxData[rowSymbol]}`;
+
+        setBoxStatus(() => {
+            const updatedStatus = {...boxStatus};
+            delete updatedStatus[deletedField];
             return updatedStatus;
         });
+        setBoxDetails(() => {
+            const updatedDetails = {...boxDetails};
+            delete updatedDetails[deletedField];
+            return updatedDetails;
+        })
         await updateClinicBoxData(clinicId, newBoxData, boxStatus);
+        await updateBoxDetails(clinicId, boxDetails)
     };
 
     const toggleShowModal = async (rowSymbol, boxIndex) => {
@@ -148,7 +167,11 @@ function BoxesChart({clinicId}) {
                                     [`${rowSymbol}-${i}`]: status,
                                 }))
                             }
-                            open={open}
+                            setBoxDetails={(details) =>
+                                setBoxDetails((prevDetails) => ({
+                                    ...prevDetails,
+                                    [`${rowSymbol}-${i}`]: details
+                                }))}
                         />
                         <BoxDetailsDialog
                             boxStatus={boxStatus[`${rowSymbol}-${i}`]}
@@ -156,6 +179,12 @@ function BoxesChart({clinicId}) {
                             title={`${rowSymbol}-${i}`}
                             toggleShow={() =>
                                 toggleBoxDetails(rowSymbol, i)}
+                            setSelectedDetails={(details) =>
+                                setBoxDetails((prevDetails) => ({
+                                    ...prevDetails,
+                                    [`${rowSymbol}-${i}`]: details
+                                }))}
+                            clinicId={clinicId}
                         /></Suspense>
                 </div>
             );

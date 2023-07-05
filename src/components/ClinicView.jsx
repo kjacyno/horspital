@@ -35,7 +35,8 @@ function ClinicView() {
                 name: newClinic,
                 createdAt: new Date(),
                 boxData: {A: 0, B: 0},
-                boxStatus: {A: ''},
+                boxStatus: {},
+                boxDetails: {}
             }, setNewClinic);
             setSelected('');
             await queryForClinics(setClinics, setDocsId);

@@ -6,23 +6,24 @@ export async function addClinic(data, setNewClinic) {
     const docRef = doc(collection(db, 'users', user.uid, 'clinics'))
     const userRef = doc(db, 'users', user.uid)
     const userData = {email: user.email, name: user.displayName}
-    try{
-    await setDoc(docRef, data)
-        .then(() => {
-            setNewClinic('');
-            return docRef;
-        })
+    try {
+        await setDoc(docRef, data)
+            .then(() => {
+                setNewClinic('');
+                return docRef;
+            })
 
-        } catch (error){
+    } catch (error) {
         console.log('Error adding new clinic:', error);
     }
-    try{
-    await setDoc(userRef, userData)
-        .then(() => {
-            console.log("User data has been added successfully");
-        })} catch(error){
-            console.log(error);
-        }
+    try {
+        await setDoc(userRef, userData)
+            .then(() => {
+                console.log("User data has been added successfully");
+            })
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export async function updateClinic(toEdit, editClinic) {
@@ -38,18 +39,33 @@ export async function updateClinic(toEdit, editClinic) {
     }
 }
 
-export async function updateClinicBoxData(clinicId, newBoxData, boxStatus, signal) {
-  try {
-    const user = auth.currentUser;
-    const clinicRef = doc(collection(db, "users", user.uid, "clinics"), clinicId);
-    const updateData = {
-      boxData: newBoxData,
-      boxStatus: boxStatus,
-    };
-    await updateDoc(clinicRef, updateData, { signal });
-  } catch (error) {
-    console.log('Error updating box info:', error);
-  }
+export async function updateClinicBoxData(clinicId, newBoxData, newBoxStatus, signal) {
+    try {
+        const user = auth.currentUser;
+        const clinicRef = doc(collection(db, "users", user.uid, "clinics"), clinicId);
+        const updateData = {
+            boxData: newBoxData,
+            boxStatus: newBoxStatus,
+        };
+        await updateDoc(clinicRef, updateData, {signal});
+    } catch (error) {
+        console.log('Error updating box info:', error);
+    }
+}
+
+export async function updateBoxDetails(clinicId, boxDetails, signal) {
+    try {
+        const user = auth.currentUser;
+        const clinicRef = doc(collection(db, "users", user.uid, "clinics"), clinicId);
+        const updateBoxData = {
+            boxDetails: boxDetails
+        }
+        await updateDoc(clinicRef, updateBoxData, {signal});
+
+    } catch (error) {
+        console.log('Error updating box details:', error);
+
+    }
 }
 
 export async function deleteClinic(toDelete) {
@@ -62,38 +78,38 @@ export async function deleteClinic(toDelete) {
 }
 
 export async function getBoxesByClinicId(clinicId, signal) {
-  try {
-    if (clinicId) {
-      const user = auth.currentUser;
-      const clinicRef = doc(collection(db, "users", user.uid, "clinics"), clinicId);
-      const docSnap = await getDoc(clinicRef, { signal });
-      return docSnap.data();
+    try {
+        if (clinicId) {
+            const user = auth.currentUser;
+            const clinicRef = doc(collection(db, "users", user.uid, "clinics"), clinicId);
+            const docSnap = await getDoc(clinicRef, {signal});
+            return docSnap.data();
+        }
+    } catch (error) {
+        console.log('Error getting box info:', error);
     }
-  } catch (error) {
-    console.log('Error getting box info:', error);
-  }
 }
 
 export async function queryForClinics(setClinics, setDocsId, signal) {
-  const user = auth.currentUser;
-  if (user) {
-    const colRef = collection(db, 'users', user.uid, 'clinics');
-    try {
-      const q = query(colRef, orderBy("createdAt", "asc"));
-      const docsSnap = await getDocs(q, { signal });
-      if (docsSnap.docs.length > 0) {
-        setDocsId(docsSnap.docs.map(doc => doc.id));
-        setClinics(docsSnap.docs.map(doc => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            name: data.name,
-            createdAt: data.createdAt.toDate()
-          };
-        }));
-      }
-    } catch (error) {
-      console.log('Error querying clinics:', error);
+    const user = auth.currentUser;
+    if (user) {
+        const colRef = collection(db, 'users', user.uid, 'clinics');
+        try {
+            const q = query(colRef, orderBy("createdAt", "asc"));
+            const docsSnap = await getDocs(q, {signal});
+            if (docsSnap.docs.length > 0) {
+                setDocsId(docsSnap.docs.map(doc => doc.id));
+                setClinics(docsSnap.docs.map(doc => {
+                    const data = doc.data();
+                    return {
+                        id: doc.id,
+                        name: data.name,
+                        createdAt: data.createdAt.toDate()
+                    };
+                }));
+            }
+        } catch (error) {
+            console.log('Error querying clinics:', error);
+        }
     }
-  }
 }
