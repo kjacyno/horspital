@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
-import {lazy, Suspense, useEffect, useState} from "react";
+import {lazy, useEffect, useState} from "react";
 import {getBoxesByClinicId, updateBoxDetails, updateClinicBoxData} from "../firebase/firestoreData.js";
-import horseShoeSVG from '/src/assets/horse-shoe.svg'
 
 const BoxDetailsDialog = lazy(() => import("./BoxDetailsDialog.jsx"));
 const BoxDialog = lazy(() => import("./BoxDialog.jsx"))
@@ -79,26 +78,28 @@ function BoxesChart({clinicId}) {
     };
 
     const handleBoxDel = async (rowSymbol) => {
-        const newBoxData = {
-            ...boxData,
-            [rowSymbol]: (boxData[rowSymbol] || 0) - 1
-        };
-        setBoxData(newBoxData);
+        if (boxData[rowSymbol] > 0) {
+            const newBoxData = {
+                ...boxData,
+                [rowSymbol]: (boxData[rowSymbol] || 0) - 1
+            };
+            setBoxData(newBoxData);
 
-        const deletedField = `${rowSymbol}-${newBoxData[rowSymbol]}`;
+            const deletedField = `${rowSymbol}-${newBoxData[rowSymbol]}`;
 
-        setBoxStatus(() => {
-            const updatedStatus = {...boxStatus};
-            delete updatedStatus[deletedField];
-            return updatedStatus;
-        });
-        setBoxDetails(() => {
-            const updatedDetails = {...boxDetails};
-            delete updatedDetails[deletedField];
-            return updatedDetails;
-        })
-        await updateClinicBoxData(clinicId, newBoxData, boxStatus);
-        await updateBoxDetails(clinicId, boxDetails)
+            setBoxStatus(() => {
+                const updatedStatus = {...boxStatus};
+                delete updatedStatus[deletedField];
+                return updatedStatus;
+            });
+            setBoxDetails(() => {
+                const updatedDetails = {...boxDetails};
+                delete updatedDetails[deletedField];
+                return updatedDetails;
+            })
+            await updateClinicBoxData(clinicId, newBoxData, boxStatus);
+            await updateBoxDetails(clinicId, boxDetails)
+        }
     };
 
     const toggleShowModal = async (rowSymbol, boxIndex) => {
@@ -154,9 +155,7 @@ function BoxesChart({clinicId}) {
                     >
                         <p>{rowSymbol}&nbsp;-&nbsp;{i}</p>
                     </button>
-                    <Suspense fallback={<div className="icon-loader">
-                        <img src={horseShoeSVG} alt='loader'/>
-                    </div>}>
+
                         <BoxDialog
                             show={showModal[`${rowSymbol}-${i}`]}
                             toggleShow={() =>
@@ -185,7 +184,7 @@ function BoxesChart({clinicId}) {
                                     [`${rowSymbol}-${i}`]: details
                                 }))}
                             clinicId={clinicId}
-                        /></Suspense>
+                        />
                 </div>
             );
         }

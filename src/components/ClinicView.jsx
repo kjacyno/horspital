@@ -1,6 +1,5 @@
-import {lazy, Suspense, useEffect, useState} from "react";
+import {lazy, useEffect, useState} from "react";
 import {addClinic, deleteClinic, queryForClinics, updateClinic} from "../firebase/firestoreData.js";
-import horseShoeSVG from '/src/assets/horse-shoe.svg'
 
 const BoxesChart = lazy(() => import("./BoxesChart.jsx"))
 
@@ -19,36 +18,42 @@ function ClinicView() {
 
         async function fetchData() {
             await queryForClinics(setClinics, setDocsId, signal);
-
         }
 
-        fetchData();
+        fetchData()
+
         return () => {
             controller.abort();
         };
     }, []);
 
+    useEffect(()=>{
+                   setSelected(clinics.length > 0 && docsId[docsId.length - 1] || '');
+
+    }, [clinics])
     async function handleAddClinic(event) {
         event.preventDefault();
         if (newClinic.trim() !== '') {
-            await addClinic({
-                name: newClinic,
-                createdAt: new Date(),
-                boxData: {A: 0, B: 0},
-                boxStatus: {},
-                boxDetails: {}
-            }, setNewClinic);
-            setSelected('');
+            const newClinicData =
+                {
+                    name: newClinic,
+                    createdAt: new Date(),
+                    boxData: {A: 0, B: 0},
+                    boxStatus: {},
+                    boxDetails: {}
+                }
+            await addClinic(newClinicData, setNewClinic);
             await queryForClinics(setClinics, setDocsId);
             setIsEdited(false);
+
         }
     }
 
     async function handleDeleteClinic(toDelete) {
         await deleteClinic(toDelete);
         setClinics(clinics.filter((clinic) => clinic.id !== toDelete));
-        setSelected('');
         await queryForClinics(setClinics, setDocsId);
+
     }
 
     const handleEditClinic = async (toEdit) => {
@@ -82,11 +87,14 @@ function ClinicView() {
                             key={docsId}
                         >
                             <option value='' disabled hidden id='first-option'>Choose Horspital...</option>
-                            {clinics.length > 0 && clinics.map((clinic, index) => (
+                            {clinics.length > 0 ?
+                                (clinics.map((clinic, index) => (
                                 <option key={clinic.createdAt} value={docsId[index]}>
                                     {clinic.name}
-                                </option>
-                            ))}
+                                </option>))) :
+                                <option value='' disabled hidden id='first-option'>Choose Horspital...</option>
+
+                                }
                         </select>
                     </div>
                     {selected && (
@@ -137,12 +145,7 @@ function ClinicView() {
                 <p><i className="fa-solid fa-circle-radiation"></i>Out of order</p>
             </section>
             <section className='box-container'>
-                <Suspense fallback={<div className="icon-loader">
-                    <img src={horseShoeSVG} alt='loader'/>
-                </div>}>
-                    <BoxesChart
-                        clinicId={selected}
-                    /></Suspense>
+                {selected && <BoxesChart clinicId={selected}/>}
             </section>
         </>
     );

@@ -1,12 +1,9 @@
 import PropTypes from "prop-types";
 import * as React from 'react';
-import {lazy} from 'react';
 import {logOut} from "../firebase/usersData.js";
 import '../sass/main.scss'
+import {Button, Menu, MenuItem} from "@mui/material";
 
-const Button = lazy(() => import('@mui/material/Button'));
-const Menu = lazy(() => import('@mui/material/Menu'));
-const MenuItem = lazy(() => {'@mui/material/MenuItem'});
 
 function Header({user, setUser}) {
     const [anchorEl, setAnchorEl] = React.useState(null);

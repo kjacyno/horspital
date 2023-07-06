@@ -133,7 +133,7 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
                                 </LocalizationProvider>
 
                             </label>
-                            <label>Horse:<input id='name' type="text" placeholder='name' value={horseInfo.name}
+                            <label>Horse:<input id='name' type="text" placeholder='Name' value={horseInfo.name}
                                                 onChange={(e) => handleInfo(e.target.value, 'name')}
 
                             /></label>
@@ -161,13 +161,13 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
                                     </ul>
                                 </div>
                             </label>
-                            <textarea rows='5' id='notes' placeholder='notes'
+                            <textarea rows='5' id='notes' placeholder='Notes'
                                       value={horseInfo.notes}
                                       onChange={(e) => handleInfo(e.target.value, 'notes')}
                             />
                         </form>) :
                     <form>
-                        <textarea rows='5' id='notes' placeholder='notes'
+                        <textarea rows='5' id='Notes' placeholder='notes'
                                   value={horseInfo.notes}
                                   onChange={(e) => handleInfo(e.target.value, 'notes')}
                         />
