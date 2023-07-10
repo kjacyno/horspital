@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
 import {useState} from "react";
 import {useForm} from "react-hook-form";
-import {signIn} from "../firebase/usersData.js";
+import {resetPassword, signIn} from "../firebase/usersData.js";
 
 function Login({setUser}) {
 
     const [isActive, setIsActive] = useState(false)
+    const [registerEmail, setRegisterEmail] = useState('');
     const {register, handleSubmit, getValues, formState: {errors}} = useForm({
         defaultValues: {
             email: '',
@@ -13,9 +14,10 @@ function Login({setUser}) {
         }
     });
 
+    const email = getValues('email');
+    const password = getValues('password')
+
     async function handleUserLogin() {
-        const email = getValues('email');
-        const password = getValues('password')
         try {
             await signIn(email, password, setUser);
             setIsActive(!isActive);
@@ -32,11 +34,23 @@ function Login({setUser}) {
         }
     }
 
+    const handleResetPassword = async () => {
+        try {
+            await resetPassword(registerEmail);
+        } catch (error) {
+            if (error.code === 'auth/missing-email') {
+                alert('Please provide your e-mail');
+            }else if (error.code === 'auth/user-not-found') {
+                alert('User not found')
+            }
+        }
+    };
+
     return (
         <section className="login-page">
             <div></div>
             <div className="login-box">
-                <form
+                <form id='login-form'
                     onSubmit={handleSubmit(handleUserLogin)}
                     className={isActive ? 'animated-box' : 'login-form'}>
                     <label htmlFor="email">LOG IN</label>
@@ -48,6 +62,7 @@ function Login({setUser}) {
                                    message: 'The e-mail is incorrect'
                                }
                            })}
+                           onChange={(e) => setRegisterEmail(e.target.value)}
                            id='email'
                            placeholder='E-mail'
                            className={errors.email?.message ? 'error' : ''}
@@ -71,6 +86,8 @@ function Login({setUser}) {
                         OK
                     </button>
                 </form>
+                <button className='btn pass-btn' onClick={handleResetPassword}>Reset password</button>
+
             </div>
             <div></div>
         </section>

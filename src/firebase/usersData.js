@@ -1,4 +1,4 @@
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, sendPasswordResetEmail  } from "firebase/auth";
 import {auth} from '/src/firebase/index.js'
 
 export async function createNewUser(data, setUser, user, login, email, password) {
@@ -41,4 +41,15 @@ export function logOut(setUser) {
     }).catch((error) => {
         console.log(error);
     });
+}
+
+export async function resetPassword(email){
+    await sendPasswordResetEmail(auth, email)
+        .then(() => {
+            alert('Password reset link sent')
+        })
+        .catch((error) => {
+            error.code;
+            throw error
+        });
 }

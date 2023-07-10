@@ -25,7 +25,6 @@
 }
 
 .login-page {
-
   & button {
     font-size: 1.4rem;
     margin: 0.5rem;
@@ -36,6 +35,14 @@
     font-size: 1.2rem;
     text-align: center;
     margin: 0.5rem;
+  }
+  .pass-btn{
+    font-size: 1rem;
+    outline: none;
+    border: transparent;
+    &:hover{
+      border: 1px solid #9f9c9c;
+    }
   }
 }
 .error {
