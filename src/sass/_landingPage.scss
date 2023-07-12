@@ -6,7 +6,9 @@
   text-align: center;
   @include box-shadow;
   max-width: 400px;
-
+.fa-house-medical{
+  margin-right: 1rem;
+}
   & button {
     font-size: 1.4rem;
     margin: 0.5rem;

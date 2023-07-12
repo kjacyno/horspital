@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import {lazy, Suspense, useState} from "react";
 import horseShoeSVG from '/src/assets/horse-shoe.svg'
+import * as React from "react";
 
 const SignUp = lazy(() => import('./SignUp.jsx'));
 const Login = lazy(() => import("./Login.jsx"))
@@ -11,8 +12,10 @@ function LandingPage({setUser}) {
 
     return (
         <section className='landing-box'>
-            <h3>Welcome!</h3>
-            {!signUp && (
+            <h3>
+                <i className="fa-solid fa-house-medical"></i>
+                Horspital
+            </h3>            {!signUp && (
                 <button className='btn' onClick={() => setLogin(!login)}>Login</button>
             )}
             {!login && (

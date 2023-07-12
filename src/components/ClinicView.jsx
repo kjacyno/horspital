@@ -10,6 +10,7 @@ function ClinicView() {
     const [isEdited, setIsEdited] = useState(false);
     const [newClinic, setNewClinic] = useState('');
     const [editClinic, setEditClinic] = useState('');
+    const [confirmDelete, setConfirmDelete] = useState(false)
 
 
     useEffect(() => {
@@ -30,7 +31,7 @@ function ClinicView() {
     useEffect(()=>{
                    setSelected(clinics.length > 0 && docsId[docsId.length - 1] || '');
 
-    }, [clinics])
+    }, [docsId])
     async function handleAddClinic(event) {
         event.preventDefault();
         if (newClinic.trim() !== '') {
@@ -53,7 +54,8 @@ function ClinicView() {
         await deleteClinic(toDelete);
         setClinics(clinics.filter((clinic) => clinic.id !== toDelete));
         await queryForClinics(setClinics, setDocsId);
-
+        setIsEdited(false)
+        setConfirmDelete(false)
     }
 
     const handleEditClinic = async (toEdit) => {
@@ -87,9 +89,9 @@ function ClinicView() {
                             key={docsId}
                         >
                             <option value='' disabled hidden id='first-option'>Choose Horspital...</option>
-                            {clinics.length > 0 ?
+                            {clinics.length > 0  ?
                                 (clinics.map((clinic, index) => (
-                                <option key={clinic.createdAt} value={docsId[index]}>
+                                <option key={clinic.id} value={docsId[index]}>
                                     {clinic.name}
                                 </option>))) :
                                 <option value='' disabled hidden id='first-option'>Choose Horspital...</option>
@@ -97,7 +99,7 @@ function ClinicView() {
                                 }
                         </select>
                     </div>
-                    {selected && (
+                    {clinics.length > 0 && selected &&
                         <div className='option-btns'>
                             <button className='btn' onClick={() => {
                                 setIsEdited(!isEdited);
@@ -105,11 +107,19 @@ function ClinicView() {
                             }}>
                                 {isEdited ? 'Cancel' : 'Edit'}
                             </button>
-                            <button className='btn' onClick={() => handleDeleteClinic(selected)}>
+                            <button className='btn' onClick={() => setConfirmDelete(true)}>
                                 Delete
                             </button>
+                            {confirmDelete &&
+                                <>
+                                <p>Are you sure you want to delete the clinic?</p>
+                            <button className='btn' onClick={() => handleDeleteClinic(selected)}>Yes
+                            </button>
+                            <button className='btn' onClick={() => setConfirmDelete(false)}>No</button>
+                                </>
+                                }
                         </div>
-                    )}
+                    }
                     {isEdited && (
                         <div className='clinic-edit'>
                             <input
@@ -145,8 +155,9 @@ function ClinicView() {
                 <p><i className="fa-solid fa-circle-radiation"></i>Out of order</p>
             </section>
             <section className='box-container'>
-                {selected && <BoxesChart clinicId={selected}/>}
-            </section>
+                {selected && clinics.some((clinic) => clinic.id === selected) && (
+                    <BoxesChart clinicId={selected} />
+                )}            </section>
         </>
     );
 }

@@ -6,10 +6,10 @@ const BoxDetailsDialog = lazy(() => import("./BoxDetailsDialog.jsx"));
 const BoxDialog = lazy(() => import("./BoxDialog.jsx"))
 
 function BoxesChart({clinicId}) {
-    const [showModal, setShowModal] = useState({});
     const [boxData, setBoxData] = useState({A: 0, B: 0});
     const [boxStatus, setBoxStatus] = useState({A: '', B: ''});
     const [boxDetails, setBoxDetails] = useState({A: {}, B: {}})
+    const [showModal, setShowModal] = useState({});
     const [openBoxDetails, setOpenBoxDetails] = useState({})
 
     useEffect(() => {
@@ -160,7 +160,7 @@ function BoxesChart({clinicId}) {
                             show={showModal[`${rowSymbol}-${i}`]}
                             toggleShow={() =>
                                 toggleShowModal(rowSymbol, i)}
-                            setSelectedStatus={(status) =>
+                            setBoxStatus={(status) =>
                                 setBoxStatus((prevStatus) => ({
                                     ...prevStatus,
                                     [`${rowSymbol}-${i}`]: status,
@@ -178,11 +178,12 @@ function BoxesChart({clinicId}) {
                             title={`${rowSymbol}-${i}`}
                             toggleShow={() =>
                                 toggleBoxDetails(rowSymbol, i)}
-                            setSelectedDetails={(details) =>
+                            setBoxDetails={(details) =>
                                 setBoxDetails((prevDetails) => ({
                                     ...prevDetails,
                                     [`${rowSymbol}-${i}`]: details
                                 }))}
+                            boxDetails={boxDetails[`${rowSymbol}-${i}`]}
                             clinicId={clinicId}
                         />
                 </div>

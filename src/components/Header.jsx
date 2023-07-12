@@ -21,12 +21,14 @@ function Header({user, setUser}) {
 
     return (
         <header>
-            <div className='logo'>
+            {user ?  <div className='logo'>
                 <h1>
                     <i className="fa-solid fa-house-medical"></i>
                     Horspital
                 </h1>
-            </div>
+            </div> :
+            <div className="empty-logo"></div>
+            }
             <div className="user-icon">
                 {user && <div>
                     <Button

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import {Dialog} from "@mui/material";
 
-export default function BoxDialog({show, toggleShow, setSelectedStatus, setBoxDetails}) {
+export default function BoxDialog({show, toggleShow, setBoxStatus, setBoxDetails}) {
 
     const status = [
         {name: "occupied", icon: <i key="occupied" className="fa-solid fa-horse-head"></i>},
@@ -12,7 +12,7 @@ export default function BoxDialog({show, toggleShow, setSelectedStatus, setBoxDe
     const boxStatusIcon = status.map((item, index) => (
         <button onClick={() => {
             toggleShow();
-            setSelectedStatus(item.name);
+            setBoxStatus(item.name);
         }} className="dialog__cancel" key={index}>{item.icon}</button>
     ));
     if (!show) {
@@ -37,7 +37,7 @@ export default function BoxDialog({show, toggleShow, setSelectedStatus, setBoxDe
                 <div className='box-statuses'>{boxStatusIcon}</div>
                 <button className='btn' onClick={() => {
                     toggleShow();
-                    setSelectedStatus({});
+                    setBoxStatus({});
                     setBoxDetails({})
                 }}>Clear
                 </button>
@@ -51,6 +51,6 @@ BoxDialog.propTypes = {
     status: PropTypes.array,
     toggleShow: PropTypes.func.isRequired,
     title: PropTypes.string,
-    setSelectedStatus: PropTypes.func,
+    setBoxStatus: PropTypes.func,
     setBoxDetails: PropTypes.func,
 };
