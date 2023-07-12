@@ -7,8 +7,8 @@ const BoxDialog = lazy(() => import("./BoxDialog.jsx"))
 
 function BoxesChart({clinicId}) {
     const [boxData, setBoxData] = useState({A: 0, B: 0});
-    const [boxStatus, setBoxStatus] = useState({A: '', B: ''});
-    const [boxDetails, setBoxDetails] = useState({A: {}, B: {}})
+    const [boxStatus, setBoxStatus] = useState({});
+    const [boxDetails, setBoxDetails] = useState({})
     const [showModal, setShowModal] = useState({});
     const [openBoxDetails, setOpenBoxDetails] = useState({})
 
@@ -20,8 +20,8 @@ function BoxesChart({clinicId}) {
                 if (clinicId) {
                     const response = await getBoxesByClinicId(clinicId, signal);
                     const boxData = response ? response.boxData : {A: 0, B: 0};
-                    const boxStatus = response ? response.boxStatus : {A: '', B: ''};
-                    const boxDetails = response ? response.boxDetails : {A: {}, B: {}}
+                    const boxStatus = response ? response.boxStatus : {};
+                    const boxDetails = response ? response.boxDetails : {}
                     setBoxData(boxData);
                     setBoxStatus(boxStatus);
                     setBoxDetails(boxDetails)
@@ -115,6 +115,7 @@ function BoxesChart({clinicId}) {
                 [`${rowSymbol}-${boxIndex}`]: !prev[`${rowSymbol}-${boxIndex}`]
             }
         ));
+
     };
 
     const generateDivs = (rowSymbol) => {

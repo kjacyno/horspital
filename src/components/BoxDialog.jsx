@@ -13,6 +13,8 @@ export default function BoxDialog({show, toggleShow, setBoxStatus, setBoxDetails
         <button onClick={() => {
             toggleShow();
             setBoxStatus(item.name);
+
+            console.log('status icon set')
         }} className="dialog__cancel" key={index}>{item.icon}</button>
     ));
     if (!show) {

@@ -3,27 +3,24 @@ import {Dialog} from "@mui/material";
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import 'dayjs/locale/de';
 import dayjs from "dayjs";
+import {updateBoxDetails} from "../firebase/firestoreData.js";
 
 
-export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, setBoxDetails, boxDetails}) {
+export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, setBoxDetails, boxDetails, clinicId}) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState('');
     const [horseInfo, setHorseInfo] = useState({
-        date: null,
+        date: '',
         name: '',
         sex: '',
         notes: ''
     });
-    const [savedDate, setSavedDate] = useState(null)
+    const [savedDate, setSavedDate] = useState('')
 
-    useEffect(() => {
-        setSavedDate(null)
-    }, [toggleShow])
     const handleInfo = (value, inputId) => {
-
         const updatedHorseInfo = {
             ...horseInfo,
             [inputId]: value
@@ -32,18 +29,32 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
         if (inputId === 'date') {
             updatedHorseInfo[inputId] = value.toDate();
             setSavedDate(value)
-
         }
-
+        console.log('update horse info:', horseInfo)
     };
-
 
     const handleOptionClick = (option) => {
         handleInfo(option, 'sex');
         setSelectedOption(option);
         setIsOpen(false);
     }
-
+    const handleSubmit = async () => {
+        try {
+            setBoxDetails(horseInfo);
+            await updateBoxDetails(clinicId, boxDetails)
+            console.log('horse info:', horseInfo, 'box details:', boxDetails, savedDate)
+        } catch (error) {
+            console.log(error);
+        }
+        setHorseInfo({
+            date: '',
+            name: '',
+            sex: '',
+            notes: ''
+        });
+        setSavedDate('')
+        toggleShow();
+    }
 
     if (!show) {
         return <></>;
@@ -60,7 +71,6 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
                 width: '100%',
                 margin: '0',
                 borderRadius: '0'
-
             }
         }}>
             <div className='box-details'>
@@ -73,9 +83,8 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
                 </div>
                 <p>Additional info for box {title}</p>
                 {boxStatus === 'occupied' ? (
-                        <form onSubmit={() => {
-                            setBoxDetails(horseInfo);
-                        }}>
+                        <form onSubmit={() => handleSubmit()}
+                        >
                             <label>Check-in:
 
                                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
@@ -83,20 +92,24 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
                                         <DatePicker
                                             id='date'
                                             value={
-                                                savedDate !== null ? savedDate :
-                                                    boxDetails.date ? dayjs.unix(boxDetails.date.seconds) : null
-                                        }
-                                        onChange={(newDate) =>
+                                                savedDate !== ''
+                                                    ? savedDate
+                                                    : boxDetails.date
+                                                        ? dayjs.unix(boxDetails.date.seconds)
+                                                        : ''
+                                            }
+                                            onChange={(newDate) =>
                                                 handleInfo(newDate, 'date')
-                                        }
+                                            }
                                             sx={{
                                                 '& .MuiOutlinedInput-root': {
                                                     width: '96.5%',
                                                     borderRadius: '2px',
 
-                                                '& .MuiOutlinedInput-notchedOutline': {
-                                                    borderColor: 'black'
-                                                },},
+                                                    '& .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'black'
+                                                    },
+                                                },
                                                 '@media screen and (max-width: 600px)': {
                                                     width: '70%',
                                                 },
@@ -115,7 +128,8 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
                                                         outline: 'none',
                                                     },
 
-                                            }}}/>
+                                                }
+                                            }}/>
                                     </div>
                                 </LocalizationProvider>
 
@@ -124,22 +138,22 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
                                 <input id='name'
                                        type="text"
                                        placeholder='Name'
-                                       value={boxDetails.name ? boxDetails.name : horseInfo.name}
+                                       value={horseInfo.name !== '' ? horseInfo.name : boxDetails.name || ''}
                                        onChange={(e) => handleInfo(e.target.value, 'name')}
 
-                            /></label>
+                                /></label>
                             <label>
                                 <div className={`select-menu ${isOpen ? 'active' : ''}`}>
                                     <div className='select-btn' onClick={() => {
                                         setIsOpen(!isOpen)
                                     }}><p>Sex:</p>
-                                        { selectedOption ?
-                                                <span className='sBtn-text'>{selectedOption}
-                                                    <i className="fa-solid fa-angle-down"></i></span> :
+                                        {selectedOption ?
+                                            <span className='sBtn-text'>{selectedOption}
+                                                <i className="fa-solid fa-angle-down"></i></span> :
                                             boxDetails.sex ?
                                                 <span className='sBtn-text'>{boxDetails.sex}
                                                     <i className="fa-solid fa-angle-down"></i></span>
-                                            :
+                                                :
                                                 <span className='sBtn-text'>...
                                 <i className="fa-solid fa-angle-down"></i></span>
                                         }</div>
@@ -169,10 +183,7 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
                     </form>
                 }
                 <button type='submit' className='btn submit-btn' onClick={
-                    () => {
-                        toggleShow();
-                        setBoxDetails(horseInfo)
-                    }}
+                    () => handleSubmit()}
                 >Save
                 </button>
             </div>

@@ -61,10 +61,32 @@ export async function updateBoxDetails(clinicId, boxDetails, signal) {
             boxDetails: boxDetails
         }
         await updateDoc(clinicRef, updateBoxData, {signal});
+        // const docSnap = await getDoc(clinicRef, { signal });
+
+        // const existingBoxDetails = docSnap.data()?.boxDetails || {};
+        // const updatedBoxDetails = { ...existingBoxDetails, ...boxDetails };
+
+        // await updateDoc(clinicRef, { boxDetails: updatedBoxDetails }, { signal });
 
     } catch (error) {
         console.log('Error updating box details:', error);
 
+    }
+}
+export async function getBoxDetailsByClinicId(clinicId, signal) {
+    try {
+        if (clinicId) {
+            const user = auth.currentUser;
+            const clinicRef = doc(collection(db, "users", user.uid, "clinics"), clinicId);
+            const docSnap = await getDoc(clinicRef, { signal });
+            const clinicData = docSnap.data();
+
+            if (clinicData && clinicData.boxDetails) {
+                return clinicData.boxDetails;
+            }
+        }
+    } catch (error) {
+        console.log('Error getting box details:', error);
     }
 }
 
