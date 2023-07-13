@@ -105,7 +105,10 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
                                                 '& .MuiOutlinedInput-root': {
                                                     width: '96.5%',
                                                     borderRadius: '2px',
+'& .Mui-error' :{
+    borderColor: 'black'
 
+},
                                                     '& .MuiOutlinedInput-notchedOutline': {
                                                         borderColor: 'black'
                                                     },

@@ -7,22 +7,49 @@
   align-items: center;
   color: #b0afaf;
   background-color: #1a1a1a;
+
+  .confirm-clear{
+display: flex;
+  }
+  .flex{
+    width: 95%;
+    margin-top: 1rem;
+    .btn-close {
+      background: #023b21;
+      border-radius: 50%;
+      margin: 0;
+      font-size: .9rem;
+    }
+  }
+  .dialog__title{
+    margin-top: 0;
+  }
 }
 .dialog__cancel{
   background-color: transparent;
   border: transparent;
 
 }
+.hover-legend{
+  color: whitesmoke;
+  font-size: .9rem;
+  margin: 0;
+  padding: 0;
+}
 .box-statuses{
+  height: 7rem;
   button{
     transition: .2s;
-    padding: 1rem;
+    padding: 0;
+    height: 6.5rem;
+    width: 6.5rem;
     &:hover{
       webkit-box-shadow: 1px 1px 5px 0px rgba(6,110,62,1);
       -moz-box-shadow: 1px 1px 5px 0px rgba(6,110,62,1);
       box-shadow: 1px 1px 5px 0px rgba(6,110,62,1);
       background-color: transparent;
-    }}
+    }
+  }
 }
 .dialog .MuiDialog-paper {
   background-color: transparent;

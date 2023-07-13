@@ -145,7 +145,7 @@ function BoxesChart({clinicId}) {
                                    onClick={() => {
                                        toggleBoxDetails(rowSymbol, i)
                                    }}></i>
-                            ) : null}
+                             ) : null}
                         </div>
                     )}
                     <button
@@ -159,6 +159,7 @@ function BoxesChart({clinicId}) {
 
                         <BoxDialog
                             show={showModal[`${rowSymbol}-${i}`]}
+                            title={`${rowSymbol}-${i}`}
                             toggleShow={() =>
                                 toggleShowModal(rowSymbol, i)}
                             setBoxStatus={(status) =>
