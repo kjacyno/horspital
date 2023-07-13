@@ -30,7 +30,6 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
             updatedHorseInfo[inputId] = value.toDate();
             setSavedDate(value)
         }
-        console.log('update horse info:', horseInfo)
     };
 
     const handleOptionClick = (option) => {
@@ -42,7 +41,6 @@ export default function BoxDetailsDialog({show, title, toggleShow, boxStatus, se
         try {
             setBoxDetails(horseInfo);
             await updateBoxDetails(clinicId, boxDetails)
-            console.log('horse info:', horseInfo, 'box details:', boxDetails, savedDate)
         } catch (error) {
             console.log(error);
         }
